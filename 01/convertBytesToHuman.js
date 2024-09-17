@@ -13,5 +13,16 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  // your solution goes here
+  if (typeof bytes !== "number" || bytes < 0) return false;
+
+  const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+
+  let counter = 0;
+
+  while (bytes >= 1024) {
+    bytes /= 1024;
+    counter++;
+  }
+
+  return `${Number.isInteger(bytes) ? bytes : bytes.toFixed(2)} ${units[counter]}`;
 }

@@ -25,6 +25,15 @@ nonUniqueElements([10, 9, 10, 10, 9, 8]) == [10, 9, 10, 10, 9]
  */
 
 export default function nonUniqueElements(data) {
-  // your solution goes here
-  return data
+  const arr = [];
+  const set = new Set();
+
+  for (let i = 0; i < data.length; i++) {
+    if (set.has(data[i]) || data.includes(data[i], i + 1)) {
+      arr.push(data[i]);
+      set.add(data[i]);
+    }
+  }
+
+  return arr;
 }
