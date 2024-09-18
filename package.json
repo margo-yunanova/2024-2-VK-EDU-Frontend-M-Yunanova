@@ -4,7 +4,8 @@
   "description": "Учебный проект",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prettier": "prettier --write '**/*.{ts,js,css,html}'"
   },
   "jest": {
     "transform": {
@@ -23,6 +24,7 @@
     "@babel/preset-env": "^7.25.4",
     "babel-jest": "^29.7.0",
     "generator-track-mail": "^0.5.0",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "prettier": "^3.3.3"
   }
 }

@@ -13,9 +13,9 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  if (typeof bytes !== "number" || bytes < 0) return false;
+  if (typeof bytes !== 'number' || bytes < 0) return false;
 
-  const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
   let counter = 0;
 
