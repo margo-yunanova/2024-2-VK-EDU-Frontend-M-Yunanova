@@ -13,7 +13,7 @@
  */
 
 export default function convertBytesToHuman(bytes) {
-  if (typeof bytes !== 'number' || bytes < 0) return false;
+  if (!Number.isFinite(bytes) || bytes < 0) return false;
 
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
