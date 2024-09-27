@@ -91,6 +91,7 @@ body {
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
+  padding-top: 65px;
 }
 
 .messages {
@@ -101,8 +102,7 @@ body {
   overflow-y: auto;
   gap: 10px;
   padding: 10px;
-  height: calc(100dvh - 50px - 55px);
-  padding-top: 65px;
+  height: calc(100dvh - 60px - 56px);
 }
 
 .message {
@@ -120,6 +120,11 @@ body {
 .message_input {
   background-color: rgb(138, 44, 226, 0.3);
   align-self: flex-end;
+}
+
+.message-text {
+  text-align: left;
+  width: 100%;
 }
 
 .message-info {
@@ -147,11 +152,12 @@ body {
   flex-direction: row;
   flex-grow: 1;
   flex-shrink: 1;
+  height: 100%;
 }
 
 .form-input {
   border: none;
-  min-height: 30px;
+  min-height: 20px;
   height: auto;
   overflow: hidden;
   resize: none;
@@ -164,7 +170,6 @@ body {
 }
 
 .form-input-mirror-text {
-  white-space: pre-wrap;
   visibility: hidden;
   position: absolute;
   z-index: -1;
