@@ -1,96 +1,183 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  box-sizing: border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
-a:hover {
-  color: #535bf2;
+
+p,
+textarea {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
+  position: relative;
+  z-index: -1;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  height: 100dvh;
+  margin: 0;
+  background-color: #f7f7f9;
+  color: #333;
+  font-size: 15px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 20px;
+  overflow: hidden;
+  --color-title-main: white;
+  --color-title-secondary: rgba(255, 255, 255, 0.5);
+  --color-text-main: #000;
+  --color-text-secondary: #7e7d7d;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(138, 44, 226);
+  width: 100%;
+  gap: 10px;
+  min-height: 60px;
+  position: fixed;
+  z-index: 1;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+.search,
+.menu,
+.arrow-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+  .material-symbols-outlined {
+    color: var(--color-title-main);
   }
-  a:hover {
-    color: #747bff;
+}
+
+.user-info {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.user-info__info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-info__name {
+  color: var(--color-title-main);
+}
+
+.user-info__status {
+  color: var(--color-title-secondary);
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-y: auto;
+  gap: 10px;
+  padding: 10px;
+  height: calc(100dvh - 50px - 55px);
+  padding-top: 65px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  align-self: flex-start;
+  min-width: min-content;
+  max-width: 75%;
+}
+
+.message_input {
+  background-color: rgb(138, 44, 226, 0.3);
+  align-self: flex-end;
+}
+
+.message-info {
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+  align-items: flex-end;
+  font-size: 12px;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  border: none;
+  border-top: 1px solid var(--color-text-secondary);
+  padding: 10px 10px;
+  min-height: 55px;
+  background-color: white;
+}
+
+.form__message {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.form-input {
+  border: none;
+  min-height: 30px;
+  height: auto;
+  overflow: hidden;
+  resize: none;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  &:focus-visible {
+    outline: none;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+.form-input-mirror-text {
+  white-space: pre-wrap;
+  visibility: hidden;
+  position: absolute;
+  z-index: -1;
+  height: min-content;
+}
+
+.file {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  width: 50px;
+
+  .material-symbols-outlined {
+    color: var(--color-text-secondary);
   }
 }
