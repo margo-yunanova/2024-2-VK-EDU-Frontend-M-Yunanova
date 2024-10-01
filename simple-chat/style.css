@@ -20,13 +20,14 @@ body {
   display: flex;
   flex-direction: column;
   height: 100dvh;
+  width: 100dvw;
   margin: 0;
   background-color: #f7f7f9;
   color: #333;
   font-size: 15px;
   font-family: 'Roboto', Arial, sans-serif;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 1.15;
   overflow: hidden;
   --color-title-main: white;
   --color-title-secondary: rgba(255, 255, 255, 0.5);
@@ -52,6 +53,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 50px;
+  cursor: pointer;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
@@ -91,7 +93,8 @@ body {
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
-  padding-top: 65px;
+  padding-top: 60px;
+  width: 100%;
 }
 
 .messages {
@@ -102,7 +105,9 @@ body {
   overflow-y: auto;
   gap: 10px;
   padding: 10px;
-  height: calc(100dvh - 60px - 56px);
+  padding-bottom: 0px;
+  height: calc(100dvh - 60px - 55px);
+  width: 100%;
 }
 
 .message {
@@ -115,6 +120,12 @@ body {
   align-self: flex-start;
   min-width: min-content;
   max-width: 75%;
+  overflow-wrap: anywhere;
+}
+
+.message:last-child {
+  scroll-margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .message_input {
@@ -125,6 +136,7 @@ body {
 .message-text {
   text-align: left;
   width: 100%;
+  white-space: pre-wrap;
 }
 
 .message-info {
@@ -142,8 +154,8 @@ body {
   border: none;
   border-top: 1px solid var(--color-text-secondary);
   padding: 10px 10px;
-  min-height: 55px;
   background-color: white;
+  margin-top: 10px;
 }
 
 .form__message {
@@ -157,8 +169,7 @@ body {
 
 .form-input {
   border: none;
-  min-height: 20px;
-  height: auto;
+  min-height: 24px;
   overflow: hidden;
   resize: none;
   flex-grow: 1;
@@ -174,6 +185,15 @@ body {
   position: absolute;
   z-index: -1;
   height: min-content;
+  overflow: hidden;
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.icon-send {
+  color: #8c1af6;
+  cursor: pointer;
 }
 
 .file {
@@ -181,6 +201,7 @@ body {
   align-items: end;
   justify-content: center;
   width: 50px;
+  cursor: pointer;
 
   .material-symbols-outlined {
     color: var(--color-text-secondary);

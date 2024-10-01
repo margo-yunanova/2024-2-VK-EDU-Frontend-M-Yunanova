@@ -18,6 +18,7 @@ const messages = document.querySelector('.messages');
 const messageTemplate = document
   .querySelector('#message-template')
   .content.querySelector('.message');
+const submitButton = form.querySelector('.icon-send');
 
 const createMessage = ({ type, message, timestamp, status }) => {
   const messageElement = messageTemplate.cloneNode(true);
@@ -31,14 +32,15 @@ const createMessage = ({ type, message, timestamp, status }) => {
 
   if (type === 'input') {
     messageElement.classList.add('message_input');
-  }
 
-  if (type === 'input' && status === 'read') {
-    messageElement.querySelector('.message-status').src = iconRead;
-  }
-
-  if (type === 'input' && status === 'sent') {
-    messageElement.querySelector('.message-status').src = iconSent;
+    switch (status) {
+      case 'read':
+        messageElement.querySelector('.message-status').src = iconRead;
+        break;
+      case 'sent':
+        messageElement.querySelector('.message-status').src = iconSent;
+        break;
+    }
   }
 
   return messageElement;
@@ -50,17 +52,17 @@ const handleSubmit = (e) => {
     id: chatMessages.length + 1,
     type: 'input',
     sender: 'Бараш',
-    message: e.target.querySelector('.form-input').value,
+    message: input.value,
     timestamp: new Date(),
     status: 'sent',
   };
-
   chatMessages.push(message);
   localStorage.setItem('chat', JSON.stringify(chatMessages));
-  e.target.querySelector('.form-input').value = '';
+  input.value = '';
+  mirrorInput.textContent = '';
 
-  messages.style.height = `calc(100dvh - 60px - 56px)`;
-  input.style.height = '34.5px';
+  messages.style.removeProperty('height');
+  input.style.removeProperty('height');
 
   messages.append(createMessage(message));
   messages.lastElementChild.scrollIntoView({
@@ -70,23 +72,28 @@ const handleSubmit = (e) => {
 };
 
 const handleKeyPress = (e) => {
-  if (e.keyCode === 13) {
+  if (e.keyCode === 13 && !e.shiftKey) {
     e.preventDefault();
     form.dispatchEvent(new Event('submit'));
   }
 };
 
 const lastReadMessageIndex = chatMessages.findIndex(
-  (item) => item.status === 'sent' && item.sender === 'Её звали Нюша',
+  (item) => item.status === 'sent' && item.type === 'output',
 );
 
 form.addEventListener('submit', handleSubmit);
 form.addEventListener('keypress', handleKeyPress);
 
+submitButton.addEventListener('click', handleSubmit);
+
 input.addEventListener('input', (event) => {
   mirrorInput.textContent = event.target.value;
-  input.style.height = mirrorInput.offsetHeight + 'px';
-  messages.style.height = `calc(100dvh - 60px - ${formMessage.offsetHeight}px - 20px)`;
+  const isFinishedEnter = event.target.value.endsWith('\n');
+
+  input.style.height = `calc(${mirrorInput.offsetHeight}px + ${isFinishedEnter ? 1.15 : 0}em)`;
+
+  messages.style.height = `calc(100dvh - 60px - ${formMessage.offsetHeight}px - 21px - 10px)`;
 });
 
 for (const message of chatMessages) {
