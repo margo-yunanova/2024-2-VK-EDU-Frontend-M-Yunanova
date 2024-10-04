@@ -144,7 +144,7 @@ export const chatData = [
     name: 'Крош',
     lastMessage:
       'Ёжик, ты опять где-то заныкался? Ну давай, вылезай, приключения ждут!',
-    date: '2024-10-01T15:52:00',
+    date: '2024-10-01T14:30:00',
     status: 'sent',
     unreadCount: 99,
     avatar:
@@ -154,7 +154,7 @@ export const chatData = [
     id: 2,
     name: 'Бараш',
     lastMessage: 'Без меня сегодня... Я в депрессии. Опять.',
-    date: '2024-10-02T15:52:00',
+    date: '2024-10-02T09:45:00',
     status: 'read',
     unreadCount: 0,
     avatar:
@@ -165,7 +165,7 @@ export const chatData = [
     name: 'Лосяш',
     lastMessage:
       'Карыч, ты где? Нам нужно срочно обсудить последние научные открытия!',
-    date: '2024-10-03T15:52:00',
+    date: '2024-10-03T18:10:00',
     status: 'read',
     unreadCount: 0,
     avatar:
@@ -175,7 +175,7 @@ export const chatData = [
     id: 4,
     name: 'Нюша',
     lastMessage: 'Ну что, Крош, ты идешь со мной на вечеринку? Я уже готова!',
-    date: '2024-10-04T15:52:00',
+    date: '2024-10-04T19:00:00',
     status: 'read',
     unreadCount: 0,
     avatar: 'https://ru.wikifur.com/w/images/5/54/%D0%9D%D1%8E%D1%88%D0%B0.jpg',
@@ -184,16 +184,16 @@ export const chatData = [
     id: 5,
     name: 'Совунья',
     lastMessage: 'Крош, ты же на зарядку не забыл? Это же основа здоровья!',
-    date: '2024-10-05T15:52:00',
+    date: '2024-10-05T06:30:00',
     status: 'sent',
-    unreadCount: 99,
+    unreadCount: 199,
     avatar: 'https://cdn1.flamp.ru/b8055f9c2191c31f5e9332f14ef4e32a.jpg',
   },
   {
     id: 6,
     name: 'Карыч',
     lastMessage: 'img_12-12-09 (снимок для моей новой коллекции воспоминаний).',
-    date: '2024-10-06T15:52:00',
+    date: '2024-10-06T22:15:00',
     status: 'sent',
     unreadCount: 0,
     avatar:
@@ -204,10 +204,30 @@ export const chatData = [
     name: 'Пин',
     lastMessage:
       'Может, проверим наши новые изобретения? Я тут кое-что усовершенствовал!',
-    date: '2024-10-07T15:52:00',
+    date: '2024-10-07T12:20:00',
     status: 'read',
     unreadCount: 0,
     avatar:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK_37HEs4WQaYqw5YeGW7vXPlx6yv9MtHC_Q&s',
+  },
+  {
+    id: 8,
+    name: 'Ёжик',
+    lastMessage: 'Крош, я тут! Давай что-нибудь придумаем.',
+    date: '2024-10-08T16:00:00',
+    status: 'read',
+    unreadCount: 0,
+    avatar:
+      'https://png.klev.club/uploads/posts/2024-06/png-klev-club-acpw-p-yezhik-iz-smesharikov-png-3.png',
+  },
+  {
+    id: 9,
+    name: 'Копатыч',
+    lastMessage: 'Ну что, кто со мной на огород? Урожай собирать пора!',
+    date: '2024-10-09T07:15:00',
+    status: 'sent',
+    unreadCount: 10,
+    avatar:
+      'https://png.klev.club/uploads/posts/2024-04/png-klev-club-yhbj-p-kopatich-png-15.png',
   },
 ];

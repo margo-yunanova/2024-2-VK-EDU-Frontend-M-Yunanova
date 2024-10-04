@@ -36,8 +36,12 @@
       <section class="chats__list"></section>
     </main>
 
+    <div class="creating-chat">
+      <span class="material-symbols-outlined"> edit </span>
+    </div>
+
     <template id="chat-item-template">
-      <a class="chat-item" href="#">
+      <a class="chat-item" href="../index.html">
         <img class="chat-item__avatar" alt="Аватар" />
         <div class="chat-item__content">
           <p class="chat-item__name"></p>
@@ -46,8 +50,15 @@
         <div class="chat-item__info">
           <p class="chat-item__time"></p>
           <p class="chat-item__status"></p>
+          <img class="chat-item__status-icon" />
         </div>
       </a>
+    </template>
+
+    <template id="counter-unread-template">
+      <div class="counter-unread">
+        <p class="counter-unread__text"></p>
+      </div>
     </template>
     <script type="module" src="../scripts/chats.js"></script>
   </body>
