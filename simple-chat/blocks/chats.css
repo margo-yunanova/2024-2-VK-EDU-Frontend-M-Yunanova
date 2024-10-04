@@ -4,6 +4,7 @@
   justify-content: center;
   width: 50px;
   cursor: pointer;
+  user-select: none;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
@@ -19,6 +20,7 @@
   font-size: 20px;
   line-height: 24px;
   font-family: 'Roboto', Arial, sans-serif;
+  user-select: none;
 }
 
 .chats {
@@ -41,10 +43,11 @@
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.2),
     0 6px 20px rgba(0, 0, 0, 0.19);
-}
+  user-select: none;
 
-.creating-chat .material-symbols-outlined {
-  color: var(--color-title-main);
+  .material-symbols-outlined {
+    color: var(--color-title-main);
+  }
 }
 
 .chats__list {

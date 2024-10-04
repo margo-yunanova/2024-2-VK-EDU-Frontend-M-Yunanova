@@ -20,6 +20,7 @@
   justify-content: center;
   width: 50px;
   cursor: pointer;
+  user-select: none;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
@@ -48,10 +49,12 @@
 
 .user-info__name {
   color: var(--color-title-main);
+  user-select: none;
 }
 
 .user-info__status {
   color: var(--color-title-secondary);
+  user-select: none;
 }
 
 .chat {
@@ -111,6 +114,7 @@
   flex-direction: row;
   align-items: flex-end;
   font-size: 12px;
+  user-select: none;
 }
 
 .form {
