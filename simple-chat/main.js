@@ -1,4 +1,5 @@
-import './style.css';
+import './index.css';
+
 import iconRead from './images/done_all.svg';
 import iconSent from './images/check.svg';
 import { vacationChat } from './mock';
