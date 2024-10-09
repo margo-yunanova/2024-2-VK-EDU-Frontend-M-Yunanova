@@ -3,6 +3,7 @@ import './index.css';
 import iconRead from './images/done_all.svg';
 import iconSent from './images/check.svg';
 import { vacationChat } from './mock';
+import { createRipple } from './scripts/utils';
 
 let chatMessages = JSON.parse(localStorage.getItem('chat'));
 
@@ -20,6 +21,9 @@ const messageTemplate = document
   .querySelector('#message-template')
   .content.querySelector('.message');
 const submitButton = form.querySelector('.icon-send');
+const arrowBackButton = document.querySelector('.arrow-back');
+const searchButton = document.querySelector('.search');
+const menuButton = document.querySelector('.menu');
 
 const createMessage = ({ type, message, timestamp, status }) => {
   const messageElement = messageTemplate.cloneNode(true);
@@ -49,11 +53,16 @@ const createMessage = ({ type, message, timestamp, status }) => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
+
+  const text = input.value.trim();
+
+  if (text === '') return;
+
   const message = {
     id: chatMessages.length + 1,
     type: 'input',
     sender: 'Бараш',
-    message: input.value,
+    message: text,
     timestamp: new Date(),
     status: 'sent',
   };
@@ -61,6 +70,7 @@ const handleSubmit = (e) => {
   localStorage.setItem('chat', JSON.stringify(chatMessages));
   input.value = '';
   mirrorInput.textContent = '';
+  submitButton.classList.add('icon-send_disabled');
 
   messages.style.removeProperty('height');
   input.style.removeProperty('height');
@@ -89,8 +99,18 @@ form.addEventListener('keypress', handleKeyPress);
 submitButton.addEventListener('click', handleSubmit);
 
 input.addEventListener('input', (event) => {
-  mirrorInput.textContent = event.target.value;
-  const isFinishedEnter = event.target.value.endsWith('\n');
+  const text = event.target.value.trim();
+
+  if (text === '') {
+    submitButton.classList.add('icon-send_disabled');
+    input.value = '';
+    return;
+  }
+
+  submitButton.classList.remove('icon-send_disabled');
+
+  mirrorInput.textContent = text;
+  const isFinishedEnter = text.endsWith('\n');
 
   input.style.height = `calc(${mirrorInput.offsetHeight}px + ${isFinishedEnter ? 1.15 : 0}em)`;
 
@@ -104,4 +124,18 @@ for (const message of chatMessages) {
 messages.children[lastReadMessageIndex].scrollIntoView({
   block: 'end',
   behavior: 'smooth',
+});
+
+searchButton.addEventListener('click', (e) => {
+  createRipple(e, () => {});
+});
+
+menuButton.addEventListener('click', (e) => {
+  createRipple(e, () => {});
+});
+
+arrowBackButton.addEventListener('click', (e) => {
+  createRipple(e, () => {
+    window.location.href = './pages/chats.html';
+  });
 });

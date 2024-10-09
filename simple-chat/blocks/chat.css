@@ -10,6 +10,7 @@
   align-items: center;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  align-items: stretch;
 }
 
 .search,
@@ -21,6 +22,9 @@
   width: 50px;
   cursor: pointer;
   user-select: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
@@ -63,7 +67,6 @@
   flex-grow: 1;
   flex-shrink: 1;
   padding-top: 60px;
-  width: 100%;
 }
 
 .messages {
@@ -76,7 +79,8 @@
   padding: 10px;
   padding-bottom: 0px;
   height: calc(100dvh - 60px - 55px);
-  width: 100%;
+  width: clamp(360px, 100%, 800px);
+  margin: 0 auto;
 }
 
 .message {
@@ -92,9 +96,20 @@
   overflow-wrap: anywhere;
 }
 
+@keyframes message {
+  from {
+    transform: scale(0%);
+  }
+  to {
+    transform: scale(100%);
+  }
+}
+
 .message:last-child {
-  scroll-margin-bottom: 10px;
+  scroll-margin-bottom: 30px;
   margin-bottom: 10px;
+  transform: scale(0%);
+  animation: message 0.3s linear forwards;
 }
 
 .message_input {
@@ -164,6 +179,11 @@
 .icon-send {
   color: #8c1af6;
   cursor: pointer;
+  user-select: none;
+}
+
+.icon-send_disabled {
+  color: grey;
 }
 
 .file {
@@ -172,6 +192,7 @@
   justify-content: center;
   width: 50px;
   cursor: pointer;
+  user-select: none;
 
   .material-symbols-outlined {
     color: var(--color-text-secondary);
