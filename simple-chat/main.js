@@ -6,11 +6,6 @@ import { vacationChat } from './mock';
 
 let chatMessages = JSON.parse(localStorage.getItem('chat'));
 
-if (!chatMessages || chatMessages.length === 0) {
-  localStorage.setItem('chat', JSON.stringify(vacationChat));
-  chatMessages = vacationChat;
-}
-
 const form = document.querySelector('form');
 const formMessage = form.querySelector('.form__message');
 const input = formMessage.querySelector('.form-input');
@@ -62,7 +57,6 @@ const handleSubmit = (e) => {
   input.value = '';
   mirrorInput.textContent = '';
 
-  messages.style.removeProperty('height');
   input.style.removeProperty('height');
 
   messages.append(createMessage(message));
@@ -79,10 +73,6 @@ const handleKeyPress = (e) => {
   }
 };
 
-const lastReadMessageIndex = chatMessages.findIndex(
-  (item) => item.status === 'sent' && item.type === 'output',
-);
-
 form.addEventListener('submit', handleSubmit);
 form.addEventListener('keypress', handleKeyPress);
 
@@ -93,15 +83,32 @@ input.addEventListener('input', (event) => {
   const isFinishedEnter = event.target.value.endsWith('\n');
 
   input.style.height = `calc(${mirrorInput.offsetHeight}px + ${isFinishedEnter ? 1.15 : 0}em)`;
-
-  messages.style.height = `calc(100dvh - 60px - ${formMessage.offsetHeight}px - 21px - 10px)`;
 });
 
-for (const message of chatMessages) {
-  messages.append(createMessage(message));
-}
+const init = () => {
+  if (!chatMessages || chatMessages.length === 0) {
+    localStorage.setItem('chat', JSON.stringify(vacationChat));
+    chatMessages = vacationChat;
+  }
 
-messages.children[lastReadMessageIndex].scrollIntoView({
-  block: 'end',
-  behavior: 'smooth',
-});
+  for (const message of chatMessages) {
+    messages.append(createMessage(message));
+  }
+
+  let lastReadMessageIndex = chatMessages.findIndex(
+    (item) => item.status === 'sent' && item.type === 'output',
+  );
+
+  if (lastReadMessageIndex === -1) {
+    lastReadMessageIndex = chatMessages.length - 1;
+  }
+
+  setTimeout(() => {
+    messages.children[lastReadMessageIndex].scrollIntoView({
+      block: 'end',
+      behavior: 'smooth',
+    });
+  }, 0);
+};
+
+init();
