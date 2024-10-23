@@ -35,4 +35,15 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 'latest',
   },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      node: true,
+      typescript: {
+        project: '.',
+      },
+    },
+  },
 };
