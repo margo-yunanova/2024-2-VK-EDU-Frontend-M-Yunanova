@@ -1,5 +1,5 @@
 import { Check, DoneAll } from '@mui/icons-material';
-import { FC, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { formateDate } from '../../utils/utils';
 import styles from './Message.module.scss';
@@ -15,7 +15,7 @@ const IconsStatus = {
   sent: Check,
 };
 
-export const Message: FC<IMessageProps> = forwardRef(
+export const Message = forwardRef<HTMLDivElement, IMessageProps>(
   ({ message, timestamp, status, type }, ref) => {
     const IconStatus = IconsStatus[status];
 

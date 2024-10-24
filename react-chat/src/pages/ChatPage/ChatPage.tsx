@@ -53,18 +53,13 @@ export const ChatPage = () => {
       <ChatPageHeader />
       <main className={styles.chat}>
         <section className={styles.messages} ref={messagesRef}>
-          {messages.map(
-            ({ message, id, status, timestamp, type }, i, { length }) => (
-              <Message
-                message={message}
-                timestamp={timestamp}
-                status={status}
-                type={type}
-                key={id}
-                ref={setScrollToMessageRef(i, length)}
-              />
-            ),
-          )}
+          {messages.map((message, i, { length }) => (
+            <Message
+              key={message.id}
+              {...message}
+              ref={setScrollToMessageRef(i, length)}
+            />
+          ))}
         </section>
         <Form onSubmit={addMessage} />
       </main>

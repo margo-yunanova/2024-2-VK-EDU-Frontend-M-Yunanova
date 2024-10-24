@@ -1,5 +1,13 @@
 import { Attachment, Send } from '@mui/icons-material';
-import { ChangeEventHandler, FC, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  FC,
+  FormEvent,
+  FormEventHandler,
+  KeyboardEventHandler,
+  useRef,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IMessage, MessageStatus } from '@/pages/ChatPage/mock';
@@ -24,7 +32,7 @@ export const Form: FC<IFormProps> = ({ onSubmit }) => {
     setInputHeight(mirrorInput.current!.offsetHeight);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const text = input.current!.value.trim();
     if (text === '') return;
@@ -45,10 +53,10 @@ export const Form: FC<IFormProps> = ({ onSubmit }) => {
     onSubmit(message);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.keyCode === 13 && !e.shiftKey) {
+  const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e);
+      handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
     }
   };
 

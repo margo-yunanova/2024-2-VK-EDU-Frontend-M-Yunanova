@@ -6,7 +6,7 @@ export enum MessageStatus {
 }
 
 export interface IMessage {
-  id: number;
+  id: number | string;
   type: MessageType;
   sender: string;
   message: string;
