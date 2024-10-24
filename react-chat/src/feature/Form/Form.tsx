@@ -7,6 +7,8 @@ import { IMessage, MessageStatus } from '@/pages/ChatPage/mock';
 import styles from './Form.module.scss';
 import { IFormProps } from './Form.props';
 
+// TODO задизейблить кнопку отправить
+
 export const Form: FC<IFormProps> = ({ onSubmit }) => {
   const [inputHeight, setInputHeight] = useState(0);
   const input = useRef<HTMLTextAreaElement>(null);
@@ -69,9 +71,9 @@ export const Form: FC<IFormProps> = ({ onSubmit }) => {
         <div ref={mirrorInput} className={styles['form-input-mirror-text']} />
       </div>
 
-      <div className={styles['icon-send']}>
+      <button className={styles['icon-send']} type="submit">
         <Send />
-      </div>
+      </button>
 
       <label htmlFor="file" className={styles.file}>
         <Attachment />

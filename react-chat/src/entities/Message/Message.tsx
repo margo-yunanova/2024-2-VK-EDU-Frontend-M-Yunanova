@@ -11,8 +11,8 @@ const timeFormatOptions: Intl.DateTimeFormatOptions = {
 };
 
 const IconsStatus = {
-  read: Check,
-  sent: DoneAll,
+  read: DoneAll,
+  sent: Check,
 };
 
 export const Message: FC<IMessageProps> = forwardRef(
@@ -26,9 +26,11 @@ export const Message: FC<IMessageProps> = forwardRef(
           <span className={styles['message-time']}>
             {formateDate(timestamp, 'ru', timeFormatOptions)}
           </span>
-          <div className={styles['message-status']}>
-            <IconStatus />
-          </div>
+          {type === 'input' && (
+            <div className={styles['message-status']}>
+              <IconStatus />
+            </div>
+          )}
         </div>
       </div>
     );

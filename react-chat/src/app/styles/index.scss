@@ -25,7 +25,7 @@
   font-family: 'Roboto', Inter, system-ui, Avenir, Helvetica;
   font-size: 15px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.15;
   color: black;
   color-scheme: light dark;
 
@@ -51,6 +51,16 @@ textarea {
   padding: 0;
   margin-block-start: 0;
   margin-block-end: 0;
+}
+
+button {
+  padding-block: 0;
+  padding-inline: 0;
+  border-width: 0;
+  border-style: none;
+  border-color: transparent;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 body {
