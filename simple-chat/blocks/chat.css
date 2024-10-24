@@ -94,18 +94,18 @@
   overflow-wrap: anywhere;
 }
 
-@keyframes message {
-  from {
-    transform: scale(0%);
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
-  to {
-    transform: scale(100%);
+  100% {
+    opacity: 1;
   }
 }
 
 .message:last-child {
-  transform: scale(0%);
-  animation: message 0.3s linear forwards;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 .message_input {
