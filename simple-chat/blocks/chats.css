@@ -1,3 +1,15 @@
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(138, 44, 226, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(199, 44, 204, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(199, 44, 204, 0);
+  }
+}
+
 .settings {
   display: flex;
   align-items: center;
@@ -5,6 +17,9 @@
   width: 50px;
   cursor: pointer;
   user-select: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
@@ -21,6 +36,8 @@
   line-height: 24px;
   font-family: 'Roboto', Arial, sans-serif;
   user-select: none;
+  display: flex;
+  align-items: center;
 }
 
 .chats {
@@ -41,13 +58,18 @@
   right: 30px;
   cursor: pointer;
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 6px 20px rgba(0, 0, 0, 0.19);
+    0 4px 8px rgba(138, 44, 226, 0.2),
+    0 6px 20px rgba(138, 44, 226, 0.19);
   user-select: none;
+  animation: pulse 2s infinite;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
   }
+}
+
+.creating-chat:hover {
+  animation: none;
 }
 
 .chats__list {
@@ -56,6 +78,8 @@
   gap: 10px;
   padding: 10px;
   overflow-y: auto;
+  width: clamp(360px, 100%, 800px);
+  margin: 0 auto;
 }
 
 .chat-item {
@@ -66,14 +90,16 @@
   cursor: pointer;
   gap: 10px;
   border-radius: 10px;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s linear;
 }
 
-.chat-item:hover {
-  background: linear-gradient(
-    to bottom right,
-    rgba(138, 44, 226, 0.226),
-    rgba(190, 129, 252, 0.1)
-  );
+@media (hover: hover) {
+  .chat-item:hover {
+    background-color: rgba(138, 44, 226, 0.226);
+  }
 }
 
 .chat-item__avatar {

@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width,  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Чат</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,7 +27,7 @@
   <body>
     <!-- <div id="app"></div> -->
     <header class="header">
-      <a class="arrow-back" href="./pages/chats.html">
+      <a class="arrow-back">
         <span class="material-symbols-outlined"> arrow_back </span>
       </a>
       <div class="user-info">
@@ -62,7 +65,9 @@
           <div class="form-input-mirror-text"></div>
         </div>
 
-        <span class="material-symbols-outlined icon-send"> send </span>
+        <span class="material-symbols-outlined icon-send icon-send_disabled">
+          send
+        </span>
 
         <label for="file" class="file">
           <span class="material-symbols-outlined"> attachment </span>
