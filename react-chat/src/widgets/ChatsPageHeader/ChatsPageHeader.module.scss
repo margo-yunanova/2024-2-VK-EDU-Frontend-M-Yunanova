@@ -1,8 +1,11 @@
 .header {
-  justify-content: stretch;
+  overflow: hidden;
 }
 
 .header-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   flex-grow: 1;
   flex-shrink: 1;
   font-size: 20px;
@@ -19,7 +22,7 @@
   align-items: center;
   width: 50px;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
   color: variables.$color-title-main;
   cursor: pointer;
   user-select: none;
