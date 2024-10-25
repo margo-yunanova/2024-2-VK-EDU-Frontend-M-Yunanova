@@ -1,0 +1,26 @@
+.header {
+  justify-content: stretch;
+}
+
+.header-title {
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  user-select: none;
+}
+
+.icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  border-radius: 10px;
+  overflow: hidden;
+  color: variables.$color-title-main;
+  cursor: pointer;
+  user-select: none;
+}
