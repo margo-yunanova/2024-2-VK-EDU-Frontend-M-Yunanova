@@ -66,9 +66,9 @@ button {
 body {
   position: relative;
   z-index: -1;
-  width: 100dvw;
+  width: clamp(360px, 100%, 800px);
   height: 100dvh;
-  margin: 0;
+  margin: 0 auto;
   overflow: hidden;
 }
 

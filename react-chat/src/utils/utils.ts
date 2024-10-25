@@ -1,3 +1,5 @@
+import { createContext } from 'react';
+
 import { IMessage, vacationChat } from '@/pages/ChatPage/mock';
 
 type TLocale = 'ru' | 'US-en';
@@ -26,3 +28,9 @@ export const init = (): IMessage[] => {
 
   return chatMessages;
 };
+
+interface ITabsContext {
+  activePage: 'chatPage' | 'chatsPage';
+  handlePage: () => void;
+}
+export const TabsContext = createContext<ITabsContext | null>(null);

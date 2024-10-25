@@ -1,7 +1,9 @@
 import { ArrowBack, MoreVert, Search } from '@mui/icons-material';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
-import { Header } from '../../entities/Header/Header';
+import { Header } from '@/entities/Header/Header';
+import { TabsContext } from '@/utils/utils';
+
 import styles from './ChatPageHeader.module.scss';
 import { IChatPageHeaderProps } from './ChatPageHeader.props';
 
@@ -10,11 +12,13 @@ export const ChatPageHeader: FC<IChatPageHeaderProps> = ({
   name = 'Её звали Нюша',
   status = 'была 2 часа назад',
 }) => {
+  const { handlePage } = useContext(TabsContext)!;
+
   return (
     <Header>
-      <a className={styles.icon} href="/">
+      <button className={styles.icon} onClick={handlePage}>
         <ArrowBack />
-      </a>
+      </button>
       <div className={styles['user-info']}>
         <img
           className={styles['user-info__avatar']}
