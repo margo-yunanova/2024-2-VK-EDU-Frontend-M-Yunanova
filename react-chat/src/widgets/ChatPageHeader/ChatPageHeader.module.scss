@@ -1,3 +1,7 @@
+.header {
+  overflow: hidden;
+}
+
 .icon {
   position: relative;
   display: flex;
@@ -5,7 +9,7 @@
   align-items: center;
   width: 50px;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
   color: variables.$color-title-main;
   cursor: pointer;
   user-select: none;

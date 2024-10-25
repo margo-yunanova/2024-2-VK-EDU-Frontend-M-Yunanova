@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Message } from '@/entities/Message/Message';
 import { Form } from '@/feature/Form/Form';
 import { IMessage, MessageStatus } from '@/pages/ChatPage/mock';
-import { init } from '@/utils/utils';
+import { init } from '@/shared/utils/init';
 import { ChatPageHeader } from '@/widgets/ChatPageHeader/ChatPageHeader';
 
 import styles from './ChatPage.module.scss';

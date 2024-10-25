@@ -1,7 +1,7 @@
 import { Check, DoneAll } from '@mui/icons-material';
 import { forwardRef } from 'react';
 
-import { formateDate } from '../../utils/utils';
+import { formateDate } from '../../shared/utils/utils';
 import styles from './Message.module.scss';
 import { IMessageProps } from './Message.props';
 

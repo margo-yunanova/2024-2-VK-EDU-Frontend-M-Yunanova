@@ -2,7 +2,8 @@ import { ArrowBack, MoreVert, Search } from '@mui/icons-material';
 import { FC, useContext } from 'react';
 
 import { Header } from '@/entities/Header/Header';
-import { TabsContext } from '@/utils/utils';
+import { Ripple } from '@/feature/Riiple/Ripple';
+import { TabsContext } from '@/shared/utils/context';
 
 import styles from './ChatPageHeader.module.scss';
 import { IChatPageHeaderProps } from './ChatPageHeader.props';
@@ -15,9 +16,10 @@ export const ChatPageHeader: FC<IChatPageHeaderProps> = ({
   const { handlePage } = useContext(TabsContext)!;
 
   return (
-    <Header>
+    <Header extraClassName={styles.header}>
       <button className={styles.icon} onClick={handlePage}>
         <ArrowBack />
+        <Ripple color={'#af5dfc'} duration={2000} />
       </button>
       <div className={styles['user-info']}>
         <img
@@ -32,9 +34,11 @@ export const ChatPageHeader: FC<IChatPageHeaderProps> = ({
       </div>
       <div className={styles.icon}>
         <Search />
-      </div>{' '}
+        <Ripple color={'#af5dfc'} duration={2000} />
+      </div>
       <div className={styles.icon}>
         <MoreVert className={styles.icon} />
+        <Ripple color={'#af5dfc'} duration={2000} />
       </div>
     </Header>
   );

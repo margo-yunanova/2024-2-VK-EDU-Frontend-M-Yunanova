@@ -6,13 +6,11 @@
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
+}
 
-  &:hover {
-    background: linear-gradient(
-      to bottom right,
-      rgba(138, 44, 226, 0.226),
-      rgba(190, 129, 252, 0.1)
-    );
+@media (hover: hover) {
+  .item:hover {
+    background-color: rgba(138, 44, 226, 0.226);
   }
 }
 
@@ -30,6 +28,7 @@
   flex-shrink: 1;
   gap: 5px;
   overflow: hidden;
+  text-align: left;
 }
 
 .name {
@@ -52,15 +51,29 @@
   text-overflow: ellipsis;
 }
 
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .time {
   font-size: 12px;
   line-height: 17px;
   color: variables.$color-text-secondary;
 }
 
-.info {
+.status {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 20px;
+  height: 20px;
+  color: variables.$color-title-purple;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
