@@ -1,0 +1,17 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 40px;
+  height: 25px;
+  border-radius: 10px;
+  background-color: var(--color-background-purple);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+  color: white;
+}
+
+.counter {
+  padding: 10px;
+}
