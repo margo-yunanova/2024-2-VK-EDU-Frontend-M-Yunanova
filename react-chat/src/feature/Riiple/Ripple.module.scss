@@ -1,0 +1,23 @@
+.wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: visible;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 100%;
+  opacity: 0.75;
+  animation-name: ripple;
+  transform: scale(0);
+}
