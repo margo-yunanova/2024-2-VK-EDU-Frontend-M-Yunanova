@@ -13,7 +13,7 @@ export const Ripple: FC<IRipple> = ({ color, duration }) => {
   const [rippleArray, setRippleArray] = useState<IRippleDimensions[]>([]);
 
   useLayoutEffect(() => {
-    let bounce: null | NodeJS.Timeout = null;
+    let bounce: null | ReturnType<typeof setTimeout> = null;
 
     if (rippleArray.length > 0) {
       clearTimeout(bounce!);
