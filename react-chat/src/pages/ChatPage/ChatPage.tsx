@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router';
 
 import { Message } from '@/entities/Message/Message';
 import { Form } from '@/feature/Form/Form';
-import { IMessage, MessageStatus } from '@/pages/ChatPage/mock';
-import { init } from '@/shared/utils/init';
+import { IMessage, MessageStatus, vacationsChat } from '@/pages/ChatPage/mock';
 import { ChatPageHeader } from '@/widgets/ChatPageHeader/ChatPageHeader';
 
 import styles from './ChatPage.module.scss';
 
 export const ChatPage = () => {
-  const [messages, setMessages] = useState<IMessage[]>(() => init());
+  const { id } = useParams();
+  const [messages, setMessages] = useState<IMessage[]>(
+    vacationsChat[Number(id)],
+  );
   const scrollToMessage = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
 

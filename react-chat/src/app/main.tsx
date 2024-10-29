@@ -2,11 +2,33 @@ import './styles/index.scss';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 
-import App from './App.tsx';
+import { ChatPage } from '@/pages/ChatPage/ChatPage';
+import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
+import { ROUTES } from '@/shared/routes/ROUTES';
+
+import App from './App';
+
+const router = createHashRouter([
+  {
+    path: ROUTES.ROOT,
+    element: <App />,
+    children: [
+      {
+        path: ROUTES.CHATS,
+        element: <ChatsPage />,
+      },
+      {
+        path: ROUTES.CHAT,
+        element: <ChatPage />,
+      },
+    ],
+  },
+]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />,
   </StrictMode>,
 );

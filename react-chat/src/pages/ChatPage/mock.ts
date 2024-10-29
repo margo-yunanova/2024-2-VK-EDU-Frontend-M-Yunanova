@@ -153,3 +153,5 @@ export const vacationChat: IMessage[] = [
     status: MessageStatus.sent,
   },
 ];
+
+export const vacationsChat = Array(10).fill(vacationChat);
