@@ -5,11 +5,11 @@ import { Ripple } from '@/feature/Riiple/Ripple';
 
 import styles from './ChatsPageHeader.module.scss';
 
-export const ChatsPageHeader = () => {
+export const ChatsPageHeader = ({ openMenu }) => {
   return (
     <Header extraClassName={styles.header}>
       <nav className={styles.settings}>
-        <button className={styles.icon}>
+        <button className={styles.icon} onClick={openMenu}>
           <Menu />
           <Ripple color={'#af5dfc'} duration={2000} />
         </button>
