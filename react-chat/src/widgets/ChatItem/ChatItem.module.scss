@@ -11,7 +11,7 @@
 
 @media (hover: hover) {
   .item:hover {
-    background-color: rgba(138, 44, 226, 0.226);
+    background-color: variables.$color-background-light-purple;
   }
 }
 
