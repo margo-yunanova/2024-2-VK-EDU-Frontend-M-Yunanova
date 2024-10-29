@@ -11,7 +11,7 @@ export const ChatsPage = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
   return (
     <>
-      <ChatsPageHeader openMenu={() => setBurgerActive(true)} />
+      <ChatsPageHeader onClick={() => setBurgerActive(true)} />
       <main className={styles.chats}>
         <section className={styles.list}>
           {chatData.map((chat) => (
