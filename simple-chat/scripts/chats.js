@@ -2,6 +2,7 @@ import '../index.css';
 import iconRead from '../images/done_all.svg';
 import iconSent from '../images/check.svg';
 import { chatData } from '../mock';
+import { createRipple } from './utils';
 
 const chats = document.querySelector('.chats');
 const chatsList = chats.querySelector('.chats__list');
@@ -11,9 +12,19 @@ const chatTemplate = document
 const counterUnreadTemplate = document
   .querySelector('#counter-unread-template')
   .content.querySelector('.counter-unread');
+const settingsButton = document.querySelector('.settings');
+const searchButton = document.querySelector('.search');
 
 const createChatItem = (chat) => {
   const chatElement = chatTemplate.cloneNode(true);
+
+  chatElement.addEventListener('click', (e) => {
+    e.preventDefault();
+    createRipple(e, () => {
+      window.location.href = '../index.html';
+    });
+  });
+
   chatElement.querySelector('.chat-item__avatar').src = chat.avatar;
   chatElement.querySelector('.chat-item__name').textContent = chat.name;
   chatElement.querySelector('.chat-item__last-message').textContent =
@@ -36,9 +47,18 @@ const createChatItem = (chat) => {
   } else if (chat.status === 'sent') {
     chatElement.querySelector('.chat-item__status-icon').src = iconSent;
   }
+
   return chatElement;
 };
 
 for (const chat of chatData) {
   chatsList.append(createChatItem(chat));
 }
+
+settingsButton.addEventListener('click', (e) => {
+  createRipple(e, () => {});
+});
+
+searchButton.addEventListener('click', (e) => {
+  createRipple(e, () => {});
+});

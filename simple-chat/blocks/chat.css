@@ -10,6 +10,7 @@
   align-items: center;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  align-items: stretch;
 }
 
 .search,
@@ -21,6 +22,9 @@
   width: 50px;
   cursor: pointer;
   user-select: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
 
   .material-symbols-outlined {
     color: var(--color-title-main);
@@ -72,7 +76,8 @@
   overflow-x: hidden;
   gap: 10px;
   padding: 10px;
-  width: 100%;
+  width: clamp(360px, 100%, 800px);
+  margin: 0 auto;
   scroll-padding-bottom: 10px;
 }
 
@@ -87,6 +92,20 @@
   min-width: min-content;
   max-width: 75%;
   overflow-wrap: anywhere;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.message:last-child {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 .message_input {
@@ -155,6 +174,11 @@
 .icon-send {
   color: #8c1af6;
   cursor: pointer;
+  user-select: none;
+}
+
+.icon-send_disabled {
+  color: grey;
 }
 
 .file {
@@ -163,6 +187,7 @@
   justify-content: center;
   width: 50px;
   cursor: pointer;
+  user-select: none;
 
   .material-symbols-outlined {
     color: var(--color-text-secondary);
