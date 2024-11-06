@@ -3,4 +3,5 @@ export const ROUTES = {
   CHATS: 'chats',
   CHAT: 'chats/:id',
   PROFILE: 'profile',
+  REGISTER: 'register',
 } as const;

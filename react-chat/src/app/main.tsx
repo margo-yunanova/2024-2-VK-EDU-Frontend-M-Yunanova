@@ -8,6 +8,7 @@ import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { ChatPage } from '@/pages/ChatPage/ChatPage';
 import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
+import { RegisterPage } from '@/pages/RegisterPage/RegisterPage';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { store } from '@/store/store';
 
@@ -31,6 +32,10 @@ const router = createHashRouter([
         element: <ProfilePage />,
       },
     ],
+  },
+  {
+    path: ROUTES.REGISTER,
+    element: <RegisterPage />,
   },
 ]);
 
