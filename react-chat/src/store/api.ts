@@ -1,6 +1,6 @@
 import { api } from './baseApi';
 
-const injectedRtkApi = api.injectEndpoints({
+export const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     authCreate: build.mutation<AuthCreateApiResponse, AuthCreateApiArg>({
       query: (queryArg) => ({
@@ -170,7 +170,10 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
-export type AuthCreateApiResponse = /** status 201  */ TokenObtainPair;
+export type AuthCreateApiResponse = /** status 201  */ {
+  access: string;
+  refresh: string;
+};
 export type AuthCreateApiArg = {
   tokenObtainPair: TokenObtainPair;
 };
