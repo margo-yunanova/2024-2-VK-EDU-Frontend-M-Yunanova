@@ -28,36 +28,36 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, store, extraOptions) => {
+  console.log('baseQueryWithReauth');
   let response = await baseQuery(args, store, extraOptions);
 
   if (
-    response.error &&
-    response.error.status !== 401 &&
-    response.error.status !== 403
+    response.meta?.response?.status !== 401 &&
+    response.meta?.response?.status !== 403
   ) {
     return response;
   }
 
-  const tokenRefresh = localStorage.getItem('refreshToken');
+  const refresh = localStorage.getItem('refreshToken');
 
-  if (!tokenRefresh) {
+  if (!refresh) {
     console.warn('No refresh token found. Logging out...');
   }
 
-  const { data, error } = await baseQuery(
+  const data = await baseQuery(
     {
       url: '/auth/refresh/',
       method: 'POST',
-      body: { tokenRefresh },
+      body: { refresh },
     },
     store,
     extraOptions,
   );
-
+  console.log({ data });
   const refreshResult = data as AuthRefreshCreateApiResponse;
 
   if (!refreshResult) {
-    console.error('Failed to refresh token:', error);
+    console.error('Failed to refresh token:');
   }
 
   localStorage.setItem('accessToken', refreshResult.access ?? '');

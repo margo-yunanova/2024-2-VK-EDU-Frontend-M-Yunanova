@@ -16,7 +16,7 @@ export const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/auth/refresh/`,
         method: 'POST',
-        body: queryArg.tokenRefresh,
+        body: queryArg.refresh,
       }),
     }),
     centrifugoConnectCreate: build.mutation<
@@ -135,6 +135,9 @@ export const injectedRtkApi = api.injectEndpoints({
     }),
     userRead: build.query<UserReadApiResponse, UserReadApiArg>({
       query: (queryArg) => ({ url: `/user/${queryArg.id}/` }),
+    }),
+    currentUserRead: build.query<UserReadApiResponse, void>({
+      query: () => ({ url: '/user/current' }),
     }),
     userUpdate: build.mutation<UserUpdateApiResponse, UserUpdateApiArg>({
       query: (queryArg) => ({
@@ -432,6 +435,7 @@ export const {
   useMessagesCreateMutation,
   useRegisterCreateMutation,
   useUserReadQuery,
+  useCurrentUserReadQuery,
   useUserUpdateMutation,
   useUserPartialUpdateMutation,
   useUserDeleteMutation,
