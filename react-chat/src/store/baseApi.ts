@@ -9,7 +9,6 @@ import {
 import { AuthRefreshCreateApiResponse } from './api';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/api',
   prepareHeaders: (headers) => {
     headers.set('Content-Type', 'application/json');
     headers.set('Access-Control-Allow-Origin', '*');
@@ -28,7 +27,6 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, store, extraOptions) => {
-  console.log('baseQueryWithReauth');
   let response = await baseQuery(args, store, extraOptions);
 
   if (
@@ -46,15 +44,15 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   const data = await baseQuery(
     {
-      url: '/auth/refresh/',
+      url: '/api/auth/refresh/',
       method: 'POST',
       body: { refresh },
     },
     store,
     extraOptions,
   );
-  console.log({ data });
-  const refreshResult = data as AuthRefreshCreateApiResponse;
+
+  const refreshResult = data.data as AuthRefreshCreateApiResponse;
 
   if (!refreshResult) {
     console.error('Failed to refresh token:');

@@ -10,3 +10,9 @@ export const formateDate = (
   locale: TLocale,
   options?: Intl.DateTimeFormatOptions,
 ) => new Intl.DateTimeFormat(locale, options).format(new Date(timestamp));
+
+export const getInitials = (title: string = '') =>
+  title
+    .split(' ')
+    .map((str) => str[0].toUpperCase())
+    .join('');

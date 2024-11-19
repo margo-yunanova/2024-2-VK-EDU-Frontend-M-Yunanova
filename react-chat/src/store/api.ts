@@ -4,7 +4,7 @@ export const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     authCreate: build.mutation<AuthCreateApiResponse, AuthCreateApiArg>({
       query: (queryArg) => ({
-        url: `/auth/`,
+        url: `/api/auth/`,
         method: 'POST',
         body: queryArg.tokenObtainPair,
       }),
@@ -14,102 +14,110 @@ export const injectedRtkApi = api.injectEndpoints({
       AuthRefreshCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/auth/refresh/`,
+        url: `/api/auth/refresh/`,
         method: 'POST',
-        body: queryArg.refresh,
+        body: queryArg.tokenRefresh,
       }),
     }),
     centrifugoConnectCreate: build.mutation<
       CentrifugoConnectCreateApiResponse,
       CentrifugoConnectCreateApiArg
     >({
-      query: () => ({ url: `/centrifugo/connect/`, method: 'POST' }),
+      query: () => ({ url: `/api/centrifugo/connect/`, method: 'POST' }),
     }),
     centrifugoSubscribeCreate: build.mutation<
       CentrifugoSubscribeCreateApiResponse,
       CentrifugoSubscribeCreateApiArg
     >({
-      query: () => ({ url: `/centrifugo/subscribe/`, method: 'POST' }),
+      query: () => ({ url: `/api/centrifugo/subscribe/`, method: 'POST' }),
     }),
-    chatRead: build.query<ChatReadApiResponse, ChatReadApiArg>({
-      query: (queryArg) => ({ url: `/chat/${queryArg.id}/` }),
-    }),
-    chatUpdate: build.mutation<ChatUpdateApiResponse, ChatUpdateApiArg>({
-      query: (queryArg) => ({
-        url: `/chat/${queryArg.id}/`,
-        method: 'PUT',
-        body: queryArg.groupChatPatch,
-      }),
+    chatRetrieve: build.query<ChatRetrieveApiResponse, ChatRetrieveApiArg>({
+      query: (queryArg) => ({ url: `/api/chat/${queryArg.id}/` }),
     }),
     chatPartialUpdate: build.mutation<
       ChatPartialUpdateApiResponse,
       ChatPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/chat/${queryArg.id}/`,
+        url: `/api/chat/${queryArg.id}/`,
         method: 'PATCH',
-        body: queryArg.groupChatPatch,
+        body: queryArg.patchedGroupChatPatch,
       }),
     }),
-    chatDelete: build.mutation<ChatDeleteApiResponse, ChatDeleteApiArg>({
-      query: (queryArg) => ({ url: `/chat/${queryArg.id}/`, method: 'DELETE' }),
+    chatDestroy: build.mutation<ChatDestroyApiResponse, ChatDestroyApiArg>({
+      query: (queryArg) => ({
+        url: `/api/chat/${queryArg.id}/`,
+        method: 'DELETE',
+      }),
+    }),
+    chatLeaveCreate: build.mutation<
+      ChatLeaveCreateApiResponse,
+      ChatLeaveCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/chat/${queryArg.id}/leave/`,
+        method: 'POST',
+      }),
     }),
     chatsList: build.query<ChatsListApiResponse, ChatsListApiArg>({
       query: (queryArg) => ({
-        url: `/chats/`,
+        url: `/api/chats/`,
         params: {
-          search: queryArg.search,
           page: queryArg.page,
           page_size: queryArg.pageSize,
+          search: queryArg.search,
         },
       }),
     }),
     chatsCreate: build.mutation<ChatsCreateApiResponse, ChatsCreateApiArg>({
       query: (queryArg) => ({
-        url: `/chats/`,
+        url: `/api/chats/`,
         method: 'POST',
         body: queryArg.chat,
       }),
     }),
-    messageRead: build.query<MessageReadApiResponse, MessageReadApiArg>({
-      query: (queryArg) => ({ url: `/message/${queryArg.id}/` }),
-    }),
-    messageUpdate: build.mutation<
-      MessageUpdateApiResponse,
-      MessageUpdateApiArg
+    messageRetrieve: build.query<
+      MessageRetrieveApiResponse,
+      MessageRetrieveApiArg
     >({
-      query: (queryArg) => ({
-        url: `/message/${queryArg.id}/`,
-        method: 'PUT',
-        body: queryArg.message,
-      }),
+      query: (queryArg) => ({ url: `/api/message/${queryArg.id}/` }),
     }),
     messagePartialUpdate: build.mutation<
       MessagePartialUpdateApiResponse,
       MessagePartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/message/${queryArg.id}/`,
+        url: `/api/message/${queryArg.id}/`,
         method: 'PATCH',
-        body: queryArg.message,
+        body: queryArg.patchedMessage,
       }),
     }),
-    messageDelete: build.mutation<
-      MessageDeleteApiResponse,
-      MessageDeleteApiArg
+    messageDestroy: build.mutation<
+      MessageDestroyApiResponse,
+      MessageDestroyApiArg
     >({
       query: (queryArg) => ({
-        url: `/message/${queryArg.id}/`,
+        url: `/api/message/${queryArg.id}/`,
         method: 'DELETE',
+      }),
+    }),
+    messageReadCreate: build.mutation<
+      MessageReadCreateApiResponse,
+      MessageReadCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/message/${queryArg.id}/read/`,
+        method: 'POST',
       }),
     }),
     messagesList: build.query<MessagesListApiResponse, MessagesListApiArg>({
       query: (queryArg) => ({
-        url: `/messages/`,
+        url: `/api/messages/`,
         params: {
-          search: queryArg.search,
+          chat: queryArg.chat,
           page: queryArg.page,
           page_size: queryArg.pageSize,
+          search: queryArg.search,
         },
       }),
     }),
@@ -118,7 +126,7 @@ export const injectedRtkApi = api.injectEndpoints({
       MessagesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/messages/`,
+        url: `/api/messages/`,
         method: 'POST',
         body: queryArg.messageCreate,
       }),
@@ -128,44 +136,55 @@ export const injectedRtkApi = api.injectEndpoints({
       RegisterCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/register/`,
+        url: `/api/register/`,
         method: 'POST',
         body: queryArg.userCreate,
       }),
     }),
-    userRead: build.query<UserReadApiResponse, UserReadApiArg>({
-      query: (queryArg) => ({ url: `/user/${queryArg.id}/` }),
+    userCurrentRetrieve: build.query<
+      UserCurrentRetrieveApiResponse,
+      UserCurrentRetrieveApiArg
+    >({
+      query: () => ({ url: `/api/user/current/` }),
     }),
-    currentUserRead: build.query<UserReadApiResponse, void>({
-      query: () => ({ url: '/user/current' }),
-    }),
-    userUpdate: build.mutation<UserUpdateApiResponse, UserUpdateApiArg>({
-      query: (queryArg) => ({
-        url: `/user/${queryArg.id}/`,
-        method: 'PUT',
-        body: queryArg.user,
-      }),
+    userRetrieve: build.query<UserRetrieveApiResponse, UserRetrieveApiArg>({
+      query: (queryArg) => ({ url: `/api/user/${queryArg.id}/` }),
     }),
     userPartialUpdate: build.mutation<
       UserPartialUpdateApiResponse,
       UserPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/user/${queryArg.id}/`,
+        url: `/api/user/${queryArg.id}/`,
         method: 'PATCH',
-        body: queryArg.user,
+        body: queryArg.patchedUser,
       }),
     }),
-    userDelete: build.mutation<UserDeleteApiResponse, UserDeleteApiArg>({
-      query: (queryArg) => ({ url: `/user/${queryArg.id}/`, method: 'DELETE' }),
+    userDestroy: build.mutation<UserDestroyApiResponse, UserDestroyApiArg>({
+      query: (queryArg) => ({
+        url: `/api/user/${queryArg.id}/`,
+        method: 'DELETE',
+      }),
+    }),
+    userOfflineCreate: build.mutation<
+      UserOfflineCreateApiResponse,
+      UserOfflineCreateApiArg
+    >({
+      query: () => ({ url: `/api/user/offline/`, method: 'POST' }),
+    }),
+    userOnlineCreate: build.mutation<
+      UserOnlineCreateApiResponse,
+      UserOnlineCreateApiArg
+    >({
+      query: () => ({ url: `/api/user/online/`, method: 'POST' }),
     }),
     usersList: build.query<UsersListApiResponse, UsersListApiArg>({
       query: (queryArg) => ({
-        url: `/users/`,
+        url: `/api/users/`,
         params: {
-          search: queryArg.search,
           page: queryArg.page,
           page_size: queryArg.pageSize,
+          search: queryArg.search,
         },
       }),
     }),
@@ -173,14 +192,11 @@ export const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
-export type AuthCreateApiResponse = /** status 201  */ {
-  access: string;
-  refresh: string;
-};
+export type AuthCreateApiResponse = /** status 200  */ TokenObtainPairRead;
 export type AuthCreateApiArg = {
-  tokenObtainPair: TokenObtainPair;
+  tokenObtainPair: TokenObtainPairWrite;
 };
-export type AuthRefreshCreateApiResponse = /** status 201  */ TokenRefreshRead;
+export type AuthRefreshCreateApiResponse = /** status 200  */ TokenRefreshRead;
 export type AuthRefreshCreateApiArg = {
   tokenRefresh: TokenRefresh;
 };
@@ -188,82 +204,65 @@ export type CentrifugoConnectCreateApiResponse = unknown;
 export type CentrifugoConnectCreateApiArg = void;
 export type CentrifugoSubscribeCreateApiResponse = unknown;
 export type CentrifugoSubscribeCreateApiArg = void;
-export type ChatReadApiResponse = /** status 200  */ ChatRead;
-export type ChatReadApiArg = {
-  /** A UUID string identifying this chat. */
+export type ChatRetrieveApiResponse = /** status 200  */ ChatRead;
+export type ChatRetrieveApiArg = {
   id: string;
-};
-export type ChatUpdateApiResponse = /** status 200  */ GroupChatPatchRead;
-export type ChatUpdateApiArg = {
-  /** A UUID string identifying this chat. */
-  id: string;
-  groupChatPatch: GroupChatPatch;
 };
 export type ChatPartialUpdateApiResponse =
   /** status 200  */ GroupChatPatchRead;
 export type ChatPartialUpdateApiArg = {
-  /** A UUID string identifying this chat. */
   id: string;
-  groupChatPatch: GroupChatPatch;
+  patchedGroupChatPatch: PatchedGroupChatPatch;
 };
-export type ChatDeleteApiResponse = unknown;
-export type ChatDeleteApiArg = {
-  /** A UUID string identifying this chat. */
+export type ChatDestroyApiResponse = unknown;
+export type ChatDestroyApiArg = {
   id: string;
 };
-export type ChatsListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: ChatRead[];
+export type ChatLeaveCreateApiResponse = unknown;
+export type ChatLeaveCreateApiArg = {
+  id: string;
 };
+export type ChatsListApiResponse = /** status 200  */ PaginatedChatListRead;
 export type ChatsListApiArg = {
-  /** A search term. */
-  search?: string;
   /** A page number within the paginated result set. */
   page?: number;
   /** Number of results to return per page. */
   pageSize?: number;
+  /** A search term. */
+  search?: string;
 };
 export type ChatsCreateApiResponse = /** status 201  */ ChatRead;
 export type ChatsCreateApiArg = {
   chat: Chat;
 };
-export type MessageReadApiResponse = /** status 200  */ MessageRead;
-export type MessageReadApiArg = {
-  /** A UUID string identifying this message. */
+export type MessageRetrieveApiResponse = /** status 200  */ MessageRead;
+export type MessageRetrieveApiArg = {
   id: string;
-};
-export type MessageUpdateApiResponse = /** status 200  */ MessageRead;
-export type MessageUpdateApiArg = {
-  /** A UUID string identifying this message. */
-  id: string;
-  message: Message;
 };
 export type MessagePartialUpdateApiResponse = /** status 200  */ MessageRead;
 export type MessagePartialUpdateApiArg = {
-  /** A UUID string identifying this message. */
   id: string;
-  message: Message;
+  patchedMessage: PatchedMessage;
 };
-export type MessageDeleteApiResponse = unknown;
-export type MessageDeleteApiArg = {
-  /** A UUID string identifying this message. */
+export type MessageDestroyApiResponse = unknown;
+export type MessageDestroyApiArg = {
   id: string;
 };
-export type MessagesListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: MessageRead[];
+export type MessageReadCreateApiResponse = unknown;
+export type MessageReadCreateApiArg = {
+  id: string;
 };
+export type MessagesListApiResponse =
+  /** status 200  */ PaginatedMessageListRead;
 export type MessagesListApiArg = {
-  /** A search term. */
-  search?: string;
+  /** A chatId. */
+  chat: string;
   /** A page number within the paginated result set. */
   page?: number;
   /** Number of results to return per page. */
   pageSize?: number;
+  /** A search term. */
+  search?: string;
 };
 export type MessagesCreateApiResponse = /** status 201  */ MessageCreateRead;
 export type MessagesCreateApiArg = {
@@ -271,45 +270,45 @@ export type MessagesCreateApiArg = {
 };
 export type RegisterCreateApiResponse = /** status 201  */ UserCreateRead;
 export type RegisterCreateApiArg = {
-  userCreate: UserCreate;
+  userCreate: UserCreateWrite;
 };
-export type UserReadApiResponse = /** status 200  */ UserRead;
-export type UserReadApiArg = {
+export type UserCurrentRetrieveApiResponse = /** status 200  */ UserRead;
+export type UserCurrentRetrieveApiArg = void;
+export type UserRetrieveApiResponse = /** status 200  */ UserRead;
+export type UserRetrieveApiArg = {
   /** A UUID string identifying this user. */
   id: string;
-};
-export type UserUpdateApiResponse = /** status 200  */ UserRead;
-export type UserUpdateApiArg = {
-  /** A UUID string identifying this user. */
-  id: string;
-  user: User;
 };
 export type UserPartialUpdateApiResponse = /** status 200  */ UserRead;
 export type UserPartialUpdateApiArg = {
   /** A UUID string identifying this user. */
   id: string;
-  user: User;
+  patchedUser: PatchedUser;
 };
-export type UserDeleteApiResponse = unknown;
-export type UserDeleteApiArg = {
+export type UserDestroyApiResponse = unknown;
+export type UserDestroyApiArg = {
   /** A UUID string identifying this user. */
   id: string;
 };
-export type UsersListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: UserRead[];
-};
+export type UserOfflineCreateApiResponse = unknown;
+export type UserOfflineCreateApiArg = void;
+export type UserOnlineCreateApiResponse = unknown;
+export type UserOnlineCreateApiArg = void;
+export type UsersListApiResponse = /** status 200  */ PaginatedUserListRead;
 export type UsersListApiArg = {
-  /** A search term. */
-  search?: string;
   /** A page number within the paginated result set. */
   page?: number;
   /** Number of results to return per page. */
   pageSize?: number;
+  /** A search term. */
+  search?: string;
 };
-export type TokenObtainPair = {
+export type TokenObtainPair = {};
+export type TokenObtainPairRead = {
+  access: string;
+  refresh: string;
+};
+export type TokenObtainPairWrite = {
   username: string;
   password: string;
 };
@@ -317,8 +316,8 @@ export type TokenRefresh = {
   refresh: string;
 };
 export type TokenRefreshRead = {
+  access: string;
   refresh: string;
-  access?: string;
 };
 export type User = {
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
@@ -326,88 +325,183 @@ export type User = {
   first_name: string;
   last_name: string;
   bio?: string | null;
+  avatar?: string | null;
 };
 export type UserRead = {
-  id?: string;
+  id: string;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: string;
   first_name: string;
   last_name: string;
   bio?: string | null;
   avatar?: string | null;
+  is_online: boolean;
+  last_online_at: string;
+};
+export type MessageFile = {
+  item?: string | null;
+};
+export type LastMessage = {
+  chat?: string;
+  created_at?: string;
+  files?: MessageFile[];
+  id?: string;
+  sender?: User;
+  text?: string;
+  updated_at?: string | null;
+  voice?: string | null;
+  was_read_by?: User[];
+};
+export type LastMessageRead = {
+  chat?: string;
+  created_at?: string;
+  files?: MessageFile[];
+  id?: string;
+  sender?: UserRead;
+  text?: string;
+  updated_at?: string | null;
+  voice?: string | null;
+  was_read_by?: UserRead[];
 };
 export type Chat = {
   members: User[];
   creator: User;
   is_private: boolean;
+  last_message: LastMessage;
 };
 export type ChatRead = {
-  id?: string;
-  title?: string;
+  id: string;
+  title: string;
   members: UserRead[];
   creator: UserRead;
-  avatar?: string;
-  created_at?: string;
-  updated_at?: string;
+  avatar?: string | null;
+  created_at: string;
+  updated_at: string;
   is_private: boolean;
-  last_message?: string;
+  last_message: LastMessageRead;
 };
 export type GroupChatPatch = {
   title: string;
   members: string[];
+  avatar?: string | null;
 };
 export type GroupChatPatchRead = {
-  id?: string;
+  id: string;
   title: string;
   members: string[];
+  avatar?: string | null;
+  created_at: string;
+  updated_at: string;
+  is_private: boolean;
+};
+export type PatchedGroupChatPatch = {
+  title?: string;
+  members?: string[];
+  avatar?: string | null;
+};
+export type PatchedGroupChatPatchRead = {
+  id?: string;
+  title?: string;
+  members?: string[];
   avatar?: string | null;
   created_at?: string;
   updated_at?: string;
   is_private?: boolean;
 };
-export type MessageFile = {};
-export type MessageFileRead = {
-  item?: string | null;
+export type PaginatedChatList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Chat[];
+};
+export type PaginatedChatListRead = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: ChatRead[];
 };
 export type Message = {
   text?: string | null;
   sender: User;
   files: MessageFile[];
+  was_read_by: User[];
 };
 export type MessageRead = {
+  id: string;
+  text?: string | null;
+  voice: string | null;
+  sender: UserRead;
+  chat: string;
+  files: MessageFile[];
+  updated_at: string | null;
+  created_at: string;
+  was_read_by: UserRead[];
+};
+export type PatchedMessage = {
+  text?: string | null;
+  sender?: User;
+  files?: MessageFile[];
+  was_read_by?: User[];
+};
+export type PatchedMessageRead = {
   id?: string;
   text?: string | null;
   voice?: string | null;
-  sender: UserRead;
+  sender?: UserRead;
   chat?: string;
-  files: MessageFileRead[];
+  files?: MessageFile[];
   updated_at?: string | null;
   created_at?: string;
+  was_read_by?: UserRead[];
+};
+export type PaginatedMessageList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Message[];
+};
+export type PaginatedMessageListRead = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: MessageRead[];
 };
 export type MessageCreate = {
   text?: string | null;
+  voice?: string | null;
   chat: string;
   files?: MessageFile[];
 };
 export type MessageCreateRead = {
-  id?: string;
+  id: string;
   text?: string | null;
   voice?: string | null;
   chat: string;
-  files?: MessageFileRead[];
-  updated_at?: string | null;
-  created_at?: string;
+  files?: MessageFile[];
+  updated_at: string | null;
+  created_at: string;
+  was_read_by: string[];
 };
 export type UserCreate = {
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: string;
-  password: string;
   first_name: string;
   last_name: string;
   bio?: string | null;
+  avatar?: string | null;
 };
 export type UserCreateRead = {
-  id?: string;
+  id: string;
+  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
+  username: string;
+  first_name: string;
+  last_name: string;
+  bio?: string | null;
+  avatar?: string | null;
+  is_online: boolean;
+  last_online_at: string;
+};
+export type UserCreateWrite = {
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: string;
   password: string;
@@ -415,29 +509,61 @@ export type UserCreateRead = {
   last_name: string;
   bio?: string | null;
   avatar?: string | null;
+};
+export type PatchedUser = {
+  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
+  username?: string;
+  first_name?: string;
+  last_name?: string;
+  bio?: string | null;
+  avatar?: string | null;
+};
+export type PatchedUserRead = {
+  id?: string;
+  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
+  username?: string;
+  first_name?: string;
+  last_name?: string;
+  bio?: string | null;
+  avatar?: string | null;
+  is_online?: boolean;
+  last_online_at?: string;
+};
+export type PaginatedUserList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: User[];
+};
+export type PaginatedUserListRead = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: UserRead[];
 };
 export const {
   useAuthCreateMutation,
   useAuthRefreshCreateMutation,
   useCentrifugoConnectCreateMutation,
   useCentrifugoSubscribeCreateMutation,
-  useChatReadQuery,
-  useChatUpdateMutation,
+  useChatRetrieveQuery,
   useChatPartialUpdateMutation,
-  useChatDeleteMutation,
+  useChatDestroyMutation,
+  useChatLeaveCreateMutation,
   useChatsListQuery,
   useChatsCreateMutation,
-  useMessageReadQuery,
-  useMessageUpdateMutation,
+  useMessageRetrieveQuery,
   useMessagePartialUpdateMutation,
-  useMessageDeleteMutation,
+  useMessageDestroyMutation,
+  useMessageReadCreateMutation,
   useMessagesListQuery,
   useMessagesCreateMutation,
   useRegisterCreateMutation,
-  useUserReadQuery,
-  useCurrentUserReadQuery,
-  useUserUpdateMutation,
+  useUserCurrentRetrieveQuery,
+  useUserRetrieveQuery,
   useUserPartialUpdateMutation,
-  useUserDeleteMutation,
+  useUserDestroyMutation,
+  useUserOfflineCreateMutation,
+  useUserOnlineCreateMutation,
   useUsersListQuery,
 } = injectedRtkApi;
