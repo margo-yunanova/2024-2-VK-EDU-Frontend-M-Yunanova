@@ -1,748 +1,996 @@
-swagger: '2.0'
+openapi: 3.0.3
 info:
-  title: Messenger
-  description: Messenger Swagger
-  termsOfService: https://example.com/terms/
-  contact:
-    email: contact@example.com
-  license:
-    name: MIT License
-  version: v1
-host: 127.0.0.1:8000
-schemes:
-  - http
-basePath: /api
-consumes:
-  - application/json
-produces:
-  - application/json
-securityDefinitions:
-  Basic:
-    type: basic
-security:
-  - Basic: []
+  title: Messenger API
+  version: 1.0.0
+  description: Messenger Backend
 paths:
-  /auth/:
+  /api/auth/:
     post:
       operationId: auth_create
       description: |-
         Takes a set of user credentials and returns an access and refresh JSON web
         token pair to prove the authentication of those credentials.
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/TokenObtainPair'
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/TokenObtainPair'
       tags:
-        - auth
-    parameters: []
-  /auth/refresh/:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/auth/refresh/:
     post:
       operationId: auth_refresh_create
       description: |-
         Takes a refresh type JSON web token and returns an access type JSON web
         token if the refresh token is valid.
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/TokenRefresh'
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/TokenRefresh'
       tags:
-        - auth
-    parameters: []
-  /centrifugo/connect/:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/centrifugo/connect/:
     post:
       operationId: centrifugo_connect_create
-      description: ''
-      parameters: []
-      responses:
-        '201':
-          description: ''
       tags:
-        - centrifugo
-    parameters: []
-  /centrifugo/subscribe/:
+      - centrifugo
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/centrifugo/subscribe/:
     post:
       operationId: centrifugo_subscribe_create
-      description: ''
-      parameters: []
-      responses:
-        '201':
-          description: ''
       tags:
-        - centrifugo
-    parameters: []
-  /chat/{id}/:
+      - centrifugo
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/chat/{id}/:
     get:
-      operationId: chat_read
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/Chat'
-      tags:
-        - chat
-    put:
-      operationId: chat_update
-      description: ''
+      operationId: chat_retrieve
       parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/GroupChatPatch'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/GroupChatPatch'
-      tags:
-        - chat
-    patch:
-      operationId: chat_partial_update
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/GroupChatPatch'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/GroupChatPatch'
-      tags:
-        - chat
-    delete:
-      operationId: chat_delete
-      description: ''
-      parameters: []
-      responses:
-        '204':
-          description: ''
-      tags:
-        - chat
-    parameters:
-      - name: id
-        in: path
-        description: A UUID string identifying this chat.
-        required: true
-        type: string
-        format: uuid
-  /chats/:
-    get:
-      operationId: chats_list
-      description: ''
-      parameters:
-        - name: search
-          in: query
-          description: A search term.
-          required: false
-          type: string
-        - name: page
-          in: query
-          description: A page number within the paginated result set.
-          required: false
-          type: integer
-        - name: page_size
-          in: query
-          description: Number of results to return per page.
-          required: false
-          type: integer
-      responses:
-        '200':
-          description: ''
-          schema:
-            required:
-              - count
-              - results
-            type: object
-            properties:
-              count:
-                type: integer
-              next:
-                type: string
-                format: uri
-                x-nullable: true
-              previous:
-                type: string
-                format: uri
-                x-nullable: true
-              results:
-                type: array
-                items:
-                  $ref: '#/definitions/Chat'
-      tags:
-        - chats
-    post:
-      operationId: chats_create
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Chat'
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/Chat'
-      tags:
-        - chats
-    parameters: []
-  /message/{id}/:
-    get:
-      operationId: message_read
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/Message'
-      tags:
-        - message
-    put:
-      operationId: message_update
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Message'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/Message'
-      tags:
-        - message
-    patch:
-      operationId: message_partial_update
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Message'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/Message'
-      tags:
-        - message
-    delete:
-      operationId: message_delete
-      description: ''
-      parameters: []
-      responses:
-        '204':
-          description: ''
-      tags:
-        - message
-    parameters:
-      - name: id
-        in: path
-        description: A UUID string identifying this message.
-        required: true
-        type: string
-        format: uuid
-  /messages/:
-    get:
-      operationId: messages_list
-      description: ''
-      parameters:
-        - name: search
-          in: query
-          description: A search term.
-          required: false
-          type: string
-        - name: page
-          in: query
-          description: A page number within the paginated result set.
-          required: false
-          type: integer
-        - name: page_size
-          in: query
-          description: Number of results to return per page.
-          required: false
-          type: integer
-      responses:
-        '200':
-          description: ''
-          schema:
-            required:
-              - count
-              - results
-            type: object
-            properties:
-              count:
-                type: integer
-              next:
-                type: string
-                format: uri
-                x-nullable: true
-              previous:
-                type: string
-                format: uri
-                x-nullable: true
-              results:
-                type: array
-                items:
-                  $ref: '#/definitions/Message'
-      tags:
-        - messages
-    post:
-      operationId: messages_create
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/MessageCreate'
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/MessageCreate'
-      tags:
-        - messages
-    parameters: []
-  /register/:
-    post:
-      operationId: register_create
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/UserCreate'
-      responses:
-        '201':
-          description: ''
-          schema:
-            $ref: '#/definitions/UserCreate'
-      tags:
-        - register
-    parameters: []
-  /user/{id}/:
-    get:
-      operationId: user_read
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/User'
-      tags:
-        - user
-    put:
-      operationId: user_update
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/User'
-      tags:
-        - user
-    patch:
-      operationId: user_partial_update
-      description: ''
-      parameters:
-        - name: data
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/User'
-      tags:
-        - user
-    delete:
-      operationId: user_delete
-      description: ''
-      parameters: []
-      responses:
-        '204':
-          description: ''
-      tags:
-        - user
-    parameters:
-      - name: id
-        in: path
-        description: A UUID string identifying this user.
-        required: true
-        type: string
-        format: uuid
-  /users/:
-    get:
-      operationId: users_list
-      description: ''
-      parameters:
-        - name: search
-          in: query
-          description: A search term.
-          required: false
-          type: string
-        - name: page
-          in: query
-          description: A page number within the paginated result set.
-          required: false
-          type: integer
-        - name: page_size
-          in: query
-          description: Number of results to return per page.
-          required: false
-          type: integer
-      responses:
-        '200':
-          description: ''
-          schema:
-            required:
-              - count
-              - results
-            type: object
-            properties:
-              count:
-                type: integer
-              next:
-                type: string
-                format: uri
-                x-nullable: true
-              previous:
-                type: string
-                format: uri
-                x-nullable: true
-              results:
-                type: array
-                items:
-                  $ref: '#/definitions/User'
-      tags:
-        - users
-    parameters: []
-definitions:
-  TokenObtainPair:
-    required:
-      - username
-      - password
-    type: object
-    properties:
-      username:
-        title: Username
-        type: string
-        minLength: 1
-      password:
-        title: Password
-        type: string
-        minLength: 1
-  TokenRefresh:
-    required:
-      - refresh
-    type: object
-    properties:
-      refresh:
-        title: Refresh
-        type: string
-        minLength: 1
-      access:
-        title: Access
-        type: string
-        readOnly: true
-        minLength: 1
-  User:
-    required:
-      - username
-      - first_name
-      - last_name
-    type: object
-    properties:
-      id:
-        title: Id
-        type: string
-        format: uuid
-        readOnly: true
-      username:
-        title: Username
-        description:
-          Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-          only.
-        type: string
-        pattern: ^[\w.@+-]+$
-        maxLength: 150
-        minLength: 1
-      first_name:
-        title: First name
-        type: string
-        maxLength: 150
-        minLength: 1
-      last_name:
-        title: Last name
-        type: string
-        maxLength: 150
-        minLength: 1
-      bio:
-        title: Bio
-        type: string
-        maxLength: 450
-        x-nullable: true
-      avatar:
-        title: Avatar
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
-  Chat:
-    required:
-      - members
-      - creator
-      - is_private
-    type: object
-    properties:
-      id:
-        title: Id
-        type: string
-        format: uuid
-        readOnly: true
-      title:
-        title: Title
-        type: string
-        readOnly: true
-      members:
-        type: array
-        items:
-          $ref: '#/definitions/User'
-      creator:
-        $ref: '#/definitions/User'
-      avatar:
-        title: Avatar
-        type: string
-        readOnly: true
-      created_at:
-        title: Created at
-        type: string
-        format: date-time
-        readOnly: true
-      updated_at:
-        title: Updated at
-        type: string
-        format: date-time
-        readOnly: true
-      is_private:
-        title: Is private
-        type: boolean
-      last_message:
-        title: Last message
-        type: string
-        readOnly: true
-  GroupChatPatch:
-    required:
-      - title
-      - members
-    type: object
-    properties:
-      id:
-        title: Id
-        type: string
-        format: uuid
-        readOnly: true
-      title:
-        title: Title
-        type: string
-        maxLength: 150
-        minLength: 1
-      members:
-        type: array
-        items:
+      - in: path
+        name: id
+        schema:
           type: string
           format: uuid
-        uniqueItems: true
-      avatar:
-        title: Avatar
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
-      created_at:
-        title: Created at
-        type: string
-        format: date-time
-        readOnly: true
-      updated_at:
-        title: Updated at
-        type: string
-        format: date-time
-        readOnly: true
-      is_private:
-        title: Is private
-        type: boolean
-        readOnly: true
-  MessageFile:
-    type: object
-    properties:
-      item:
-        title: Item
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
-  Message:
-    required:
-      - sender
-      - files
-    type: object
-    properties:
-      id:
-        title: Id
-        type: string
-        format: uuid
-        readOnly: true
-      text:
-        title: Text
-        type: string
-        x-nullable: true
-      voice:
-        title: Voice
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
-      sender:
-        $ref: '#/definitions/User'
-      chat:
-        title: Chat
-        type: string
-        format: uuid
-        readOnly: true
-      files:
-        type: array
-        items:
-          $ref: '#/definitions/MessageFile'
-      updated_at:
-        title: Updated at
-        type: string
-        format: date-time
-        readOnly: true
-        x-nullable: true
-      created_at:
-        title: Created at
-        type: string
-        format: date-time
-        readOnly: true
-  MessageCreate:
-    required:
+        required: true
+      tags:
       - chat
-    type: object
-    properties:
-      id:
-        title: Id
-        type: string
-        format: uuid
-        readOnly: true
-      text:
-        title: Text
-        type: string
-        x-nullable: true
-      voice:
-        title: Voice
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
-      chat:
-        title: Chat
-        type: string
-        format: uuid
-      files:
-        type: array
-        items:
-          $ref: '#/definitions/MessageFile'
-      updated_at:
-        title: Updated at
-        type: string
-        format: date-time
-        readOnly: true
-        x-nullable: true
-      created_at:
-        title: Created at
-        type: string
-        format: date-time
-        readOnly: true
-  UserCreate:
-    required:
-      - username
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chat'
+          description: ''
+    patch:
+      operationId: chat_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGroupChatPatch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGroupChatPatch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGroupChatPatch'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupChatPatch'
+          description: ''
+    delete:
+      operationId: chat_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/chat/{id}/leave/:
+    post:
+      operationId: chat_leave_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/chats/:
+    get:
+      operationId: chats_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - chats
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChatList'
+          description: ''
+    post:
+      operationId: chats_create
+      tags:
+      - chats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chat'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Chat'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Chat'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chat'
+          description: ''
+  /api/message/{id}/:
+    get:
+      operationId: message_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - message
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    patch:
+      operationId: message_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    delete:
+      operationId: message_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - message
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/message/{id}/read/:
+    post:
+      operationId: message_read_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - message
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/messages/:
+    get:
+      operationId: messages_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - messages
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMessageList'
+          description: ''
+    post:
+      operationId: messages_create
+      tags:
+      - messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageCreate'
+          description: ''
+  /api/register/:
+    post:
+      operationId: register_create
+      tags:
+      - register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /api/user/{id}/:
+    get:
+      operationId: user_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: user_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: user_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/user/offline/:
+    post:
+      operationId: user_offline_create
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/user/online/:
+    post:
+      operationId: user_online_create
+      tags:
+      - user
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/:
+    get:
+      operationId: users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+components:
+  schemas:
+    Chat:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        creator:
+          $ref: '#/components/schemas/User'
+        avatar:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_private:
+          type: boolean
+        last_message:
+          type: string
+          readOnly: true
+      required:
+      - avatar
+      - created_at
+      - creator
+      - id
+      - is_private
+      - last_message
+      - members
+      - title
+      - updated_at
+    GroupChatPatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        members:
+          type: array
+          items:
+            type: string
+            format: uuid
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          pattern: (?:jpg|jpeg|png)$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_private:
+          type: boolean
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - is_private
+      - members
+      - title
+      - updated_at
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          type: string
+          nullable: true
+          maxLength: 2000
+        voice:
+          type: string
+          format: uri
+          readOnly: true
+          nullable: true
+        sender:
+          $ref: '#/components/schemas/User'
+        chat:
+          type: string
+          format: uuid
+          readOnly: true
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageFile'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        was_read_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+      required:
+      - chat
+      - created_at
+      - files
+      - id
+      - sender
+      - updated_at
+      - voice
+      - was_read_by
+    MessageCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          type: string
+          nullable: true
+          maxLength: 2000
+        voice:
+          type: string
+          format: uri
+          nullable: true
+          pattern: (?:mp3|wav|ogg)$
+        chat:
+          type: string
+          format: uuid
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageFile'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        was_read_by:
+          type: array
+          items:
+            type: string
+            format: uuid
+          readOnly: true
+      required:
+      - chat
+      - created_at
+      - id
+      - updated_at
+      - was_read_by
+    MessageFile:
+      type: object
+      properties:
+        item:
+          type: string
+          format: uri
+          nullable: true
+    PaginatedChatList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chat'
+    PaginatedMessageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    PaginatedUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedGroupChatPatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 150
+        members:
+          type: array
+          items:
+            type: string
+            format: uuid
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          pattern: (?:jpg|jpeg|png)$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_private:
+          type: boolean
+          readOnly: true
+    PatchedMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          type: string
+          nullable: true
+          maxLength: 2000
+        voice:
+          type: string
+          format: uri
+          readOnly: true
+          nullable: true
+        sender:
+          $ref: '#/components/schemas/User'
+        chat:
+          type: string
+          format: uuid
+          readOnly: true
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageFile'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        was_read_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        bio:
+          type: string
+          nullable: true
+          maxLength: 450
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          pattern: (?:jpg|jpeg|png)$
+        is_online:
+          type: boolean
+          readOnly: true
+        last_online_at:
+          type: string
+          format: date-time
+          readOnly: true
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
       - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        bio:
+          type: string
+          nullable: true
+          maxLength: 450
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          pattern: (?:jpg|jpeg|png)$
+        is_online:
+          type: boolean
+          readOnly: true
+        last_online_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
       - first_name
+      - id
+      - is_online
       - last_name
-    type: object
-    properties:
-      id:
-        title: Id
-        type: string
-        format: uuid
-        readOnly: true
-      username:
-        title: Username
-        description:
-          Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-          only.
-        type: string
-        pattern: ^[\w.@+-]+$
-        maxLength: 150
-        minLength: 1
-      password:
-        title: Password
-        type: string
-        minLength: 1
-      first_name:
-        title: First name
-        type: string
-        maxLength: 150
-        minLength: 1
-      last_name:
-        title: Last name
-        type: string
-        maxLength: 150
-        minLength: 1
-      bio:
-        title: Bio
-        type: string
-        maxLength: 450
-        x-nullable: true
-      avatar:
-        title: Avatar
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
+      - last_online_at
+      - username
+    UserCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        bio:
+          type: string
+          nullable: true
+          maxLength: 450
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          pattern: (?:jpg|jpeg|png)$
+        is_online:
+          type: boolean
+          readOnly: true
+        last_online_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - first_name
+      - id
+      - is_online
+      - last_name
+      - last_online_at
+      - password
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
