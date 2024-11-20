@@ -10,6 +10,7 @@ import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
 import { LoginPage } from '@/pages/LoginPage/LoginPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { RegisterPage } from '@/pages/RegisterPage/RegisterPage';
+import { CurrentUserProvider } from '@/shared/context/CurrentUserContext';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { store } from '@/store/store';
 
@@ -18,7 +19,11 @@ import App from './App';
 const router = createHashRouter([
   {
     path: ROUTES.ROOT,
-    element: <App />,
+    element: (
+      <CurrentUserProvider>
+        <App />
+      </CurrentUserProvider>
+    ),
     children: [
       {
         path: ROUTES.CHATS,
