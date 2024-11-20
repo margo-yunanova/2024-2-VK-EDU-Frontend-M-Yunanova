@@ -14,17 +14,17 @@ export const CurrentUserProvider: FC<ICurrentUserProviderProps> = ({
   children,
 }) => {
   const navigate = useNavigate();
-  const { data, isFetching } = useUserCurrentRetrieveQuery();
+  const { data, isFetching, isLoading } = useUserCurrentRetrieveQuery();
 
   useEffect(() => {
-    if (data) {
+    if (!isLoading && data) {
       navigate('/' + ROUTES.CHATS);
     }
 
     if (!isFetching && !data) {
       navigate('/' + ROUTES.LOGIN);
     }
-  }, [data, isFetching]);
+  }, [data, isFetching, isLoading]);
 
   return (
     <CurrentUserContext.Provider value={data}>
