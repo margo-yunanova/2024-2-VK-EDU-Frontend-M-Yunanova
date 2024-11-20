@@ -22,6 +22,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
   ({ text, created_at, sender, was_read_by }, ref) => {
     const currentUser = useCurrentUser();
     const type = sender.id === currentUser?.id ? 'input' : 'output';
+
     let status: MessageStatus = MessageStatus.sent;
 
     if (type === 'input') {
@@ -31,7 +32,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
     const IconStatus = IconsStatus[status];
 
     return (
-      <div className={styles.wrap}>
+      <div className={styles.wrap} data-type={type}>
         {sender?.avatar ? (
           <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
         ) : (
@@ -39,7 +40,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
             {getInitials(sender.first_name + ' ' + sender.last_name)}
           </div>
         )}
-        <div className={styles.message} data-type={type} ref={ref}>
+        <div className={styles.message} ref={ref}>
           <p className={styles['message-text']}>{text}</p>
           <div className={styles['message-info']}>
             <span className={styles['message-time']}>

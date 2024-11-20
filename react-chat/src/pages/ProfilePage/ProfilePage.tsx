@@ -12,11 +12,9 @@ export const ProfilePage = () => {
       <ProfilePageHeader />
       <div className={styles.container}>
         <div className={styles.wrapper}>
-          <img
-            className={styles.avatar}
-            src={currentUser?.avatar ?? ''}
-            alt="Аватар"
-          />
+          <div className={styles.avatar}>
+            <img src={currentUser?.avatar ?? ''} alt="Аватар" />
+          </div>
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <div className={styles.overlay}></div>
           <label htmlFor="file" className={styles.file}>

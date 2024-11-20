@@ -26,12 +26,6 @@
   border-radius: 50%;
   overflow: hidden;
   aspect-ratio: 1/1;
-
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
 }
 
 .overlay {
@@ -46,8 +40,17 @@
 }
 
 .avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: auto;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
 }
 
 .file {
