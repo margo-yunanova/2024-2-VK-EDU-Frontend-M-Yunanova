@@ -1,7 +1,10 @@
 import { Check, DoneAll } from '@mui/icons-material';
 import { forwardRef } from 'react';
 
-import { formateDate } from '../../shared/utils/utils';
+import { MessageStatus } from '@/pages/ChatPage/mock';
+import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
+
+import { formateDate, getInitials } from '../../shared/utils/utils';
 import styles from './Message.module.scss';
 import { IMessageProps } from './Message.props';
 
@@ -16,21 +19,38 @@ const IconsStatus = {
 };
 
 export const Message = forwardRef<HTMLDivElement, IMessageProps>(
-  ({ message, timestamp, status, type }, ref) => {
+  ({ text, created_at, sender, was_read_by }, ref) => {
+    const currentUser = useCurrentUser();
+    const type = sender.id === currentUser?.id ? 'input' : 'output';
+    let status: MessageStatus = MessageStatus.sent;
+
+    if (type === 'input') {
+      const users = was_read_by.filter((user) => user.id !== currentUser?.id);
+      status = users.length > 0 ? MessageStatus.read : MessageStatus.sent;
+    }
     const IconStatus = IconsStatus[status];
 
     return (
-      <div className={styles.message} data-type={type} ref={ref}>
-        <p className={styles['message-text']}>{message}</p>
-        <div className={styles['message-info']}>
-          <span className={styles['message-time']}>
-            {formateDate(timestamp, 'ru', timeFormatOptions)}
-          </span>
-          {type === 'input' && (
-            <div className={styles['message-status']}>
-              <IconStatus />
-            </div>
-          )}
+      <div className={styles.wrap}>
+        {sender?.avatar ? (
+          <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
+        ) : (
+          <div className={styles.avatar}>
+            {getInitials(sender.first_name + ' ' + sender.last_name)}
+          </div>
+        )}
+        <div className={styles.message} data-type={type} ref={ref}>
+          <p className={styles['message-text']}>{text}</p>
+          <div className={styles['message-info']}>
+            <span className={styles['message-time']}>
+              {formateDate(new Date(created_at), 'ru', timeFormatOptions)}
+            </span>
+            {type === 'input' && (
+              <div className={styles['message-status']}>
+                <IconStatus />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
