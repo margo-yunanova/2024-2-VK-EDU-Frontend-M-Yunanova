@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
 import { ROUTES } from '@/shared/routes/ROUTES';
-import { TokenObtainPair, useAuthCreateMutation } from '@/store/api';
+import { TokenObtainPairWrite, useAuthCreateMutation } from '@/store/api';
 
 import styles from './LoginPage.module.scss';
 
 export const LoginPage = () => {
-  const { formData, handleChange } = useForm<TokenObtainPair | null>(null);
+  const { formData, handleChange } = useForm<TokenObtainPairWrite | null>(null);
   const [loginUser, { isSuccess, data }] = useAuthCreateMutation();
   const navigate = useNavigate();
 

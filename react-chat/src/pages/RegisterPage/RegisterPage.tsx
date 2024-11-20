@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
 import { ROUTES } from '@/shared/routes/ROUTES';
-import { UserCreateRead, useRegisterCreateMutation } from '@/store/api';
+import { UserCreateWrite, useRegisterCreateMutation } from '@/store/api';
 
 import styles from './RegisterPage.module.scss';
 
 type TField = {
-  name: keyof UserCreateRead;
+  name: keyof UserCreateWrite;
   label: string;
   type: 'text' | 'password' | 'url';
 };
@@ -23,7 +23,7 @@ const formFields: TField[] = [
 ];
 
 export const RegisterPage = () => {
-  const { formData, handleChange } = useForm<UserCreateRead | null>(null);
+  const { formData, handleChange } = useForm<UserCreateWrite | null>(null);
   const [registerUser, { isSuccess }] = useRegisterCreateMutation();
   const navigate = useNavigate();
 

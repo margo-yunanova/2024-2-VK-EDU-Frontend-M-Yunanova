@@ -1,10 +1,12 @@
 import { AddAPhoto } from '@mui/icons-material';
 
+import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { ProfilePageHeader } from '@/widgets/ProfilePageHeader/ProfilePageHeader';
 
 import styles from './ProfilePage.module.scss';
 
 export const ProfilePage = () => {
+  const currentUser = useCurrentUser();
   return (
     <>
       <ProfilePageHeader />
@@ -12,7 +14,7 @@ export const ProfilePage = () => {
         <div className={styles.wrapper}>
           <img
             className={styles.avatar}
-            src="https://ru.wikifur.com/w/images/5/54/%D0%9D%D1%8E%D1%88%D0%B0.jpg"
+            src={currentUser?.avatar ?? ''}
             alt="Аватар"
           />
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -32,6 +34,7 @@ export const ProfilePage = () => {
             minLength={1}
             name="fullName"
             id="fullName"
+            defaultValue={currentUser.first_name + ' ' + currentUser.last_name}
           />
           <input
             className={styles['form-input']}
@@ -41,6 +44,7 @@ export const ProfilePage = () => {
             minLength={1}
             name="username"
             id="username"
+            defaultValue={currentUser.username}
           />
           <textarea
             className={styles['form-input']}
@@ -48,6 +52,7 @@ export const ProfilePage = () => {
             placeholder="Bio"
             name="bio"
             id="bio"
+            defaultValue={currentUser.bio ?? ''}
           />
         </form>
       </div>
