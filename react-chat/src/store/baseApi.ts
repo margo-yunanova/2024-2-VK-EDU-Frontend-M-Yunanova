@@ -12,7 +12,6 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'https://vkedu-fullstack-div2.ru/',
   prepareHeaders: (headers) => {
     headers.set('Content-Type', 'application/json');
-    headers.set('Access-Control-Allow-Origin', '*');
 
     headers.set(
       'Authorization',

@@ -3,13 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
 import { ROUTES } from '@/shared/routes/ROUTES';
-import { TokenObtainPairWrite, useAuthCreateMutation } from '@/store/api';
+import {
+  TokenObtainPairWrite,
+  useAuthCreateMutation,
+  useUserCurrentRetrieveQuery,
+} from '@/store/api';
 
 import styles from './LoginPage.module.scss';
 
 export const LoginPage = () => {
   const { formData, handleChange } = useForm<TokenObtainPairWrite | null>(null);
   const [loginUser, { isSuccess, data }] = useAuthCreateMutation();
+  const { refetch } = useUserCurrentRetrieveQuery();
   const navigate = useNavigate();
 
   const handleSubmit: FormEventHandler = async (e) => {
@@ -28,6 +33,7 @@ export const LoginPage = () => {
     if (isSuccess) {
       localStorage.setItem('accessToken', data.access);
       localStorage.setItem('refreshToken', data.refresh);
+      refetch();
       navigate(`/${ROUTES.CHATS}`);
     }
     // because navigate is not a stable link and triggered on every render
