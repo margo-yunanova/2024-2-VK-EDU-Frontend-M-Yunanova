@@ -310,6 +310,13 @@ paths:
     get:
       operationId: messages_list
       parameters:
+        - name: chat
+          required: true
+          in: query
+          description: A chatId.
+          schema:
+            type: string
+            format: uuid
         - name: page
           required: false
           in: query
@@ -390,6 +397,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /api/user/current/:
+    get:
+      operationId: user_current_retrieve
+      tags:
+        - user
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
           description: ''
   /api/user/{id}/:
     get:
@@ -517,6 +538,38 @@ paths:
           description: ''
 components:
   schemas:
+    LastMessage:
+      type: object
+      properties:
+        chat:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageFile'
+        id:
+          type: string
+          format: uuid
+        sender:
+          $ref: '#/components/schemas/User'
+        text:
+          type: string
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+        voice:
+          type: string
+          format: uri
+          nullable: true
+        was_read_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     Chat:
       type: object
       properties:
@@ -536,6 +589,7 @@ components:
         avatar:
           type: string
           readOnly: true
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -547,10 +601,8 @@ components:
         is_private:
           type: boolean
         last_message:
-          type: string
-          readOnly: true
+          $ref: '#/components/schemas/LastMessage'
       required:
-        - avatar
         - created_at
         - creator
         - id
