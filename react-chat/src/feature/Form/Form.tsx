@@ -1,23 +1,21 @@
 import { Attachment, Send } from '@mui/icons-material';
 import {
   ChangeEventHandler,
-  FC,
   FormEvent,
   FormEventHandler,
   KeyboardEventHandler,
   useRef,
   useState,
 } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useParams } from 'react-router';
 
-import { IMessage, MessageStatus } from '@/pages/ChatPage/mock';
+import { useMessagesCreateMutation } from '@/store/api';
 
 import styles from './Form.module.scss';
-import { IFormProps } from './Form.props';
 
-// TODO задизейблить кнопку отправить
-
-export const Form: FC<IFormProps> = ({ onSubmit }) => {
+export const Form = () => {
+  const { id } = useParams();
+  const [onSubmit, { isLoading }] = useMessagesCreateMutation();
   const [inputHeight, setInputHeight] = useState(0);
   const input = useRef<HTMLTextAreaElement>(null);
 
@@ -37,13 +35,11 @@ export const Form: FC<IFormProps> = ({ onSubmit }) => {
     const text = input.current!.value.trim();
     if (text === '') return;
 
-    const message: IMessage = {
-      id: uuidv4(),
-      type: 'input',
-      sender: 'Бараш',
-      message: text,
-      timestamp: new Date(),
-      status: MessageStatus.sent,
+    const message = {
+      messageCreate: {
+        text,
+        chat: id!,
+      },
     };
 
     input.current!.value = '';
@@ -79,7 +75,11 @@ export const Form: FC<IFormProps> = ({ onSubmit }) => {
         <div ref={mirrorInput} className={styles['form-input-mirror-text']} />
       </div>
 
-      <button className={styles['icon-send']} type="submit">
+      <button
+        className={styles['icon-send']}
+        type="submit"
+        disabled={isLoading}
+      >
         <Send />
       </button>
 
