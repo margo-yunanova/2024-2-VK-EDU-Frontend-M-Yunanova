@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/2024-2-VK-EDU-Frontend-M-Yunanova/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Список всех чатов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <script type="module" crossorigin src="/2024-2-VK-EDU-Frontend-M-Yunanova/assets/chats-D4QrszKa.js"></script>
+    <link rel="modulepreload" crossorigin href="/2024-2-VK-EDU-Frontend-M-Yunanova/assets/utils-BN-AizUi.js">
+    <link rel="stylesheet" crossorigin href="/2024-2-VK-EDU-Frontend-M-Yunanova/assets/utils-BCWoo-4x.css">
+  </head>
+  <body>
+    <header class="header">
+      <nav class="settings">
+        <span class="material-symbols-outlined"> menu </span>
+      </nav>
+      <p class="header__title">Messenger</p>
+      <div class="search">
+        <span class="material-symbols-outlined"> search </span>
+      </div>
+    </header>
+
+    <main class="chats">
+      <section class="chats__list"></section>
+    </main>
+
+    <div class="creating-chat">
+      <span class="material-symbols-outlined"> edit </span>
+    </div>
+
+    <template id="chat-item-template">
+      <a class="chat-item">
+        <img class="chat-item__avatar" alt="Аватар" />
+        <div class="chat-item__content">
+          <p class="chat-item__name"></p>
+          <p class="chat-item__last-message"></p>
+        </div>
+        <div class="chat-item__info">
+          <p class="chat-item__time"></p>
+          <p class="chat-item__status"></p>
+          <img class="chat-item__status-icon" />
+        </div>
+      </a>
+    </template>
+
+    <template id="counter-unread-template">
+      <div class="counter-unread">
+        <p class="counter-unread__text"></p>
+      </div>
+    </template>
+  </body>
+</html>
