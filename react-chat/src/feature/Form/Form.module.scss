@@ -68,8 +68,9 @@
 .file {
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   width: 50px;
+  height: 100%;
   color: variables.$color-text-secondary;
   cursor: pointer;
   user-select: none;

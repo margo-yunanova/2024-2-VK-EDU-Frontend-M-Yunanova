@@ -1,4 +1,4 @@
-import { Attachment, Send } from '@mui/icons-material';
+import { Attachment, LocationOn, Send } from '@mui/icons-material';
 import {
   ChangeEventHandler,
   FormEvent,
@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useParams } from 'react-router';
 
+import { getOSMURL } from '@/shared/utils/utils';
 import { useMessagesCreateMutation } from '@/store/api';
 
 import styles from './Form.module.scss';
@@ -49,6 +50,20 @@ export const Form = () => {
     onSubmit(message);
   };
 
+  const handleGPS = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      const message = {
+        messageCreate: {
+          text: getOSMURL(latitude, longitude),
+          chat: id!,
+        },
+      };
+
+      onSubmit(message);
+    });
+  };
+
   const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -87,6 +102,10 @@ export const Form = () => {
         <Attachment />
         <input type="file" id="file" hidden multiple />
       </label>
+
+      <button className={styles['icon-send']} type="button" onClick={handleGPS}>
+        <LocationOn />
+      </button>
     </form>
   );
 };
