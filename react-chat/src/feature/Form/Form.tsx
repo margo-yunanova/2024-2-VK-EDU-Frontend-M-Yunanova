@@ -1,9 +1,10 @@
-import { Attachment, LocationOn, Send } from '@mui/icons-material';
+import { Attachment, LocationOn, Mic, Send } from '@mui/icons-material';
 import {
   ChangeEventHandler,
   FormEvent,
   FormEventHandler,
   KeyboardEventHandler,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -12,13 +13,23 @@ import { useParams } from 'react-router';
 import { getOSMURL } from '@/shared/utils/utils';
 import { MessagesCreateApiArg, useMessagesCreateMutation } from '@/store/api';
 
+import { Modal } from '../Modal/Modal';
 import styles from './Form.module.scss';
+
+const mimeType = 'audio/webm';
 
 export const Form = () => {
   const { id } = useParams();
   const [onSubmit, { isLoading }] = useMessagesCreateMutation();
   const [inputHeight, setInputHeight] = useState(0);
   const input = useRef<HTMLTextAreaElement>(null);
+
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const mediaRecorder = useRef<MediaRecorder | null>(null);
+  const [recordingStatus, setRecordingStatus] = useState<
+    'recording' | 'inactive' | 'paused'
+  >('inactive');
+  const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
 
   const mirrorInput = useRef<HTMLDivElement>(null);
 
@@ -64,9 +75,13 @@ export const Form = () => {
     });
   };
 
-  const handleFile = (e) => {
-    const { files } = e.target.files[0];
+  const handleFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { files } = e.target;
+
+    if (!files) return;
+
     const formData = new FormData();
+
     for (const file of files) {
       formData.append('files', file);
     }
@@ -88,41 +103,126 @@ export const Form = () => {
     }
   };
 
+  const handleVoice = async () => {
+    if (!('MediaRecorder' in window)) {
+      alert('The MediaRecorder API is not supported in your browser.');
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setStream(stream);
+    } catch (err) {
+      alert('There is no Microphone at your device.');
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    handleVoice();
+  }, []);
+
+  const startVoiceRecording = async () => {
+    if (!stream) return;
+    mediaRecorder.current = new MediaRecorder(stream, {
+      mimeType,
+    });
+
+    setRecordingStatus('recording');
+    mediaRecorder.current.start(1000);
+
+    const localAudioChunks: Blob[] = [];
+    mediaRecorder.current.ondataavailable = (event) => {
+      if (typeof event.data === 'undefined') return;
+      if (event.data.size === 0) return;
+      localAudioChunks.push(event.data);
+    };
+    setAudioChunks(localAudioChunks);
+  };
+
+  const stopVoiceRecording = () => {
+    if (audioChunks.length === 0 || !mediaRecorder.current) return;
+
+    setRecordingStatus('inactive');
+    mediaRecorder.current?.stop();
+
+    const audioBlob = new Blob(audioChunks, {
+      type: mimeType,
+    });
+    mediaRecorder.current.onstop = () => {
+      const formData = new FormData();
+      formData.append('voice', audioBlob, 'file.ogg');
+      formData.append('chat', id!);
+      const message = {
+        messageCreate: formData,
+      };
+      // TODO: пофиксить типы в swagger, при кодогенерации они не совпадают с реальными
+      onSubmit(message as unknown as MessagesCreateApiArg);
+
+      setAudioChunks([]);
+    };
+  };
+
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles['form-message']}>
-        <textarea
-          ref={input}
-          autoComplete="off"
-          spellCheck
-          className={styles['form-input']}
-          style={{ height: `${inputHeight}px` }}
-          name="message-text"
-          placeholder="Сообщение"
-          typeof="text"
-          rows={1}
-          onChange={handleChange}
-          onKeyDown={handleKeyPress}
-        ></textarea>
-        <div ref={mirrorInput} className={styles['form-input-mirror-text']} />
-      </div>
+    <>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles['form-message']}>
+          <textarea
+            ref={input}
+            autoComplete="off"
+            spellCheck
+            className={styles['form-input']}
+            style={{ height: `${inputHeight}px` }}
+            name="message-text"
+            placeholder="Сообщение"
+            typeof="text"
+            rows={1}
+            onChange={handleChange}
+            onKeyDown={handleKeyPress}
+          ></textarea>
+          <div ref={mirrorInput} className={styles['form-input-mirror-text']} />
+        </div>
 
-      <button
-        className={styles['icon-send']}
-        type="submit"
-        disabled={isLoading}
+        <div className={styles.icons}>
+          {input.current?.value?.trim() !== '' ? (
+            <button className={styles.icon} type="submit" disabled={isLoading}>
+              <Send />
+            </button>
+          ) : (
+            <button
+              className={styles.icon}
+              type="button"
+              onTouchStart={startVoiceRecording}
+              onTouchEnd={stopVoiceRecording}
+              onMouseDown={startVoiceRecording}
+              onMouseUp={stopVoiceRecording}
+            >
+              <Mic />
+            </button>
+          )}
+          <button className={styles.icon} type="button">
+            <label htmlFor="file" className={styles.file}>
+              <Attachment />
+              <input
+                type="file"
+                id="file"
+                hidden
+                multiple
+                onChange={handleFile}
+              />
+            </label>
+          </button>
+
+          <button className={styles.icon} type="button" onClick={handleGPS}>
+            <LocationOn />
+          </button>
+        </div>
+      </form>
+      <Modal
+        isOpen={recordingStatus === 'recording' || recordingStatus === 'paused'}
       >
-        <Send />
-      </button>
-
-      <label htmlFor="file" className={styles.file}>
-        <Attachment />
-        <input type="file" id="file" hidden multiple onChange={handleFile} />
-      </label>
-
-      <button className={styles['icon-send']} type="button" onClick={handleGPS}>
-        <LocationOn />
-      </button>
-    </form>
+        Запись голосового сообщения в процессе...
+      </Modal>
+    </>
   );
 };

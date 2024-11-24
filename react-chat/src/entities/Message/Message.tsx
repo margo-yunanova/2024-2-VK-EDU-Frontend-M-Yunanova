@@ -19,7 +19,7 @@ const IconsStatus = {
 };
 
 export const Message = forwardRef<HTMLDivElement, IMessageProps>(
-  ({ text, created_at, sender, was_read_by, files }, ref) => {
+  ({ text, created_at, sender, was_read_by, files, voice }, ref) => {
     const currentUser = useCurrentUser();
     const type = sender.id === currentUser?.id ? 'input' : 'output';
 
@@ -48,6 +48,12 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
                 <img src={file.item!} alt="Изображение" />
               ))}
             </div>
+          )}
+          {voice && (
+            // eslint-disable-next-line jsx-a11y/media-has-caption
+            <audio controls>
+              <source src={voice} type="audio/webm" />
+            </audio>
           )}
           <div className={styles['message-info']}>
             <span className={styles['message-time']}>

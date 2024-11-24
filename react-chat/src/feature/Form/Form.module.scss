@@ -43,21 +43,21 @@
   overflow-wrap: break-word;
 }
 
-.icon {
+.icons {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
+  gap: 10px;
   border-radius: 10px;
   overflow: hidden;
   color: variables.$color-title-main;
-  cursor: pointer;
   user-select: none;
 }
 
-.icon-send {
+.icon {
   color: #8c1af6;
+  cursor: pointer;
   user-select: none;
 }
 
@@ -66,12 +66,8 @@
 }
 
 .file {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 50px;
   height: 100%;
-  color: variables.$color-text-secondary;
   cursor: pointer;
   user-select: none;
 }
