@@ -19,7 +19,7 @@ const IconsStatus = {
 };
 
 export const Message = forwardRef<HTMLDivElement, IMessageProps>(
-  ({ text, created_at, sender, was_read_by }, ref) => {
+  ({ text, created_at, sender, was_read_by, files }, ref) => {
     const currentUser = useCurrentUser();
     const type = sender.id === currentUser?.id ? 'input' : 'output';
 
@@ -42,6 +42,13 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
         )}
         <div className={styles.message} ref={ref}>
           <p className={styles['message-text']}>{text}</p>
+          {files.length > 0 && (
+            <div className={styles['message-files']}>
+              {files.map((file) => (
+                <img src={file.item!} alt="Изображение" />
+              ))}
+            </div>
+          )}
           <div className={styles['message-info']}>
             <span className={styles['message-time']}>
               {formateDate(new Date(created_at), 'ru', timeFormatOptions)}

@@ -10,7 +10,7 @@ import {
 import { useParams } from 'react-router';
 
 import { getOSMURL } from '@/shared/utils/utils';
-import { useMessagesCreateMutation } from '@/store/api';
+import { MessagesCreateApiArg, useMessagesCreateMutation } from '@/store/api';
 
 import styles from './Form.module.scss';
 
@@ -64,6 +64,23 @@ export const Form = () => {
     });
   };
 
+  const handleFile = (e) => {
+    const { files } = e.target.files[0];
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append('files', file);
+    }
+
+    formData.append('chat', id!);
+    const message = {
+      messageCreate: formData,
+    };
+    // TODO: пофиксить типы в swagger, при кодогенерации они не совпадают с реальными
+    onSubmit(message as unknown as MessagesCreateApiArg);
+
+    e.target.value = '';
+  };
+
   const handleKeyPress: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -100,7 +117,7 @@ export const Form = () => {
 
       <label htmlFor="file" className={styles.file}>
         <Attachment />
-        <input type="file" id="file" hidden multiple />
+        <input type="file" id="file" hidden multiple onChange={handleFile} />
       </label>
 
       <button className={styles['icon-send']} type="button" onClick={handleGPS}>
