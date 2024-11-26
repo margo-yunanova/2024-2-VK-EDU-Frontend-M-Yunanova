@@ -1,0 +1,38 @@
+import { Check, DoneAll } from '@mui/icons-material';
+import { forwardRef } from 'react';
+
+import { formateDate } from '../../shared/utils/utils';
+import styles from './Message.module.scss';
+import { IMessageProps } from './Message.props';
+
+const timeFormatOptions: Intl.DateTimeFormatOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+};
+
+const IconsStatus = {
+  read: DoneAll,
+  sent: Check,
+};
+
+export const Message = forwardRef<HTMLDivElement, IMessageProps>(
+  ({ message, timestamp, status, type }, ref) => {
+    const IconStatus = IconsStatus[status];
+
+    return (
+      <div className={styles.message} data-type={type} ref={ref}>
+        <p className={styles['message-text']}>{message}</p>
+        <div className={styles['message-info']}>
+          <span className={styles['message-time']}>
+            {formateDate(timestamp, 'ru', timeFormatOptions)}
+          </span>
+          {type === 'input' && (
+            <div className={styles['message-status']}>
+              <IconStatus />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  },
+);

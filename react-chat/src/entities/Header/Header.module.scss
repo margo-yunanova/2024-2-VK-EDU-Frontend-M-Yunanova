@@ -1,0 +1,14 @@
+.header {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 60px;
+  background-color: variables.$color-title-purple;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: variables.$color-title-main;
+}

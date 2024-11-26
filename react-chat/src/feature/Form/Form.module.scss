@@ -1,0 +1,76 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  padding: 10px;
+  border: none;
+  background-color: white;
+  border-top: 1px solid variables.$color-text-secondary;
+}
+
+.form-message {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 100%;
+}
+
+.form-input {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 24px;
+  border: none;
+  background-color: inherit;
+  overflow: hidden;
+  color: variables.$color-text-main;
+  resize: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.form-input-mirror-text {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: min-content;
+  visibility: hidden;
+  overflow: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  border-radius: 10px;
+  overflow: hidden;
+  color: variables.$color-title-main;
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon-send {
+  color: #8c1af6;
+  user-select: none;
+}
+
+.icon-send_disabled {
+  color: grey;
+}
+
+.file {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  width: 50px;
+  color: variables.$color-text-secondary;
+  cursor: pointer;
+  user-select: none;
+}
