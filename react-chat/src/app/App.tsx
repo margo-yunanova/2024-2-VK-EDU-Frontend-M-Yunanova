@@ -1,23 +1,17 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-import { ChatPage } from '@/pages/ChatPage/ChatPage';
-import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
-import { TabsContext } from '@/shared/utils/context';
+import { ROUTES } from '@/shared/routes/ROUTES';
 
 function App() {
-  const [activePage, setActivePage] = useState<'chatPage' | 'chatsPage'>(
-    'chatsPage',
-  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate(ROUTES.CHATS);
 
-  const handlePage = () => {
-    setActivePage((page) => (page === 'chatPage' ? 'chatsPage' : 'chatPage'));
-  };
-
-  return (
-    <TabsContext.Provider value={{ activePage, handlePage }}>
-      {activePage === 'chatPage' ? <ChatPage /> : <ChatsPage />}
-    </TabsContext.Provider>
-  );
+    // because navigate is not a stable link and triggered on every render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return <Outlet />;
 }
 
 export default App;

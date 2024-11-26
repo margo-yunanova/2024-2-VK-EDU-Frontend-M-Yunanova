@@ -1,8 +1,8 @@
 import { Check, DoneAll } from '@mui/icons-material';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 import { CounterUnread } from '@/feature/CounterUnread/CounterUnread';
-import { TabsContext } from '@/shared/utils/context';
 import { formateDate } from '@/shared/utils/utils';
 
 import styles from './ChatItem.module.scss';
@@ -19,6 +19,7 @@ const IconsStatus = {
 };
 
 export const ChatItem: FC<ChatItemProps> = ({
+  id,
   avatar,
   name,
   status,
@@ -26,7 +27,6 @@ export const ChatItem: FC<ChatItemProps> = ({
   timestamp,
   unreadCount,
 }) => {
-  const { handlePage } = useContext(TabsContext)!;
   const IconStatus = IconsStatus[status];
   const Status =
     unreadCount > 0 ? (
@@ -38,7 +38,7 @@ export const ChatItem: FC<ChatItemProps> = ({
     );
 
   return (
-    <button className={styles.item} onClick={handlePage}>
+    <Link className={styles.item} to={String(id)}>
       <img src={avatar} className={styles.avatar} alt="Аватар" />
       <div className={styles.content}>
         <p className={styles.name}>{name}</p>
@@ -50,6 +50,6 @@ export const ChatItem: FC<ChatItemProps> = ({
         </p>
         {Status}
       </div>
-    </button>
+    </Link>
   );
 };
