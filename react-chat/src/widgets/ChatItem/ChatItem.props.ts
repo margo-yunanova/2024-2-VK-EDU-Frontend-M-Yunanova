@@ -1,11 +1,13 @@
-import { MessageStatus } from '@/pages/ChatPage/mock';
+import { LastMessageRead, UserRead } from '@/store/api';
 
 export interface ChatItemProps {
-  id: number;
-  avatar: string;
-  name: string;
-  status: MessageStatus;
-  lastMessage: string;
-  timestamp: Date;
-  unreadCount: number;
+  id?: string;
+  title?: string;
+  members: UserRead[];
+  creator: UserRead;
+  avatar?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  is_private: boolean;
+  last_message: LastMessageRead;
 }

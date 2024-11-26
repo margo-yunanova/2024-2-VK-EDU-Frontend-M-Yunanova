@@ -1,9 +1,11 @@
 import { Check, DoneAll } from '@mui/icons-material';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CounterUnread } from '@/feature/CounterUnread/CounterUnread';
-import { formateDate } from '@/shared/utils/utils';
+import { CurrentUserContext } from '@/shared/utils/context';
+import { formateDate, getInitials } from '@/shared/utils/utils';
+import { useMessagesListQuery } from '@/store/api';
 
 import styles from './ChatItem.module.scss';
 import { ChatItemProps } from './ChatItem.props';
@@ -21,16 +23,30 @@ const IconsStatus = {
 export const ChatItem: FC<ChatItemProps> = ({
   id,
   avatar,
-  name,
-  status,
-  lastMessage,
-  timestamp,
-  unreadCount,
+  title,
+  created_at,
+  last_message,
 }) => {
-  const IconStatus = IconsStatus[status];
+  const currentUser = useContext(CurrentUserContext);
+
+  const { data: messages } = useMessagesListQuery({
+    chat: String(id),
+    page: 1,
+    pageSize: 100,
+  });
+
+  const counter =
+    messages?.results.findLastIndex((message) =>
+      message?.was_read_by?.some((user) => user.id === currentUser?.id),
+    ) ?? -1;
+
+  const IconStatus = IconsStatus['read'];
+
   const Status =
-    unreadCount > 0 ? (
-      <CounterUnread counter={unreadCount} />
+    !!messages?.results && counter !== messages?.results.length - 1 ? (
+      <CounterUnread
+        counter={counter < 0 ? messages?.results?.length : counter}
+      />
     ) : (
       <div className={styles.status}>
         <IconStatus />
@@ -39,14 +55,18 @@ export const ChatItem: FC<ChatItemProps> = ({
 
   return (
     <Link className={styles.item} to={String(id)}>
-      <img src={avatar} className={styles.avatar} alt="Аватар" />
+      {avatar ? (
+        <img src={avatar} className={styles.avatar} alt="Аватар" />
+      ) : (
+        <div className={styles.avatar}>{getInitials(title)}</div>
+      )}
       <div className={styles.content}>
-        <p className={styles.name}>{name}</p>
-        <p className={styles['last-message']}>{lastMessage}</p>
+        <p className={styles.name}>{title}</p>
+        <p className={styles['last-message']}>{last_message.text}</p>
       </div>
       <div className={styles.info}>
         <p className={styles.time}>
-          {formateDate(timestamp, 'ru', timeFormatOptions)}
+          {formateDate(new Date(created_at!), 'ru', timeFormatOptions)}
         </p>
         {Status}
       </div>

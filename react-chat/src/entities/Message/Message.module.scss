@@ -7,27 +7,36 @@
   }
 }
 
-.message {
+.wrap {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: end;
   align-self: flex-start;
+  gap: 15px;
   min-width: min-content;
   max-width: 75%;
   padding: 10px;
   border-radius: 10px;
   background-color: white;
-  overflow-wrap: anywhere;
-
-  &:last-child {
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-  }
 
   &[data-type='input'] {
     align-self: flex-end;
     background-color: #8a2ce24d;
   }
+
+  &:last-child {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  height: 100%;
+  overflow-wrap: anywhere;
 }
 
 .message-text {
@@ -52,4 +61,18 @@
   width: 20px;
   height: 20px;
   color: variables.$color-title-purple;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: variables.$color-background-purple;
+  overflow: hidden;
+  font-size: large;
+  color: white;
+  object-fit: cover;
 }
