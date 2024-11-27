@@ -1,15 +1,64 @@
-import { IMessage, vacationChat } from '@/pages/ChatPage/mock';
+import {
+  Centrifuge,
+  ConnectionTokenContext,
+  PublicationContext,
+} from 'centrifuge';
 
-export const init = (): IMessage[] => {
-  const storageMessages = localStorage.getItem('chat');
+import { MessageRetrieveApiResponse } from '@/store/api';
 
-  const chatMessages = storageMessages
-    ? JSON.parse(storageMessages)
-    : vacationChat;
+// TODO заменить на redux state в 9 домашке
+export const state: { activeChatId: string | undefined } = {
+  activeChatId: undefined,
+};
 
-  if (!storageMessages) {
-    localStorage.setItem('chat', JSON.stringify(vacationChat));
-  }
+interface IPublicationCreateMessage extends PublicationContext {
+  data: {
+    event: 'create' | 'update' | 'delete' | 'read';
+    message: MessageRetrieveApiResponse;
+  };
+}
 
-  return chatMessages;
+type GetTokenFunction = (ctx: ConnectionTokenContext) => Promise<string>;
+
+export const connect = (
+  getTokenForConnection: GetTokenFunction,
+  getTokenForSubscription: GetTokenFunction,
+  id: string,
+): (() => void) => {
+  const centrifuge = new Centrifuge(
+    'wss://vkedu-fullstack-div2.ru/connection/websocket/',
+    {
+      getToken: getTokenForConnection,
+    },
+  );
+
+  const subscription = centrifuge.newSubscription(id, {
+    getToken: getTokenForSubscription,
+  });
+
+  subscription.on('publication', function (ctx: IPublicationCreateMessage) {
+    if (ctx.data.event !== 'create') {
+      return;
+    }
+
+    if (state.activeChatId === ctx.data.message.chat) return;
+
+    const newMessage = new Notification(
+      `Сообщение от ${ctx.data.message.sender.username}`,
+      {
+        body: ctx.data.message.text ?? '',
+      },
+    );
+
+    newMessage.close();
+  });
+
+  centrifuge.connect();
+  subscription.subscribe();
+
+  return () => {
+    centrifuge.disconnect();
+    subscription.removeAllListeners();
+    subscription.unsubscribe();
+  };
 };

@@ -19,13 +19,16 @@ export const CurrentUserProvider: FC<ICurrentUserProviderProps> = ({
   useEffect(() => {
     if (!data && !isLoading) {
       navigate('/' + ROUTES.LOGIN);
-      console.log('navigate to login');
     }
   }, [data, isLoading]);
 
   return (
-    <CurrentUserContext.Provider value={data}>
-      {children}
-    </CurrentUserContext.Provider>
+    <>
+      {data ? (
+        <CurrentUserContext.Provider value={data}>
+          {children}
+        </CurrentUserContext.Provider>
+      ) : null}
+    </>
   );
 };

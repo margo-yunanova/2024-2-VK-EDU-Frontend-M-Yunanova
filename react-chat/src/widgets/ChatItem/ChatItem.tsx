@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { CounterUnread } from '@/feature/CounterUnread/CounterUnread';
 import { CurrentUserContext } from '@/shared/utils/context';
+import { state } from '@/shared/utils/init';
 import { formateDate, getInitials } from '@/shared/utils/utils';
 import { useMessagesListQuery } from '@/store/api';
 
@@ -54,7 +55,13 @@ export const ChatItem: FC<ChatItemProps> = ({
     );
 
   return (
-    <Link className={styles.item} to={String(id)}>
+    <Link
+      className={styles.item}
+      to={String(id)}
+      onClick={() => {
+        state.activeChatId = id;
+      }}
+    >
       {avatar ? (
         <img src={avatar} className={styles.avatar} alt="Аватар" />
       ) : (
@@ -62,7 +69,7 @@ export const ChatItem: FC<ChatItemProps> = ({
       )}
       <div className={styles.content}>
         <p className={styles.name}>{title}</p>
-        <p className={styles['last-message']}>{last_message.text}</p>
+        <p className={styles['last-message']}>{last_message?.text}</p>
       </div>
       <div className={styles.info}>
         <p className={styles.time}>

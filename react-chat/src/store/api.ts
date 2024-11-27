@@ -200,9 +200,11 @@ export type AuthRefreshCreateApiResponse = /** status 200  */ TokenRefreshRead;
 export type AuthRefreshCreateApiArg = {
   tokenRefresh: TokenRefresh;
 };
-export type CentrifugoConnectCreateApiResponse = unknown;
+export type CentrifugoConnectCreateApiResponse =
+  /** status 200  */ TokenCentrifugo;
 export type CentrifugoConnectCreateApiArg = void;
-export type CentrifugoSubscribeCreateApiResponse = unknown;
+export type CentrifugoSubscribeCreateApiResponse =
+  /** status 200  */ TokenCentrifugo;
 export type CentrifugoSubscribeCreateApiArg = void;
 export type ChatRetrieveApiResponse = /** status 200  */ ChatRead;
 export type ChatRetrieveApiArg = {
@@ -318,6 +320,9 @@ export type TokenRefresh = {
 export type TokenRefreshRead = {
   access: string;
   refresh: string;
+};
+export type TokenCentrifugo = {
+  token: string;
 };
 export type User = {
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
