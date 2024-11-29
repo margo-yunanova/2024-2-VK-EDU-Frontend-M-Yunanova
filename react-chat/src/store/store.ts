@@ -3,7 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { injectedRtkApi } from './api';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     [injectedRtkApi.reducerPath]: injectedRtkApi.reducer,
   },
@@ -13,3 +13,6 @@ export const store = configureStore({
 });
 
 setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export default store;

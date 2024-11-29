@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { Message } from '@/entities/Message/Message';
 import { Form } from '@/feature/Form/Form';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
-import { useChatRetrieveQuery, useMessagesListQuery } from '@/store/api';
+import { useMessagesListQuery } from '@/store/api';
 import { ChatPageHeader } from '@/widgets/ChatPageHeader/ChatPageHeader';
 
 import styles from './ChatPage.module.scss';
@@ -20,7 +20,6 @@ export const ChatPage = () => {
     },
     { pollingInterval: 1000, skipPollingIfUnfocused: true },
   );
-  const { data: chat } = useChatRetrieveQuery({ id: id! });
 
   const scrollToMessage = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -54,7 +53,7 @@ export const ChatPage = () => {
 
   return (
     <>
-      {chat && <ChatPageHeader {...chat} />}
+      <ChatPageHeader />
       <main className={styles.chat}>
         <section className={styles.messages} ref={messagesRef}>
           {messages.map((message, i, { length }) => (
