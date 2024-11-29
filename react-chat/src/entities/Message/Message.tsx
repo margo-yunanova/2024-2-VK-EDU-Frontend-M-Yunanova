@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 
 import { MessageStatus } from '@/pages/ChatPage/mock';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
+import { state } from '@/shared/utils/init';
 
 import { formateDate, getInitials } from '../../shared/utils/utils';
 import styles from './Message.module.scss';
@@ -32,14 +33,15 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
     const IconStatus = IconsStatus[status];
 
     return (
-      <div className={styles.wrap} data-type={type}>
-        {sender?.avatar ? (
-          <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
-        ) : (
-          <div className={styles.avatar}>
-            {getInitials(sender.first_name + ' ' + sender.last_name)}
-          </div>
-        )}
+      <li className={styles.wrap} data-type={type}>
+        {state.is_private &&
+          (sender?.avatar ? (
+            <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
+          ) : (
+            <div className={styles.avatar}>
+              {getInitials(sender.first_name + ' ' + sender.last_name)}
+            </div>
+          ))}
         <div className={styles.message} ref={ref}>
           <p className={styles['message-text']}>{text}</p>
           {files.length > 0 && (
@@ -66,7 +68,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
             )}
           </div>
         </div>
-      </div>
+      </li>
     );
   },
 );

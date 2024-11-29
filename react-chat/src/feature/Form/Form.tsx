@@ -193,9 +193,7 @@ export const Form = () => {
               className={styles.icon}
               type="button"
               onTouchStart={startVoiceRecording}
-              onTouchEnd={stopVoiceRecording}
               onMouseDown={startVoiceRecording}
-              onMouseUp={stopVoiceRecording}
             >
               <Mic />
             </button>
@@ -208,6 +206,7 @@ export const Form = () => {
                 id="file"
                 hidden
                 multiple
+                accept="image/*"
                 onChange={handleFile}
               />
             </label>
@@ -219,10 +218,23 @@ export const Form = () => {
         </div>
       </form>
       <Modal
-        isOpen={recordingStatus === 'recording' || recordingStatus === 'paused'}
+        isOpen={
+          recordingStatus === 'recording' ||
+          recordingStatus === 'paused' ||
+          recordingStatus !== 'inactive'
+        }
+        onClose={() => setRecordingStatus('inactive')}
       >
-        Идет запись голосового сообщения. Чтобы завершить запись, отпустите
-        кнопку микрофона на экране или кнопку мыши.
+        <div className={styles.modal}>
+          Идет запись голосового сообщения.
+          <button
+            className={styles.icon}
+            type="button"
+            onClick={stopVoiceRecording}
+          >
+            Send <Send />
+          </button>
+        </div>
       </Modal>
     </>
   );

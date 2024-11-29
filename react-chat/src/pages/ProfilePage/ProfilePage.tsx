@@ -44,6 +44,7 @@ export const ProfilePage = () => {
               type="file"
               hidden
               onChange={handleChange}
+              accept="image/*"
             />
           </label>
         </div>

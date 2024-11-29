@@ -71,3 +71,17 @@
   cursor: pointer;
   user-select: none;
 }
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+}

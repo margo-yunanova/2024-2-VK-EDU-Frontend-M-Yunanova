@@ -2,11 +2,9 @@ import { Check, DoneAll } from '@mui/icons-material';
 import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { CounterUnread } from '@/feature/CounterUnread/CounterUnread';
 import { CurrentUserContext } from '@/shared/utils/context';
 import { state } from '@/shared/utils/init';
 import { formateDate, getInitials } from '@/shared/utils/utils';
-import { useMessagesListQuery } from '@/store/api';
 
 import styles from './ChatItem.module.scss';
 import { ChatItemProps } from './ChatItem.props';
@@ -27,32 +25,21 @@ export const ChatItem: FC<ChatItemProps> = ({
   title,
   created_at,
   last_message,
+  is_private,
 }) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const { data: messages } = useMessagesListQuery({
-    chat: String(id),
-    page: 1,
-    pageSize: 100,
-  });
+  const isMyLastSendMessageRead =
+    last_message?.sender?.id === currentUser?.id &&
+    last_message?.was_read_by?.some((user) => user.id !== currentUser?.id);
 
-  const counter =
-    messages?.results.findLastIndex((message) =>
-      message?.was_read_by?.some((user) => user.id === currentUser?.id),
-    ) ?? -1;
+  const IconStatus = IconsStatus[isMyLastSendMessageRead ? 'read' : 'sent'];
 
-  const IconStatus = IconsStatus['read'];
-
-  const Status =
-    !!messages?.results && counter !== messages?.results.length - 1 ? (
-      <CounterUnread
-        counter={counter < 0 ? messages?.results?.length : counter}
-      />
-    ) : (
-      <div className={styles.status}>
-        <IconStatus />
-      </div>
-    );
+  const subtitle = last_message?.voice
+    ? 'Voice message'
+    : last_message?.files?.length
+      ? `Images (${last_message.files.length})`
+      : last_message?.text;
 
   return (
     <Link
@@ -60,6 +47,7 @@ export const ChatItem: FC<ChatItemProps> = ({
       to={String(id)}
       onClick={() => {
         state.activeChatId = id;
+        state.is_private = is_private;
       }}
     >
       {avatar ? (
@@ -69,13 +57,15 @@ export const ChatItem: FC<ChatItemProps> = ({
       )}
       <div className={styles.content}>
         <p className={styles.name}>{title}</p>
-        <p className={styles['last-message']}>{last_message?.text}</p>
+        <p className={styles['last-message']}>{subtitle}</p>
       </div>
       <div className={styles.info}>
         <p className={styles.time}>
           {formateDate(new Date(created_at!), 'ru', timeFormatOptions)}
         </p>
-        {Status}
+        <div className={styles.status}>
+          <IconStatus />
+        </div>
       </div>
     </Link>
   );
