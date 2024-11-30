@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { useAppSelector } from '@/shared/hooks/stateHooks';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { connect } from '@/shared/utils/init';
 import {
@@ -10,6 +11,7 @@ import {
 
 function App() {
   const currentUser = useCurrentUser();
+  const activeChatId = useAppSelector((state) => state.chat.activeChat?.id);
   const [getTokenForConnection] = useCentrifugoConnectCreateMutation();
   const [getTokenForSubscription] = useCentrifugoSubscribeCreateMutation();
 
@@ -18,12 +20,18 @@ function App() {
       async () => (await getTokenForConnection()).data!.token,
       async () => (await getTokenForSubscription()).data!.token,
       currentUser.id,
+      activeChatId,
     );
 
     return () => {
       unmounter();
     };
-  }, [currentUser, getTokenForConnection, getTokenForSubscription]);
+  }, [
+    currentUser,
+    getTokenForConnection,
+    getTokenForSubscription,
+    activeChatId,
+  ]);
 
   useEffect(() => {
     if (!('Notification' in window)) {

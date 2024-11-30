@@ -6,13 +6,6 @@ import {
 
 import { MessageRetrieveApiResponse } from '@/store/api';
 
-// TODO заменить на redux state в 9 домашке
-export const state: { activeChatId: string | undefined; is_private: boolean } =
-  {
-    activeChatId: undefined,
-    is_private: false,
-  };
-
 interface IPublicationCreateMessage extends PublicationContext {
   data: {
     event: 'create' | 'update' | 'delete' | 'read';
@@ -25,7 +18,8 @@ type GetTokenFunction = (ctx: ConnectionTokenContext) => Promise<string>;
 export const connect = (
   getTokenForConnection: GetTokenFunction,
   getTokenForSubscription: GetTokenFunction,
-  id: string,
+  currentUserId: string,
+  activeChatId?: string,
 ): (() => void) => {
   const centrifuge = new Centrifuge(
     'wss://vkedu-fullstack-div2.ru/connection/websocket/',
@@ -34,7 +28,7 @@ export const connect = (
     },
   );
 
-  const subscription = centrifuge.newSubscription(id, {
+  const subscription = centrifuge.newSubscription(currentUserId, {
     getToken: getTokenForSubscription,
   });
 
@@ -43,7 +37,11 @@ export const connect = (
       return;
     }
 
-    if (state.activeChatId === ctx.data.message.chat) return;
+    if (
+      currentUserId === ctx.data.message.sender.id ||
+      activeChatId === ctx.data.message.chat
+    )
+      return;
 
     const newMessage = new Notification(
       `Сообщение от ${ctx.data.message.sender.username}`,

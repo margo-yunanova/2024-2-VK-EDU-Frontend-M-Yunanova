@@ -2,8 +2,8 @@ import { Check, DoneAll } from '@mui/icons-material';
 import { forwardRef } from 'react';
 
 import { MessageStatus } from '@/pages/ChatPage/mock';
+import { useAppSelector } from '@/shared/hooks/stateHooks';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
-import { state } from '@/shared/utils/init';
 
 import { formateDate, getInitials } from '../../shared/utils/utils';
 import styles from './Message.module.scss';
@@ -22,6 +22,9 @@ const IconsStatus = {
 export const Message = forwardRef<HTMLDivElement, IMessageProps>(
   ({ text, created_at, sender, was_read_by, files, voice }, ref) => {
     const currentUser = useCurrentUser();
+    const isPrivate = useAppSelector(
+      (state) => state.chat.activeChat?.is_private,
+    );
     const type = sender.id === currentUser?.id ? 'input' : 'output';
 
     let status: MessageStatus = MessageStatus.sent;
@@ -34,7 +37,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
 
     return (
       <li className={styles.wrap} data-type={type}>
-        {state.is_private &&
+        {isPrivate &&
           (sender?.avatar ? (
             <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
           ) : (
