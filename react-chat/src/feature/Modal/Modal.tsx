@@ -1,3 +1,4 @@
+import { Close } from '@mui/icons-material';
 import { FC, useEffect, useRef, useState } from 'react';
 
 import styles from './Modal.module.scss';
@@ -32,9 +33,10 @@ export const Modal: FC<IModalProps> = ({ children, isOpen, onClose }) => {
 
   return (
     <dialog ref={modalRef} className={styles.modal}>
-      {onClose && <button onClick={handleCloseModal}>Close</button>}
+      <button className={styles.close} onClick={handleCloseModal}>
+        <Close />
+      </button>
       {children}
     </dialog>
   );
 };
-/******  5ef5fecf-3bde-487e-a007-0cc6bda8920d  *******/

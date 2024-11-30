@@ -22,7 +22,7 @@ export const ChatPage = () => {
   );
 
   const scrollToMessage = useRef<HTMLDivElement>(null);
-  const messagesRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<HTMLUListElement>(null);
 
   const messages = useMemo(() => [...(data?.results ?? [])].reverse(), [data]);
 
@@ -55,7 +55,7 @@ export const ChatPage = () => {
     <>
       <ChatPageHeader />
       <main className={styles.chat}>
-        <section className={styles.messages} ref={messagesRef}>
+        <ul className={styles.messages} ref={messagesRef}>
           {messages.map((message, i, { length }) => (
             <Message
               key={message.id}
@@ -63,7 +63,7 @@ export const ChatPage = () => {
               ref={setScrollToMessageRef(i, length)}
             />
           ))}
-        </section>
+        </ul>
         <Form />
       </main>
     </>

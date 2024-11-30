@@ -7,9 +7,11 @@ import {
 import { MessageRetrieveApiResponse } from '@/store/api';
 
 // TODO заменить на redux state в 9 домашке
-export const state: { activeChatId: string | undefined } = {
-  activeChatId: undefined,
-};
+export const state: { activeChatId: string | undefined; is_private: boolean } =
+  {
+    activeChatId: undefined,
+    is_private: false,
+  };
 
 interface IPublicationCreateMessage extends PublicationContext {
   data: {
