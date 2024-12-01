@@ -1,5 +1,6 @@
 import { api } from './baseApi';
-const injectedRtkApi = api.injectEndpoints({
+
+export const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     authCreate: build.mutation<AuthCreateApiResponse, AuthCreateApiArg>({
       query: (queryArg) => ({

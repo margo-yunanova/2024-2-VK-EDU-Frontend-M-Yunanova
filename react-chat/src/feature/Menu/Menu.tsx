@@ -1,12 +1,12 @@
-import { Close, Contacts, Person, Settings } from '@mui/icons-material';
+import { Contacts, Person, Settings } from '@mui/icons-material';
 import cn from 'classnames';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ROUTES } from '@/shared/routes/ROUTES';
 
-import styles from './BurgerMenu.module.scss';
-import { IBurgerMenuProps } from './BurgerMenu.props';
+import styles from './Menu.module.scss';
+import { IMenuProps } from './Menu.props';
 
 const burgerMenu = [
   {
@@ -29,12 +29,9 @@ const burgerMenu = [
   },
 ];
 
-export const BurgerMenu: FC<IBurgerMenuProps> = ({ isOpen, close }) => {
+export const Menu: FC<IMenuProps> = ({ isOpen }) => {
   return (
     <div className={cn(styles.wrapper, { [styles['wrapper-active']]: isOpen })}>
-      <button className={styles.button} onClick={close}>
-        <Close />
-      </button>
       <ul className={styles.list}>
         {burgerMenu.map((item) => (
           <li className={styles.item} key={item.id}>
