@@ -5,6 +5,8 @@ import {
 } from 'centrifuge';
 
 import { MessageRetrieveApiResponse } from '@/store/api';
+import { enhancedApi } from '@/store/enhancedApi';
+import { TAGS_CONFIG } from '@/store/tagsConfig';
 
 interface IPublicationCreateMessage extends PublicationContext {
   data: {
@@ -20,7 +22,8 @@ export const connect = (
   getTokenForSubscription: GetTokenFunction,
   currentUserId: string,
   activeChatId?: string,
-): (() => void) => {
+  dispatch?: any,
+) => {
   const centrifuge = new Centrifuge(
     'wss://vkedu-fullstack-div2.ru/connection/websocket/',
     {
@@ -35,6 +38,12 @@ export const connect = (
   subscription.on('publication', function (ctx: IPublicationCreateMessage) {
     if (ctx.data.event !== 'create') {
       return;
+    }
+
+    dispatch(enhancedApi.util.invalidateTags([TAGS_CONFIG.MESSAGES]));
+
+    if (!activeChatId) {
+      dispatch(enhancedApi.util.invalidateTags([TAGS_CONFIG.CHATS]));
     }
 
     if (

@@ -3,8 +3,10 @@ import { useParams } from 'react-router';
 
 import { Message } from '@/entities/Message/Message';
 import { Form } from '@/feature/Form/Form';
+import { useAppDispatch } from '@/shared/hooks/stateHooks';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { useMessagesListQuery } from '@/store/api';
+import { setActiveChat } from '@/store/slices/chatSlice';
 import { ChatPageHeader } from '@/widgets/ChatPageHeader/ChatPageHeader';
 
 import styles from './ChatPage.module.scss';
@@ -12,19 +14,25 @@ import styles from './ChatPage.module.scss';
 export const ChatPage = () => {
   const { id } = useParams();
   const currentUser = useCurrentUser();
-  const { data } = useMessagesListQuery(
-    {
-      chat: id!,
-      page: 1,
-      pageSize: 100,
-    },
-    { pollingInterval: 1000, skipPollingIfUnfocused: true },
-  );
+  const dispatch = useAppDispatch();
+  const { data } = useMessagesListQuery({
+    chat: id!,
+    page: 1,
+    pageSize: 100,
+  });
 
   const scrollToMessage = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLUListElement>(null);
 
   const messages = useMemo(() => [...(data?.results ?? [])].reverse(), [data]);
+
+  useEffect(() => {
+    dispatch(setActiveChat({ id }));
+
+    return () => {
+      dispatch(setActiveChat({ id: undefined }));
+    };
+  }, [id, dispatch]);
 
   const setScrollToMessageRef = (index: number, length: number) => {
     const lastReadMessageIndex =

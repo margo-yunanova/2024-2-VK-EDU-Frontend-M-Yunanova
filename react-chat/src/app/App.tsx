@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useAppSelector } from '@/shared/hooks/stateHooks';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/stateHooks';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { connect } from '@/shared/utils/init';
 import {
@@ -14,6 +14,7 @@ function App() {
   const activeChatId = useAppSelector((state) => state.chat.activeChat?.id);
   const [getTokenForConnection] = useCentrifugoConnectCreateMutation();
   const [getTokenForSubscription] = useCentrifugoSubscribeCreateMutation();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const unmounter = connect(
@@ -21,6 +22,7 @@ function App() {
       async () => (await getTokenForSubscription()).data!.token,
       currentUser.id,
       activeChatId,
+      dispatch,
     );
 
     return () => {
@@ -31,6 +33,7 @@ function App() {
     getTokenForConnection,
     getTokenForSubscription,
     activeChatId,
+    dispatch,
   ]);
 
   useEffect(() => {

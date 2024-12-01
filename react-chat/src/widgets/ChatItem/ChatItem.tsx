@@ -2,10 +2,8 @@ import { Check, DoneAll } from '@mui/icons-material';
 import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useAppDispatch } from '@/shared/hooks/stateHooks';
 import { CurrentUserContext } from '@/shared/utils/context';
 import { formateDate, getInitials } from '@/shared/utils/utils';
-import { setActiveChat } from '@/store/slices/chatSlice';
 
 import styles from './ChatItem.module.scss';
 import { ChatItemProps } from './ChatItem.props';
@@ -26,10 +24,8 @@ export const ChatItem: FC<ChatItemProps> = ({
   title,
   created_at,
   last_message,
-  is_private,
 }) => {
   const currentUser = useContext(CurrentUserContext);
-  const dispatch = useAppDispatch();
 
   const isMyLastSendMessageRead =
     last_message?.sender?.id === currentUser?.id &&
@@ -44,22 +40,7 @@ export const ChatItem: FC<ChatItemProps> = ({
       : last_message?.text;
 
   return (
-    <Link
-      className={styles.item}
-      to={String(id)}
-      onClick={() =>
-        dispatch(
-          setActiveChat({
-            id,
-            avatar,
-            title,
-            created_at,
-            last_message,
-            is_private,
-          }),
-        )
-      }
-    >
+    <Link className={styles.item} to={String(id)}>
       {avatar ? (
         <img src={avatar} className={styles.avatar} alt="Аватар" />
       ) : (

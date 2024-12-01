@@ -2,11 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { injectedRtkApi } from './api';
+import { enhancedApi } from './enhancedApi';
 import chatReducer from './slices/chatSlice';
 
 const store = configureStore({
   reducer: {
-    [injectedRtkApi.reducerPath]: injectedRtkApi.reducer,
+    [enhancedApi.reducerPath]: enhancedApi.reducer,
     chat: chatReducer,
   },
 

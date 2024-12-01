@@ -14,6 +14,7 @@ export const ChatPageHeader = () => {
   const { id } = useParams();
   const { data: chat } = useChatRetrieveQuery({ id: id! });
   const currentUser = useCurrentUser();
+
   const user =
     chat &&
     chat.is_private &&
