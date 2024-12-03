@@ -28,8 +28,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   const accessToken = localStorage.getItem('accessToken');
 
   if (
-    ((args as FetchArgs).url !== '/api/auth/' ||
-      (args as FetchArgs).url !== '/api/register/') &&
+    !['/api/auth/', '/api/register/'].includes((args as FetchArgs).url) &&
     !accessToken
   ) {
     throw new Error('No accessToken token found. Logging out...');
