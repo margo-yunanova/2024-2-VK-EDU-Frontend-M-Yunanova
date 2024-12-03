@@ -10,5 +10,11 @@ export const enhancedApi = injectedRtkApi.enhanceEndpoints({
     chatsList: {
       providesTags: [TAGS_CONFIG.CHATS],
     },
+    userCurrentRetrieve: {
+      providesTags: [TAGS_CONFIG.PROFILE],
+    },
+    userPartialUpdate: {
+      invalidatesTags: [TAGS_CONFIG.PROFILE],
+    },
   },
 });

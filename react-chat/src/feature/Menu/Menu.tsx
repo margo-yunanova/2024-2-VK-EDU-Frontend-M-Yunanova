@@ -35,8 +35,8 @@ export const Menu: FC<IMenuProps> = ({ isOpen }) => {
       <ul className={styles.list}>
         {burgerMenu.map((item) => (
           <li className={styles.item} key={item.id}>
-            <item.icon />
             <Link to={`/${item.path}`} className={styles.link}>
+              <item.icon />
               <span>{item.title}</span>
             </Link>
           </li>
