@@ -1,5 +1,5 @@
 import { AddAPhoto } from '@mui/icons-material';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { useForm } from '@/shared/hooks/useForm';
@@ -11,20 +11,23 @@ import styles from './ProfilePage.module.scss';
 export const ProfilePage = () => {
   const currentUser = useCurrentUser();
   const { formData, handleChange } = useForm<PatchedUser | null>(null);
-  const [onSubmit, { isLoading }] = useUserPartialUpdateMutation();
+  const [onSubmit, { isLoading, error }] = useUserPartialUpdateMutation();
+  const [isFormChanged, setFormChanged] = useState<
+    Partial<Record<keyof PatchedUser, boolean>>
+  >({});
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
     if (!formData) return;
 
-    try {
-      await onSubmit({ patchedUser: formData, id: currentUser?.id });
-    } catch (error) {
-      // TODO: handle error
-      console.error(error);
-    }
+    onSubmit({ patchedUser: formData, id: currentUser?.id });
+    setFormChanged({});
   };
+
+  const formErrors =
+    (error && 'data' in error && (error.data as { [key: string]: string })) ||
+    {};
 
   return (
     <>
@@ -43,57 +46,98 @@ export const ProfilePage = () => {
               id="avatar"
               type="file"
               hidden
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormChanged({
+                  ...isFormChanged,
+                  avatar: true,
+                });
+                handleChange(e);
+              }}
               accept="image/*"
             />
           </label>
+          <span className={styles.error}>
+            {!isFormChanged.avatar && formErrors?.avatar}&nbsp;
+          </span>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.fullname}>
+          <div className={styles.fullName}>
+            <div className={styles['input-wrap']}>
+              <input
+                className={styles['form-input']}
+                type="text"
+                placeholder="First name"
+                required
+                minLength={1}
+                name="first_name"
+                id="first_name"
+                defaultValue={currentUser.first_name}
+                onChange={(e) => {
+                  setFormChanged({ ...isFormChanged, first_name: true });
+                  handleChange(e);
+                }}
+              />
+              <span className={styles.error}>
+                {!isFormChanged.first_name && formErrors?.first_name}&nbsp;
+              </span>
+            </div>
+            <div className={styles['input-wrap']}>
+              <input
+                className={styles['form-input']}
+                type="text"
+                placeholder="Last name"
+                required
+                minLength={1}
+                name="last_name"
+                id="last_name"
+                defaultValue={currentUser.last_name}
+                onChange={(e) => {
+                  setFormChanged({ ...isFormChanged, last_name: true });
+                  handleChange(e);
+                }}
+              />
+              <span className={styles.error}>
+                {!isFormChanged.last_name && formErrors?.last_name}&nbsp;
+              </span>
+            </div>
+          </div>{' '}
+          <div className={styles['input-wrap']}>
             <input
               className={styles['form-input']}
               type="text"
-              placeholder="First name"
+              placeholder="Username"
               required
               minLength={1}
-              name="first_name"
-              id="first_name"
-              defaultValue={currentUser.first_name}
-              onChange={handleChange}
+              name="username"
+              id="username"
+              defaultValue={currentUser.username}
+              onChange={(e) => {
+                setFormChanged({ ...isFormChanged, username: true });
+                handleChange(e);
+              }}
             />
-            <input
-              className={styles['form-input']}
-              type="text"
-              placeholder="Last name"
-              required
-              minLength={1}
-              name="last_name"
-              id="last_name"
-              defaultValue={currentUser.last_name}
-              onChange={handleChange}
-            />
+            <span className={styles.error}>
+              {!isFormChanged.username && formErrors?.username}&nbsp;
+            </span>
           </div>
-          <input
-            className={styles['form-input']}
-            type="text"
-            placeholder="Username"
-            required
-            minLength={1}
-            name="username"
-            id="username"
-            defaultValue={currentUser.username}
-            onChange={handleChange}
-          />
-          <input
-            className={styles['form-input']}
-            type="text"
-            placeholder="Bio"
-            name="bio"
-            id="bio"
-            defaultValue={currentUser.bio ?? ''}
-            onChange={handleChange}
-          />
+          <div className={styles['input-wrap']}>
+            <input
+              className={styles['form-input']}
+              type="text"
+              placeholder="Bio"
+              name="bio"
+              id="bio"
+              defaultValue={currentUser.bio ?? ''}
+              onChange={(e) => {
+                setFormChanged({ ...isFormChanged, bio: true });
+                handleChange(e);
+              }}
+            />
+            <span className={styles.error}>
+              {!isFormChanged.bio && formErrors?.bio}&nbsp;
+            </span>
+          </div>
           <button className={styles.button} type="submit" disabled={isLoading}>
             Save
           </button>

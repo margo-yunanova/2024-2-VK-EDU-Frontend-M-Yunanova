@@ -27,7 +27,11 @@ export const baseQueryWithReauth: BaseQueryFn<
 > = async (args, store, extraOptions) => {
   const accessToken = localStorage.getItem('accessToken');
 
-  if (!accessToken) {
+  if (
+    ((args as FetchArgs).url !== '/api/auth/' ||
+      (args as FetchArgs).url !== '/api/register/') &&
+    !accessToken
+  ) {
     throw new Error('No accessToken token found. Logging out...');
   }
 
@@ -61,8 +65,8 @@ export const baseQueryWithReauth: BaseQueryFn<
     throw new Error('Failed to refresh token');
   }
 
-  localStorage.setItem('accessToken', refreshResult.access ?? '');
-  localStorage.setItem('refreshToken', refreshResult.refresh);
+  localStorage.setItem('accessToken', refreshResult?.access ?? '');
+  localStorage.setItem('refreshToken', refreshResult?.refresh ?? '');
 
   response = await baseQuery(args, store, extraOptions);
 

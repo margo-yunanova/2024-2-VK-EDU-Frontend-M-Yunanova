@@ -1,9 +1,11 @@
 import './styles/index.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { Bounce, ToastContainer } from 'react-toastify';
 
 import { ChatPage } from '@/pages/ChatPage/ChatPage';
 import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
@@ -51,6 +53,19 @@ const router = createHashRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      transition={Bounce}
+    />
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
