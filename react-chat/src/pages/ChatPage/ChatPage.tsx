@@ -5,6 +5,7 @@ import { Message } from '@/entities/Message/Message';
 import { Form } from '@/feature/Form/Form';
 import { useAppDispatch } from '@/shared/hooks/stateHooks';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
+import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { useMessagesListQuery } from '@/store/api';
 import { setActiveChat } from '@/store/slices/chatSlice';
 import { ChatPageHeader } from '@/widgets/ChatPageHeader/ChatPageHeader';
@@ -20,6 +21,8 @@ export const ChatPage = () => {
     page: 1,
     pageSize: 100,
   });
+
+  useWindowTitle('Chat');
 
   const scrollToMessage = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLUListElement>(null);

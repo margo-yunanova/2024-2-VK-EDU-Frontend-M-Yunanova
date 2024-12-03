@@ -3,6 +3,7 @@ import { FormEventHandler, useState } from 'react';
 
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { useForm } from '@/shared/hooks/useForm';
+import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { PatchedUser, useUserPartialUpdateMutation } from '@/store/api';
 import { ProfilePageHeader } from '@/widgets/ProfilePageHeader/ProfilePageHeader';
 
@@ -15,6 +16,8 @@ export const ProfilePage = () => {
   const [isFormChanged, setFormChanged] = useState<
     Partial<Record<keyof PatchedUser, boolean>>
   >({});
+
+  useWindowTitle('Profile');
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();

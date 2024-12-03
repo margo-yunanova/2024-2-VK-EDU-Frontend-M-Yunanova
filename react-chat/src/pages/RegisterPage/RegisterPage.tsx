@@ -3,6 +3,7 @@ import { FormEventHandler, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
+import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { UserCreateWrite, useRegisterCreateMutation } from '@/store/api';
 
@@ -26,6 +27,7 @@ export const RegisterPage = () => {
   const { formData, handleChange } = useForm<UserCreateWrite | null>(null);
   const [registerUser, { isSuccess }] = useRegisterCreateMutation();
   const navigate = useNavigate();
+  useWindowTitle('Register');
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -41,7 +43,7 @@ export const RegisterPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(`/${ROUTES.LOGIN}`);
+      navigate(`/${ROUTES.LOGIN}`, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);

@@ -2,6 +2,7 @@ import { FormEventHandler, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
+import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import {
   TokenObtainPairWrite,
@@ -16,6 +17,8 @@ export const LoginPage = () => {
   const [loginUser, { isSuccess, data }] = useAuthCreateMutation();
   const { refetch } = useUserCurrentRetrieveQuery();
   const navigate = useNavigate();
+
+  useWindowTitle('Login');
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -34,7 +37,7 @@ export const LoginPage = () => {
       localStorage.setItem('accessToken', data.access);
       localStorage.setItem('refreshToken', data.refresh);
       refetch();
-      navigate(`/${ROUTES.CHATS}`);
+      navigate(`/${ROUTES.CHATS}`, { replace: true });
     }
     // because navigate is not a stable link and triggered on every render
     // eslint-disable-next-line react-hooks/exhaustive-deps
