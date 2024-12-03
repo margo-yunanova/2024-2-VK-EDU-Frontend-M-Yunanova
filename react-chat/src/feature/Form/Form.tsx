@@ -118,11 +118,8 @@ export const Form = () => {
     }
   };
 
-  useEffect(() => {
-    handleVoice();
-  }, []);
-
   const startVoiceRecording = async () => {
+    handleVoice();
     if (!stream) return;
     mediaRecorder.current = new MediaRecorder(stream, {
       mimeType,

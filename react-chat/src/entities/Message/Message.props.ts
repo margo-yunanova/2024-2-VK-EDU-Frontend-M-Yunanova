@@ -15,4 +15,5 @@ export interface IMessageProps {
   created_at: string;
   was_read_by: UserRead[];
   ref?: Ref<HTMLDivElement>;
+  chatId?: string;
 }

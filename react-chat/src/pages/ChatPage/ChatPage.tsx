@@ -69,6 +69,7 @@ export const ChatPage = () => {
               key={message.id}
               {...message}
               ref={setScrollToMessageRef(i, length)}
+              chatId={id!}
             />
           ))}
         </ul>
