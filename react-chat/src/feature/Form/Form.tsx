@@ -4,7 +4,6 @@ import {
   FormEvent,
   FormEventHandler,
   KeyboardEventHandler,
-  useEffect,
   useRef,
   useState,
 } from 'react';
