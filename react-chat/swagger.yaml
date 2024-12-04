@@ -208,18 +208,43 @@ paths:
       operationId: chats_create
       tags:
         - chats
+      parameters:
+        - name: fallback
+          in: query
+          description: A flag. If set to `on`, then on attempt to create existing private chat it will return existing one instead of throwing exception.
+          required: false
+          schema:
+            type: string
+            enum:
+              - on
+              - off
+            default: on
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Chat'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Chat'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Chat'
-        required: true
+              type: object
+              properties:
+                members:
+                  type: array
+                  items:
+                    type: string
+                  description: A list of chat members
+                is_private:
+                  type: boolean
+                  description: Is chat private
+                title:
+                  type: string
+                  nullable: true
+                  description: Chat title (can be null)
+                avatar:
+                  type: string
+                  format: binary
+                  nullable: true
+                  description: Chat avatar (can be null)
+        required:
+          - members
+          - is_private
       security:
         - jwtAuth: []
       responses:
