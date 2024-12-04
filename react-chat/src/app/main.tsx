@@ -28,10 +28,7 @@ const router = createHashRouter([
       </CurrentUserProvider>
     ),
     children: [
-      {
-        path: ROUTES.CHATS,
-        element: <ChatsPage />,
-      },
+      { index: true, path: ROUTES.CHATS, element: <ChatsPage /> },
       {
         path: ROUTES.CHAT(':id'),
         element: <ChatPage />,
