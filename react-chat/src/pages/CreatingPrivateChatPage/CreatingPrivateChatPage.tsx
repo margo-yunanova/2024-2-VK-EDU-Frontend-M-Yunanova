@@ -34,6 +34,7 @@ export const CreatingPrivateChatPage = () => {
 
   const handleCreateChat = (userId: string) => {
     createChat({
+      fallback: 'on',
       body: {
         is_private: true,
         avatar: null,
