@@ -65,7 +65,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
           )}
           {voice && (
             // eslint-disable-next-line jsx-a11y/media-has-caption
-            <audio controls>
+            <audio controls className={styles.voice}>
               <source src={voice} type="audio/webm" />
             </audio>
           )}
