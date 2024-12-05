@@ -181,7 +181,12 @@ export const Form = () => {
 
         <div className={styles.icons}>
           {input.current?.value?.trim() !== '' ? (
-            <button className={styles.icon} type="submit" disabled={isLoading}>
+            <button
+              className={styles.icon}
+              type="submit"
+              disabled={isLoading}
+              aria-label="Send text message"
+            >
               <Send />
             </button>
           ) : (
@@ -190,6 +195,7 @@ export const Form = () => {
               type="button"
               onTouchStart={startVoiceRecording}
               onMouseDown={startVoiceRecording}
+              aria-label="Start voice recording"
             >
               <Mic />
             </button>
@@ -204,11 +210,17 @@ export const Form = () => {
                 multiple
                 accept="image/*"
                 onChange={handleFile}
+                aria-label="Attach file"
               />
             </label>
           </button>
 
-          <button className={styles.icon} type="button" onClick={handleGPS}>
+          <button
+            className={styles.icon}
+            type="button"
+            onClick={handleGPS}
+            aria-label="Send location"
+          >
             <LocationOn />
           </button>
         </div>
@@ -227,6 +239,7 @@ export const Form = () => {
             className={styles.icon}
             type="button"
             onClick={stopVoiceRecording}
+            aria-label="Stop voice recording"
           >
             Send <Send />
           </button>
