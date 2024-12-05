@@ -72,9 +72,9 @@
 .contact-info__status {
   overflow: hidden;
   font-size: 12px;
-  font-weight: semibold;
+  font-weight: 400;
   line-height: 17px;
   white-space: nowrap;
-  color: variables.$color-text-secondary;
+  color: variables.$color-title-secondary;
   text-overflow: ellipsis;
 }
