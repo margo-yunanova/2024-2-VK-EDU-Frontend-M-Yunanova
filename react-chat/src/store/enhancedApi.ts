@@ -5,7 +5,7 @@ export const enhancedApi = injectedRtkApi.enhanceEndpoints({
   addTagTypes: [...Object.values(TAGS_CONFIG)],
   endpoints: {
     messagesList: {
-      providesTags: (result, error, { chat }) => [
+      providesTags: (_result, _error, { chat }) => [
         { type: TAGS_CONFIG.MESSAGES, id: chat },
       ],
     },
