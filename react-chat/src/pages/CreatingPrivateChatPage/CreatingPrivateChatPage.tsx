@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { LazyImage } from '@/shared/ui/LazyImage/LazyImage';
+import { Loader } from '@/shared/ui/Loader/Loader';
 import { formateDate, getInitials } from '@/shared/utils/utils';
 import { useChatsCreateMutation, useUsersListQuery } from '@/store/api';
 
@@ -17,7 +18,11 @@ const timeFormatOptions: Intl.DateTimeFormatOptions = {
 
 export const CreatingPrivateChatPage = () => {
   useWindowTitle('Creating private chat');
-  const { data } = useUsersListQuery({ page: 1, pageSize: 228, search: '' });
+  const { data, isLoading } = useUsersListQuery({
+    page: 1,
+    pageSize: 228,
+    search: '',
+  });
   const [createChat, { data: newChat }] = useChatsCreateMutation();
   const navigate = useNavigate();
 
@@ -46,6 +51,7 @@ export const CreatingPrivateChatPage = () => {
 
   return (
     <>
+      {isLoading && <Loader />}
       <PageHeader />
       <ul className={styles.contacts}>
         {data?.results.map(
