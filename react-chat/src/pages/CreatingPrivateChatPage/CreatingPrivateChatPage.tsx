@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
+import { LazyImage } from '@/shared/ui/LazyImage/LazyImage';
 import { formateDate, getInitials } from '@/shared/utils/utils';
 import { useChatsCreateMutation, useUsersListQuery } from '@/store/api';
 
@@ -62,7 +63,11 @@ export const CreatingPrivateChatPage = () => {
                 onClick={() => handleCreateChat(id)}
               >
                 {avatar ? (
-                  <img src={avatar} className={styles.avatar} alt="Аватар" />
+                  <LazyImage
+                    src={avatar}
+                    alt="Аватар"
+                    imageStyle={styles.avatar}
+                  />
                 ) : (
                   <div className={styles.avatar}>
                     {getInitials(first_name + ' ' + last_name)}
