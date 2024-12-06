@@ -13,8 +13,12 @@
   flex-shrink: 1;
   gap: 10px;
   width: 100%;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0px;
   padding: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
   scroll-padding-bottom: 10px;
+  list-style-type: none;
 }

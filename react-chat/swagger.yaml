@@ -67,7 +67,11 @@ paths:
         - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCentrifugo'
+          description: ''
   /api/centrifugo/subscribe/:
     post:
       operationId: centrifugo_subscribe_create
@@ -77,7 +81,11 @@ paths:
         - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCentrifugo'
+          description: ''
   /api/chat/{id}/:
     get:
       operationId: chat_retrieve
@@ -954,6 +962,13 @@ components:
       required:
         - access
         - refresh
+    TokenCentrifugo:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+        - token
     User:
       type: object
       properties:

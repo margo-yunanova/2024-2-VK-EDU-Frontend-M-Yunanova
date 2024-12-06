@@ -11,8 +11,6 @@ import { AuthRefreshCreateApiResponse } from './api';
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://vkedu-fullstack-div2.ru/',
   prepareHeaders: (headers) => {
-    headers.set('Content-Type', 'application/json');
-
     headers.set(
       'Authorization',
       `Bearer ${localStorage.getItem('accessToken') ?? ''}`,

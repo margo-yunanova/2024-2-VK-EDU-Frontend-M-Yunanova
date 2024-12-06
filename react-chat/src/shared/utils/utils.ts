@@ -16,3 +16,6 @@ export const getInitials = (title: string = '') =>
     .split(' ')
     .map((str) => str[0].toUpperCase())
     .join('');
+
+export const getOSMURL = (latitude: number, longitude: number) =>
+  `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;

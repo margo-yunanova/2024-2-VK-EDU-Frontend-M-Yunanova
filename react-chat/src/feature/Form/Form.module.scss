@@ -43,21 +43,21 @@
   overflow-wrap: break-word;
 }
 
-.icon {
+.icons {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
+  gap: 10px;
   border-radius: 10px;
   overflow: hidden;
   color: variables.$color-title-main;
-  cursor: pointer;
   user-select: none;
 }
 
-.icon-send {
+.icon {
   color: #8c1af6;
+  cursor: pointer;
   user-select: none;
 }
 
@@ -66,11 +66,22 @@
 }
 
 .file {
-  display: flex;
-  justify-content: center;
-  align-items: end;
   width: 50px;
-  color: variables.$color-text-secondary;
+  height: 100%;
   cursor: pointer;
   user-select: none;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
 }

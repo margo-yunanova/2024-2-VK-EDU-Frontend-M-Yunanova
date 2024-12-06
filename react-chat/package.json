@@ -22,6 +22,7 @@
     "@reduxjs/toolkit": "^2.3.0",
     "@rtk-query/codegen-openapi": "^2.0.0",
     "@types/uuid": "^10.0.0",
+    "centrifuge": "^5.2.2",
     "classnames": "^2.5.1",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",

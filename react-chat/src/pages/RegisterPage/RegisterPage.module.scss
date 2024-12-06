@@ -87,3 +87,31 @@
   color: variables.$color-title-main;
   cursor: pointer;
 }
+
+.or-wrapper {
+  position: relative;
+  width: 100%;
+
+  hr {
+    border-color: variables.$color-background-purple;
+  }
+}
+
+.or {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  background-color: white;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.link {
+  align-self: flex-end;
+  text-decoration: none;
+  color: variables.$color-title-purple;
+}

@@ -1,6 +1,6 @@
 import { AddAPhoto } from '@mui/icons-material';
 import { FormEventHandler, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
 import { ROUTES } from '@/shared/routes/ROUTES';
@@ -52,6 +52,18 @@ export const RegisterPage = () => {
         <div className={styles['title-wrapper']}>
           <h1 className={styles.title}>Hello</h1>
           <span className={styles.subtitle}>Join to us</span>
+        </div>
+
+        <span>
+          Already have an account?{' '}
+          <Link to={`/${ROUTES.LOGIN}`} className={styles.link}>
+            Sing in
+          </Link>
+        </span>
+
+        <div className={styles['or-wrapper']}>
+          <hr className={styles['or-line']} />
+          <span className={styles.or}>OR</span>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>

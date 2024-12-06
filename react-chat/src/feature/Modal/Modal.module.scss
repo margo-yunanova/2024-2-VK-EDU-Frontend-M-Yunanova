@@ -1,0 +1,24 @@
+.modal::backdrop {
+  background: #00000080;
+  pointer-events: none;
+}
+
+.modal {
+  position: fixed;
+  max-width: 20rem;
+  padding: 2rem;
+  border: 0;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  border-radius: 1rem;
+  box-shadow: #0000001a 0 0 0.5rem 0.25rem;
+}
+
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #8c1af6;
+  cursor: pointer;
+  user-select: none;
+}
