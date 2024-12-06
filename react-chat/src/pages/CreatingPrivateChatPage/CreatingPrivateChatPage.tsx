@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDebounce } from 'use-debounce';
 
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
@@ -18,11 +19,16 @@ const timeFormatOptions: Intl.DateTimeFormatOptions = {
 
 export const CreatingPrivateChatPage = () => {
   useWindowTitle('Creating private chat');
+
+  const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearchValue] = useDebounce(searchValue, 500);
+
   const { data, isLoading } = useUsersListQuery({
     page: 1,
-    pageSize: 228,
-    search: '',
+    pageSize: 100,
+    search: debouncedSearchValue,
   });
+
   const [createChat, { data: newChat }] = useChatsCreateMutation();
   const navigate = useNavigate();
 
@@ -45,15 +51,20 @@ export const CreatingPrivateChatPage = () => {
 
   useEffect(() => {
     if (newChat) {
+      setSearchValue('');
       navigate(`/${ROUTES.CHAT(newChat.id)}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newChat]);
 
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <>
       {isLoading && <Loader />}
-      <PageHeader />
+      <PageHeader value={searchValue} setValue={handleSearch} />
       <ul className={styles.contacts}>
         {data?.results.map(
           ({
