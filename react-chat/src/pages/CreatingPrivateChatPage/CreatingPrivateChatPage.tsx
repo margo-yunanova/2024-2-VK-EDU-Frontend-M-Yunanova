@@ -57,14 +57,10 @@ export const CreatingPrivateChatPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newChat]);
 
-  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSearchValue(e.target.value);
-  };
-
   return (
     <>
       {isLoading && <Loader />}
-      <PageHeader value={searchValue} setValue={handleSearch} />
+      <PageHeader value={searchValue} setValue={setSearchValue} />
       <ul className={styles.contacts}>
         {data?.results.map(
           ({

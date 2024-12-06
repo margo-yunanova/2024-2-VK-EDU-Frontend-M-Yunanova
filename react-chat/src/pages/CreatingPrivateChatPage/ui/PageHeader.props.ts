@@ -1,4 +1,4 @@
 export interface IPageHeaderProps {
   value: string;
-  setValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setValue: (value: string) => void;
 }

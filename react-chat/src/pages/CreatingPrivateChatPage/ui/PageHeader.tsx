@@ -1,4 +1,4 @@
-import { ArrowBack, Search } from '@mui/icons-material';
+import { ArrowBack, Clear, Search } from '@mui/icons-material';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -24,8 +24,12 @@ export const PageHeader: FC<IPageHeaderProps> = ({ value, setValue }) => {
           type="text"
           placeholder="Search"
           value={value}
-          onChange={setValue}
+          onChange={(e) => setValue(e.target.value)}
         />
+        <button className={styles.icon} onClick={() => setValue('')}>
+          <Clear />
+          <Ripple color={'#af5dfc'} duration={2000} />
+        </button>
       </div>
     </Header>
   );
