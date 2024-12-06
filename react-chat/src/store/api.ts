@@ -250,7 +250,7 @@ export type MessageDestroyApiResponse = unknown;
 export type MessageDestroyApiArg = {
   id: string;
 };
-export type MessageReadCreateApiResponse = unknown;
+export type MessageReadCreateApiResponse = /** status 200  */ MessageRead;
 export type MessageReadCreateApiArg = {
   id: string;
 };
@@ -373,6 +373,7 @@ export type Chat = {
   creator: User;
   is_private: boolean;
   last_message: LastMessage;
+  unread_messages_count: number;
 };
 export type ChatRead = {
   id: string;
@@ -384,20 +385,27 @@ export type ChatRead = {
   updated_at: string;
   is_private: boolean;
   last_message: LastMessageRead;
+  unread_messages_count: number;
 };
 export type GroupChatPatch = {
   title: string;
-  members: string[];
+  members: User[];
+  creator: User;
   avatar?: string | null;
+  last_message?: LastMessage;
+  unread_messages_count: number;
 };
 export type GroupChatPatchRead = {
   id: string;
   title: string;
-  members: string[];
+  members: UserRead[];
+  creator: UserRead;
   avatar?: string | null;
   created_at: string;
   updated_at: string;
   is_private: boolean;
+  last_message?: LastMessageRead;
+  unread_messages_count: number;
 };
 export type PatchedGroupChatPatch = {
   title?: string;

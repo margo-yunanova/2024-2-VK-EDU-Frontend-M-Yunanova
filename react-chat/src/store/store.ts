@@ -1,15 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
-import { injectedRtkApi } from './api';
+import { enhancedApi } from './enhancedApi';
+import { rtkQueryErrorLogger } from './middleware';
+import chatReducer from './slices/chatSlice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    [injectedRtkApi.reducerPath]: injectedRtkApi.reducer,
+    [enhancedApi.reducerPath]: enhancedApi.reducer,
+    chat: chatReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(injectedRtkApi.middleware),
+    getDefaultMiddleware()
+      .concat(enhancedApi.middleware)
+      .concat(rtkQueryErrorLogger),
 });
 
 setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export default store;

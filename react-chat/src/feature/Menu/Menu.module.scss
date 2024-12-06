@@ -18,26 +18,6 @@
   transform: translateX(0);
 }
 
-.button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  background-color: transparent;
-
-  cursor: pointer;
-
-  svg {
-    width: 100%;
-    height: 100%;
-    color: white;
-    transition: color 0.2s linear;
-
-    &:hover {
-      color: black;
-    }
-  }
-}
-
 .list {
   display: flex;
   flex-direction: column;
@@ -46,7 +26,7 @@
   padding-inline-start: 0px;
 }
 
-.item {
+.link {
   display: flex;
   flex-direction: row;
   align-items: center;

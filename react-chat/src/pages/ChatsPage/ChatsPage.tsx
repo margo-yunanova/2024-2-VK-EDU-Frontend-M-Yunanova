@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { BurgerMenu } from '@/feature/BurgerMenu/BurgerMenu';
+import { Menu } from '@/feature/Menu/Menu';
 import { useChatsListQuery } from '@/store/api';
 import { ChatItem } from '@/widgets/ChatItem/ChatItem';
 import { ChatsPageHeader } from '@/widgets/ChatsPageHeader/ChatsPageHeader';
@@ -14,16 +14,16 @@ export const ChatsPage = () => {
 
   return (
     <>
-      <ChatsPageHeader onClick={() => setBurgerActive(true)} />
+      <ChatsPageHeader
+        isBurgerActive={isBurgerActive}
+        onClick={() => setBurgerActive(!isBurgerActive)}
+      />
       <main className={styles.chats}>
         <section className={styles.list}>
           {data?.results.map((chat) => <ChatItem key={chat.id} {...chat} />)}
         </section>
       </main>
-      <BurgerMenu
-        isOpen={isBurgerActive}
-        close={() => setBurgerActive(false)}
-      />
+      <Menu isOpen={isBurgerActive} close={() => setBurgerActive(false)} />
     </>
   );
 };

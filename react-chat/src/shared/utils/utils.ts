@@ -11,11 +11,13 @@ export const formateDate = (
   options?: Intl.DateTimeFormatOptions,
 ) => new Intl.DateTimeFormat(locale, options).format(new Date(timestamp));
 
-export const getInitials = (title: string = '') =>
-  title
+export const getInitials = (title: string = '') => {
+  if (!title) return '';
+  return title
     .split(' ')
     .map((str) => str[0].toUpperCase())
     .join('');
+};
 
 export const getOSMURL = (latitude: number, longitude: number) =>
   `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;

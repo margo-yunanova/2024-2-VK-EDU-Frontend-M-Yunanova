@@ -3,7 +3,6 @@ import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CurrentUserContext } from '@/shared/utils/context';
-import { state } from '@/shared/utils/init';
 import { formateDate, getInitials } from '@/shared/utils/utils';
 
 import styles from './ChatItem.module.scss';
@@ -25,7 +24,6 @@ export const ChatItem: FC<ChatItemProps> = ({
   title,
   created_at,
   last_message,
-  is_private,
 }) => {
   const currentUser = useContext(CurrentUserContext);
 
@@ -42,14 +40,7 @@ export const ChatItem: FC<ChatItemProps> = ({
       : last_message?.text;
 
   return (
-    <Link
-      className={styles.item}
-      to={String(id)}
-      onClick={() => {
-        state.activeChatId = id;
-        state.is_private = is_private;
-      }}
-    >
+    <Link className={styles.item} to={String(id)}>
       {avatar ? (
         <img src={avatar} className={styles.avatar} alt="Аватар" />
       ) : (

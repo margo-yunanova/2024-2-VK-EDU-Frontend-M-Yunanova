@@ -25,6 +25,15 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, store, extraOptions) => {
+  const accessToken = localStorage.getItem('accessToken');
+
+  if (
+    !['/api/auth/', '/api/register/'].includes((args as FetchArgs).url) &&
+    !accessToken
+  ) {
+    throw new Error('No accessToken token found. Logging out...');
+  }
+
   let response = await baseQuery(args, store, extraOptions);
 
   if (
@@ -34,30 +43,29 @@ export const baseQueryWithReauth: BaseQueryFn<
     return response;
   }
 
-  const refresh = localStorage.getItem('refreshToken');
+  const refresh = localStorage.getItem('refreshToken') ?? '';
 
-  if (!refresh) {
-    console.warn('No refresh token found. Logging out...');
+  let data;
+  let refreshResult: AuthRefreshCreateApiResponse;
+
+  try {
+    data = await baseQuery(
+      {
+        url: '/api/auth/refresh/',
+        method: 'POST',
+        body: { refresh },
+      },
+      store,
+      extraOptions,
+    );
+
+    refreshResult = data.data as AuthRefreshCreateApiResponse;
+  } catch (error) {
+    throw new Error('Failed to refresh token');
   }
 
-  const data = await baseQuery(
-    {
-      url: '/api/auth/refresh/',
-      method: 'POST',
-      body: { refresh },
-    },
-    store,
-    extraOptions,
-  );
-
-  const refreshResult = data.data as AuthRefreshCreateApiResponse;
-
-  if (!refreshResult) {
-    console.error('Failed to refresh token:');
-  }
-
-  localStorage.setItem('accessToken', refreshResult.access ?? '');
-  localStorage.setItem('refreshToken', refreshResult.refresh);
+  localStorage.setItem('accessToken', refreshResult?.access ?? '');
+  localStorage.setItem('refreshToken', refreshResult?.refresh ?? '');
 
   response = await baseQuery(args, store, extraOptions);
 

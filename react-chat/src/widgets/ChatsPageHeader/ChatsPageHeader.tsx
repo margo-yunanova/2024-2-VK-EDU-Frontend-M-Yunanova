@@ -1,21 +1,23 @@
-import { Menu, Search } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import { FC } from 'react';
 
 import { Header } from '@/entities/Header/Header';
+import { BurgerButton } from '@/feature/burgerButton/BurgerButton';
 import { Ripple } from '@/feature/Riiple/Ripple';
 
 import styles from './ChatsPageHeader.module.scss';
-import { ChatPageHeaderProps } from './ChatsPageHeader.props';
+import { IChatPageHeader } from './ChatsPageHeader.props';
 
-export const ChatsPageHeader: FC<ChatPageHeaderProps> = ({ onClick }) => {
+export const ChatsPageHeader: FC<IChatPageHeader> = ({
+  onClick,
+  isBurgerActive,
+}) => {
   return (
     <Header extraClassName={styles.header}>
-      <nav className={styles.settings}>
-        <button className={styles.icon} onClick={onClick}>
-          <Menu />
-          <Ripple color={'#af5dfc'} duration={2000} />
-        </button>
-      </nav>
+      <BurgerButton
+        onClick={onClick}
+        isBurgerActive={isBurgerActive ?? false}
+      />
       <p className={styles['header-title']}>Messenger</p>
       <button className={styles.icon}>
         <Search />

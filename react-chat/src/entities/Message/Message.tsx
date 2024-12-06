@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { MessageStatus } from '@/pages/ChatPage/mock';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
-import { state } from '@/shared/utils/init';
+import { useChatRetrieveQuery } from '@/store/api';
 
 import { formateDate, getInitials } from '../../shared/utils/utils';
 import styles from './Message.module.scss';
@@ -20,8 +20,10 @@ const IconsStatus = {
 };
 
 export const Message = forwardRef<HTMLDivElement, IMessageProps>(
-  ({ text, created_at, sender, was_read_by, files, voice }, ref) => {
+  ({ text, created_at, sender, was_read_by, files, voice, chatId }, ref) => {
+    const { data: chat } = useChatRetrieveQuery({ id: chatId! });
     const currentUser = useCurrentUser();
+
     const type = sender.id === currentUser?.id ? 'input' : 'output';
 
     let status: MessageStatus = MessageStatus.sent;
@@ -34,7 +36,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
 
     return (
       <li className={styles.wrap} data-type={type}>
-        {state.is_private &&
+        {!chat?.is_private &&
           (sender?.avatar ? (
             <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
           ) : (

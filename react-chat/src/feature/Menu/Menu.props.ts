@@ -1,4 +1,4 @@
-export interface IBurgerMenuProps {
+export interface IMenuProps {
   isOpen: boolean;
   close: () => void;
 }

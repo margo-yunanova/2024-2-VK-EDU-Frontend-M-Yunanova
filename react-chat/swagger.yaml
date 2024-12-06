@@ -313,7 +313,11 @@ paths:
         - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
   /api/messages/:
     get:
       operationId: messages_list
@@ -610,6 +614,8 @@ components:
           type: boolean
         last_message:
           $ref: '#/components/schemas/LastMessage'
+        unread_messages_count:
+          type: number
       required:
         - created_at
         - creator
@@ -619,6 +625,7 @@ components:
         - members
         - title
         - updated_at
+        - unread_messages_count
     GroupChatPatch:
       type: object
       properties:
@@ -632,8 +639,9 @@ components:
         members:
           type: array
           items:
-            type: string
-            format: uuid
+            $ref: '#/components/schemas/User'
+        creator:
+          $ref: '#/components/schemas/User'
         avatar:
           type: string
           format: uri
@@ -650,6 +658,10 @@ components:
         is_private:
           type: boolean
           readOnly: true
+        last_message:
+          $ref: '#/components/schemas/LastMessage'
+        unread_messages_count:
+          type: number
       required:
         - created_at
         - id
@@ -657,6 +669,8 @@ components:
         - members
         - title
         - updated_at
+        - unread_messages_count
+        - creator
     Message:
       type: object
       properties:
@@ -1064,3 +1078,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+
+#TODO Добавить POST /api/messages/read_all/

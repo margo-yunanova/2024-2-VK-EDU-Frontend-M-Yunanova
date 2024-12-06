@@ -5,13 +5,8 @@ import {
 } from 'centrifuge';
 
 import { MessageRetrieveApiResponse } from '@/store/api';
-
-// TODO заменить на redux state в 9 домашке
-export const state: { activeChatId: string | undefined; is_private: boolean } =
-  {
-    activeChatId: undefined,
-    is_private: false,
-  };
+import { enhancedApi } from '@/store/enhancedApi';
+import { TAGS_CONFIG } from '@/store/tagsConfig';
 
 interface IPublicationCreateMessage extends PublicationContext {
   data: {
@@ -25,8 +20,10 @@ type GetTokenFunction = (ctx: ConnectionTokenContext) => Promise<string>;
 export const connect = (
   getTokenForConnection: GetTokenFunction,
   getTokenForSubscription: GetTokenFunction,
-  id: string,
-): (() => void) => {
+  currentUserId: string,
+  activeChatId?: string,
+  dispatch?: any,
+) => {
   const centrifuge = new Centrifuge(
     'wss://vkedu-fullstack-div2.ru/connection/websocket/',
     {
@@ -34,7 +31,7 @@ export const connect = (
     },
   );
 
-  const subscription = centrifuge.newSubscription(id, {
+  const subscription = centrifuge.newSubscription(currentUserId, {
     getToken: getTokenForSubscription,
   });
 
@@ -43,7 +40,17 @@ export const connect = (
       return;
     }
 
-    if (state.activeChatId === ctx.data.message.chat) return;
+    dispatch(enhancedApi.util.invalidateTags([TAGS_CONFIG.MESSAGES]));
+
+    if (!activeChatId) {
+      dispatch(enhancedApi.util.invalidateTags([TAGS_CONFIG.CHATS]));
+    }
+
+    if (
+      currentUserId === ctx.data.message.sender.id ||
+      activeChatId === ctx.data.message.chat
+    )
+      return;
 
     const newMessage = new Notification(
       `Сообщение от ${ctx.data.message.sender.username}`,
