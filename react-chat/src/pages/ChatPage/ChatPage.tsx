@@ -58,7 +58,6 @@ export const ChatPage = () => {
     setTimeout(() => {
       scrollToMessage.current?.scrollIntoView({
         block: 'end',
-        behavior: 'smooth',
       });
     }, 0);
   }, [messages]);
