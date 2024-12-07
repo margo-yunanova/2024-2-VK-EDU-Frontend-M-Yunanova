@@ -15,7 +15,7 @@ import styles from './LoginPage.module.scss';
 export const LoginPage = () => {
   const { formData, handleChange } = useForm<TokenObtainPairWrite | null>(null);
   const [loginUser, { isSuccess, data }] = useAuthCreateMutation();
-  const { refetch } = useUserCurrentRetrieveQuery();
+  const { data: user, refetch } = useUserCurrentRetrieveQuery();
   const navigate = useNavigate();
 
   useWindowTitle('Login');
@@ -31,6 +31,13 @@ export const LoginPage = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${ROUTES.CHATS}`, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
