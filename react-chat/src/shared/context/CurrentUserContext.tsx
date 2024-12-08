@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { useUserCurrentRetrieveQuery } from '@/store/api';
 
 import { ROUTES } from '../routes/ROUTES';
+import { Loader } from '../ui/Loader/Loader';
 import { CurrentUserContext } from '../utils/context';
 
 export interface ICurrentUserProviderProps {
@@ -20,6 +21,7 @@ export const CurrentUserProvider: FC<ICurrentUserProviderProps> = ({
     if (!data && !isLoading) {
       navigate('/' + ROUTES.LOGIN);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading]);
 
   return (
@@ -28,7 +30,9 @@ export const CurrentUserProvider: FC<ICurrentUserProviderProps> = ({
         <CurrentUserContext.Provider value={data}>
           {children}
         </CurrentUserContext.Provider>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

@@ -2,6 +2,7 @@ import { FormEventHandler, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
+import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import {
   TokenObtainPairWrite,
@@ -14,8 +15,10 @@ import styles from './LoginPage.module.scss';
 export const LoginPage = () => {
   const { formData, handleChange } = useForm<TokenObtainPairWrite | null>(null);
   const [loginUser, { isSuccess, data }] = useAuthCreateMutation();
-  const { refetch } = useUserCurrentRetrieveQuery();
+  const { data: user, refetch } = useUserCurrentRetrieveQuery();
   const navigate = useNavigate();
+
+  useWindowTitle('Login');
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -30,11 +33,18 @@ export const LoginPage = () => {
   };
 
   useEffect(() => {
+    if (user) {
+      navigate(`/${ROUTES.CHATS}`, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
     if (isSuccess) {
       localStorage.setItem('accessToken', data.access);
       localStorage.setItem('refreshToken', data.refresh);
       refetch();
-      navigate(`/${ROUTES.CHATS}`);
+      navigate(`/${ROUTES.CHATS}`, { replace: true });
     }
     // because navigate is not a stable link and triggered on every render
     // eslint-disable-next-line react-hooks/exhaustive-deps

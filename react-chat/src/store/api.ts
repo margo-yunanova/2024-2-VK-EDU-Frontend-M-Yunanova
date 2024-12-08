@@ -73,7 +73,10 @@ export const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/chats/`,
         method: 'POST',
-        body: queryArg.chat,
+        body: queryArg.body,
+        params: {
+          fallback: queryArg.fallback,
+        },
       }),
     }),
     messageRetrieve: build.query<
@@ -235,7 +238,18 @@ export type ChatsListApiArg = {
 };
 export type ChatsCreateApiResponse = /** status 201  */ ChatRead;
 export type ChatsCreateApiArg = {
-  chat: Chat;
+  /** A flag. If set to `on`, then on attempt to create existing private chat it will return existing one instead of throwing exception. */
+  fallback?: 'on' | 'off';
+  body: {
+    /** A list of chat members */
+    members?: string[];
+    /** Is chat private */
+    is_private?: boolean;
+    /** Chat title (can be null) */
+    title?: string | null;
+    /** Chat avatar (can be null) */
+    avatar?: Blob | null;
+  };
 };
 export type MessageRetrieveApiResponse = /** status 200  */ MessageRead;
 export type MessageRetrieveApiArg = {

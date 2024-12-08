@@ -5,6 +5,8 @@ import { Message } from '@/entities/Message/Message';
 import { Form } from '@/feature/Form/Form';
 import { useAppDispatch } from '@/shared/hooks/stateHooks';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
+import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
+import { Loader } from '@/shared/ui/Loader/Loader';
 import { useMessagesListQuery } from '@/store/api';
 import { setActiveChat } from '@/store/slices/chatSlice';
 import { ChatPageHeader } from '@/widgets/ChatPageHeader/ChatPageHeader';
@@ -15,11 +17,13 @@ export const ChatPage = () => {
   const { id } = useParams();
   const currentUser = useCurrentUser();
   const dispatch = useAppDispatch();
-  const { data } = useMessagesListQuery({
+  const { data, isLoading } = useMessagesListQuery({
     chat: id!,
     page: 1,
     pageSize: 100,
   });
+
+  useWindowTitle('Chat');
 
   const scrollToMessage = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLUListElement>(null);
@@ -54,13 +58,13 @@ export const ChatPage = () => {
     setTimeout(() => {
       scrollToMessage.current?.scrollIntoView({
         block: 'end',
-        behavior: 'smooth',
       });
     }, 0);
   }, [messages]);
 
   return (
     <>
+      {isLoading && <Loader />}
       <ChatPageHeader />
       <main className={styles.chat}>
         <ul className={styles.messages} ref={messagesRef}>

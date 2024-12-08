@@ -40,10 +40,6 @@
   border-radius: 10px;
   background-color: white;
   overflow-wrap: anywhere;
-
-  audio {
-    width: 140px;
-  }
 }
 
 .message-text {
@@ -90,4 +86,13 @@
   img {
     max-width: 100%;
   }
+}
+
+.image {
+  border-radius: 10px;
+}
+
+.voice {
+  width: 140px;
+  border-radius: inherit;
 }

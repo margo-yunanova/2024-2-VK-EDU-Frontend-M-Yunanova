@@ -5,7 +5,9 @@ export const enhancedApi = injectedRtkApi.enhanceEndpoints({
   addTagTypes: [...Object.values(TAGS_CONFIG)],
   endpoints: {
     messagesList: {
-      providesTags: [TAGS_CONFIG.MESSAGES],
+      providesTags: (_result, _error, { chat }) => [
+        { type: TAGS_CONFIG.MESSAGES, id: chat },
+      ],
     },
     chatsList: {
       providesTags: [TAGS_CONFIG.CHATS],
@@ -15,6 +17,9 @@ export const enhancedApi = injectedRtkApi.enhanceEndpoints({
     },
     userPartialUpdate: {
       invalidatesTags: [TAGS_CONFIG.PROFILE],
+    },
+    chatsCreate: {
+      invalidatesTags: [TAGS_CONFIG.CHATS],
     },
   },
 });
