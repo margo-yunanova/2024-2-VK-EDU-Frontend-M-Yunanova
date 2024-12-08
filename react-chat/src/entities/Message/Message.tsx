@@ -49,7 +49,12 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
           {files.length > 0 && (
             <div className={styles['message-files']}>
               {files.map((file, i) => (
-                <img key={i} src={file.item!} alt="Изображение" />
+                <img
+                  className={styles.image}
+                  key={i}
+                  src={file.item!}
+                  alt="Изображение"
+                />
               ))}
             </div>
           )}

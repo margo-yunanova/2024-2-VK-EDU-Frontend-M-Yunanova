@@ -16,5 +16,8 @@ export const enhancedApi = injectedRtkApi.enhanceEndpoints({
     userPartialUpdate: {
       invalidatesTags: [TAGS_CONFIG.PROFILE],
     },
+    chatsCreate: {
+      invalidatesTags: [TAGS_CONFIG.CHATS],
+    },
   },
 });

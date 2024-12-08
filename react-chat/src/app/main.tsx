@@ -4,11 +4,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
 
 import { ChatPage } from '@/pages/ChatPage/ChatPage';
 import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
+import { CreatingPrivateChatPage } from '@/pages/CreatingPrivateChatPage/CreatingPrivateChatPage';
 import { LoginPage } from '@/pages/LoginPage/LoginPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { RegisterPage } from '@/pages/RegisterPage/RegisterPage';
@@ -27,17 +28,23 @@ const router = createHashRouter([
       </CurrentUserProvider>
     ),
     children: [
+      { index: true, element: <Navigate to={ROUTES.CHATS} /> },
+      { path: ROUTES.CHATS, element: <ChatsPage /> },
       {
-        path: ROUTES.CHATS,
-        element: <ChatsPage />,
-      },
-      {
-        path: ROUTES.CHAT,
+        path: ROUTES.CHAT(':id'),
         element: <ChatPage />,
       },
       {
         path: ROUTES.PROFILE,
         element: <ProfilePage />,
+      },
+      {
+        path: ROUTES.CREATE_PRIVATE_CHAT,
+        element: <CreatingPrivateChatPage />,
+      },
+      {
+        path: ROUTES.CREATE_GROUP_CHAT,
+        element: <ChatPage />,
       },
     ],
   },

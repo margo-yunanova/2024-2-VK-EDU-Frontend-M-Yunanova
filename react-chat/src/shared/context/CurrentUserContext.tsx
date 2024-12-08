@@ -20,6 +20,7 @@ export const CurrentUserProvider: FC<ICurrentUserProviderProps> = ({
     if (!data && !isLoading) {
       navigate('/' + ROUTES.LOGIN);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading]);
 
   return (
