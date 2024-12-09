@@ -1,11 +1,11 @@
-import { Create } from '@mui/icons-material';
 import { FC } from 'react';
 
 import styles from './CreatingChatButton.module.scss';
-import { ICreatingChatButtonProps } from './CreatingChatButton.props';
+import { ICreatingChatButton } from './CreatingChatButton.props';
 
-export const CreatingChatButton: FC<ICreatingChatButtonProps> = ({
+export const CreatingChatButton: FC<ICreatingChatButton> = ({
   onClick,
+  children,
 }) => {
   return (
     <button
@@ -13,7 +13,7 @@ export const CreatingChatButton: FC<ICreatingChatButtonProps> = ({
       onClick={onClick}
       aria-label="Creating chat"
     >
-      <Create />
+      {children}
     </button>
   );
 };

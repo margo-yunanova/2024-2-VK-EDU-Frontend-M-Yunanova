@@ -6,10 +6,13 @@ import { Header } from '@/entities/Header/Header';
 import { Ripple } from '@/feature/Riiple/Ripple';
 import { ROUTES } from '@/shared/routes/ROUTES';
 
-import styles from './PageHeader.module.scss';
-import { IPageHeaderProps } from './PageHeader.props';
+import styles from './CreatingChatHeader.module.scss';
+import { ICreatingChatHeader } from './CreatingChatHeader.props';
 
-export const PageHeader: FC<IPageHeaderProps> = ({ value, setValue }) => {
+export const CreatingChatHeader: FC<ICreatingChatHeader> = ({
+  value,
+  setValue,
+}) => {
   return (
     <Header extraClassName={styles.header}>
       <Link className={styles.icon} to={`/${ROUTES.CHATS}`}>

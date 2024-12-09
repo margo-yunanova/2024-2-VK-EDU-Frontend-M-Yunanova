@@ -8,8 +8,8 @@ import { ContactCard } from '@/shared/ui/ContactCard/ContactCard';
 import { Loader } from '@/shared/ui/Loader/Loader';
 import { useChatsCreateMutation, useUsersListQuery } from '@/store/api';
 
+import { CreatingChatHeader } from '../../shared/ui/CreatingChatHeader/CreatingChatHeader';
 import styles from './CreatingPrivateChatPage.module.scss';
-import { PageHeader } from './ui/PageHeader';
 
 export const CreatingPrivateChatPage = () => {
   useWindowTitle('Creating private chat');
@@ -48,7 +48,7 @@ export const CreatingPrivateChatPage = () => {
   return (
     <>
       {isLoading && <Loader />}
-      <PageHeader value={searchValue} setValue={setSearchValue} />
+      <CreatingChatHeader value={searchValue} setValue={setSearchValue} />
       <ul className={styles.contacts}>
         {data?.results.map(
           ({
@@ -67,7 +67,7 @@ export const CreatingPrivateChatPage = () => {
                 lastName={last_name}
                 isOnline={is_online}
                 lastOnlineAt={last_online_at}
-                onClick={handleCreateChat}
+                onClick={() => handleCreateChat(id)}
               />
             </li>
           ),

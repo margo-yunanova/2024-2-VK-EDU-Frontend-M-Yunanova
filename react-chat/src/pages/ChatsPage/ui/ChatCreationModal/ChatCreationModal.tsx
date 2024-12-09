@@ -1,7 +1,4 @@
-import {
-  //Group,
-  Person,
-} from '@mui/icons-material';
+import { Group, Person } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 import { ROUTES } from '@/shared/routes/ROUTES';
@@ -15,13 +12,12 @@ const MODAL_CONFIG = [
     Icon: Person,
     route: ROUTES.CREATE_PRIVATE_CHAT,
   },
-  // TODO доделать групповой чат
-  // {
-  //   title: 'Group chat',
-  //   type: 'group',
-  //   Icon: Group,
-  //   route: ROUTES.CREATE_GROUP_CHAT,
-  // },
+  {
+    title: 'Group chat',
+    type: 'group',
+    Icon: Group,
+    route: ROUTES.CREATE_GROUP_CHAT,
+  },
 ];
 
 export const ChatCreationModal = () => {

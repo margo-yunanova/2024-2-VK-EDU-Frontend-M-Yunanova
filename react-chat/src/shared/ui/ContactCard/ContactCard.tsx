@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from 'react';
+import { FC } from 'react';
 
 import { formateDate, getInitials } from '@/shared/utils/utils';
 
@@ -12,14 +12,13 @@ const timeFormatOptions: Intl.DateTimeFormatOptions = {
 };
 
 export const ContactCard: FC<IContactCard> = ({
-  id,
   avatar,
   firstName,
   lastName,
   isOnline,
   lastOnlineAt,
   onClick,
-  onHandleCheckbox,
+  checked,
 }) => {
   const getUserStatus = (is_online: boolean, last_online_at: string) =>
     is_online
@@ -27,20 +26,19 @@ export const ContactCard: FC<IContactCard> = ({
       : 'Last online ' +
         formateDate(new Date(last_online_at), 'ru', timeFormatOptions);
 
-  const handleCheckBox: MouseEventHandler = (e) => {
-    if (onHandleCheckbox === undefined) return;
-
-    e.stopPropagation();
-    onHandleCheckbox();
-  };
   return (
-    <button className={styles.contact} onClick={() => onClick(id)}>
-      {!onHandleCheckbox && (
-        <button className={styles.checkbox} onClick={handleCheckBox}>
+    <button className={styles.contact} onClick={onClick}>
+      {checked !== undefined && (
+        <div className={styles.checkbox}>
           <label aria-label="Checkbox" className={styles.label}>
-            <input type="checkbox" className={styles.input} />
+            <input
+              type="checkbox"
+              className={styles.input}
+              checked={checked}
+              onChange={() => {}}
+            />
           </label>
-        </button>
+        </div>
       )}
       {avatar ? (
         <LazyImage src={avatar} alt="Аватар" imageStyle={styles.avatar} />

@@ -1,3 +1,4 @@
+import { Create } from '@mui/icons-material';
 import { useState } from 'react';
 
 import { Menu } from '@/feature/Menu/Menu';
@@ -7,9 +8,9 @@ import { useChatsListQuery } from '@/store/api';
 import { ChatItem } from '@/widgets/ChatItem/ChatItem';
 import { ChatsPageHeader } from '@/widgets/ChatsPageHeader/ChatsPageHeader';
 
+import { CreatingChatButton } from '../../shared/ui/CreatingChatButton/CreatingChatButton';
 import styles from './ChatsPage.module.scss';
 import { ChatCreationModal } from './ui/ChatCreationModal/ChatCreationModal';
-import { CreatingChatButton } from './ui/CreatingChatButton/CreatingChatButton';
 
 export const ChatsPage = () => {
   useWindowTitle('Chats');
@@ -31,7 +32,9 @@ export const ChatsPage = () => {
         </section>
         <div className={styles['creating-chat']}>
           {isModalActive && <ChatCreationModal />}
-          <CreatingChatButton onClick={() => setModalActive(!isModalActive)} />
+          <CreatingChatButton onClick={() => setModalActive(!isModalActive)}>
+            <Create />
+          </CreatingChatButton>
         </div>
       </main>
       <Menu isOpen={isBurgerActive} close={() => setBurgerActive(false)} />

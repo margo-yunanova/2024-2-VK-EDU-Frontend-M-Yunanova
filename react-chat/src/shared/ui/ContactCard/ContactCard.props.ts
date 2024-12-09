@@ -5,6 +5,6 @@ export interface IContactCard {
   lastName: string;
   isOnline: boolean;
   lastOnlineAt: string;
-  onClick: (id: string) => void;
-  onHandleCheckbox?: () => void;
+  onClick?: () => void;
+  checked?: boolean;
 }
