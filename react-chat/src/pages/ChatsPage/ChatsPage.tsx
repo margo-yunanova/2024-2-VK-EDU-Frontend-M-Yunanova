@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Menu } from '@/feature/Menu/Menu';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
+import { Loader } from '@/shared/ui/Loader/Loader';
 import { useChatsListQuery } from '@/store/api';
 import { ChatItem } from '@/widgets/ChatItem/ChatItem';
 import { ChatsPageHeader } from '@/widgets/ChatsPageHeader/ChatsPageHeader';
@@ -15,10 +16,11 @@ export const ChatsPage = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
   const [isModalActive, setModalActive] = useState(false);
 
-  const { data } = useChatsListQuery({ page: 1, pageSize: 100 });
+  const { data, isLoading } = useChatsListQuery({ page: 1, pageSize: 100 });
 
   return (
     <>
+      {isLoading && <Loader />}
       <ChatsPageHeader
         isBurgerActive={isBurgerActive}
         onClick={() => setBurgerActive(!isBurgerActive)}

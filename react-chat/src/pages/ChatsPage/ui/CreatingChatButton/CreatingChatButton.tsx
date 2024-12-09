@@ -8,7 +8,11 @@ export const CreatingChatButton: FC<ICreatingChatButtonProps> = ({
   onClick,
 }) => {
   return (
-    <button className={styles['creating-chat']} onClick={onClick}>
+    <button
+      className={styles['creating-chat']}
+      onClick={onClick}
+      aria-label="Creating chat"
+    >
       <Create />
     </button>
   );
