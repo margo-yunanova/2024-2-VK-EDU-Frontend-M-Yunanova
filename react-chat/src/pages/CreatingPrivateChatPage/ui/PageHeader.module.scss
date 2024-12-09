@@ -1,0 +1,43 @@
+.header {
+  width: 100%;
+  padding-right: 15px;
+}
+
+.icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  border-radius: 10px;
+  overflow: visible;
+  color: variables.$color-title-main;
+  cursor: pointer;
+  user-select: none;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 5px;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+.input {
+  border: none;
+  background-color: transparent;
+}
+
+.input::placeholder {
+  color: white;
+}
+
+.input:focus-visible {
+  outline: none;
+}
+.search:has(.input:focus) {
+  border: 2px solid white;
+}
