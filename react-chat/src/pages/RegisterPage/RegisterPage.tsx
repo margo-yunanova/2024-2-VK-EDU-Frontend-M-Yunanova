@@ -1,15 +1,11 @@
 import { AddAPhoto } from '@mui/icons-material';
-import { FormEventHandler, useEffect } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
-import {
-  UserCreateWrite,
-  useRegisterCreateMutation,
-  useUserCurrentRetrieveQuery,
-} from '@/store/api';
+import { UserCreateWrite, useRegisterCreateMutation } from '@/store/api';
 
 import styles from './RegisterPage.module.scss';
 
@@ -28,11 +24,17 @@ const formFields: TField[] = [
 ];
 
 export const RegisterPage = () => {
-  const { formData, handleChange } = useForm<UserCreateWrite | null>(null);
-  const [registerUser, { isSuccess }] = useRegisterCreateMutation();
-  const navigate = useNavigate();
-  const { data: user } = useUserCurrentRetrieveQuery();
   useWindowTitle('Register');
+  const { formData, handleChange } = useForm<UserCreateWrite | null>(null);
+  const [registerUser, { isSuccess, error }] = useRegisterCreateMutation();
+  const navigate = useNavigate();
+  const [isFormChanged, setFormChanged] = useState<
+    Partial<Record<keyof UserCreateWrite, boolean>>
+  >({});
+
+  const formErrors =
+    (error && 'data' in error && (error.data as { [key: string]: string })) ||
+    {};
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -40,18 +42,12 @@ export const RegisterPage = () => {
     if (!formData) return;
     try {
       await registerUser({ userCreate: formData });
+      setFormChanged({});
     } catch (error) {
       // TODO: handle error
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate(`/${ROUTES.CHATS}`, { replace: true });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -82,19 +78,30 @@ export const RegisterPage = () => {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           {formFields.map(({ name, label, type }) => (
-            <label htmlFor={name} className={styles.label} key={name}>
-              <span>{label}</span>
-              <input
-                className={styles['form-input']}
-                type={type}
-                required={name !== 'avatar' && name !== 'bio'}
-                name={name}
-                id={name}
-                onChange={handleChange}
-                value={formData?.[name] ?? ''}
-                autoComplete={type === 'password' ? 'new-password' : 'on'}
-              />
-            </label>
+            <div className={styles.field} key={name}>
+              <label htmlFor={name} className={styles.label}>
+                <span>{label}</span>
+                <input
+                  className={styles['form-input']}
+                  type={type}
+                  required={name !== 'avatar' && name !== 'bio'}
+                  name={name}
+                  id={name}
+                  onChange={(e) => {
+                    setFormChanged({
+                      ...isFormChanged,
+                      [name]: true,
+                    });
+                    handleChange(e);
+                  }}
+                  value={formData?.[name] ?? ''}
+                  autoComplete={type === 'password' ? 'new-password' : 'on'}
+                />
+              </label>
+              <span className={styles.error}>
+                {!isFormChanged[name] && formErrors?.[name]}&nbsp;
+              </span>
+            </div>
           ))}
           <label htmlFor="avatar" className={styles.label}>
             Avatar

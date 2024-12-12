@@ -36,14 +36,15 @@ export const connect = (
   });
 
   subscription.on('publication', function (ctx: IPublicationCreateMessage) {
+    dispatch(
+      enhancedApi.util.invalidateTags([
+        { type: TAGS_CONFIG.MESSAGES, id: ctx.data.message.chat },
+        TAGS_CONFIG.CHATS,
+      ]),
+    );
+
     if (ctx.data.event !== 'create') {
       return;
-    }
-
-    dispatch(enhancedApi.util.invalidateTags([TAGS_CONFIG.MESSAGES]));
-
-    if (!activeChatId) {
-      dispatch(enhancedApi.util.invalidateTags([TAGS_CONFIG.CHATS]));
     }
 
     if (

@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 
 import { MessageStatus } from '@/pages/ChatPage/mock';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
+import { LazyImage } from '@/shared/ui/LazyImage/LazyImage';
 import { useChatRetrieveQuery } from '@/store/api';
 
 import { formateDate, getInitials } from '../../shared/utils/utils';
@@ -38,7 +39,11 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
       <li className={styles.wrap} data-type={type}>
         {!chat?.is_private &&
           (sender?.avatar ? (
-            <img src={sender?.avatar} className={styles.avatar} alt="Аватар" />
+            <LazyImage
+              src={sender?.avatar}
+              alt="Аватар"
+              imageStyle={styles.avatar}
+            />
           ) : (
             <div className={styles.avatar}>
               {getInitials(sender.first_name + ' ' + sender.last_name)}
@@ -49,18 +54,18 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
           {files.length > 0 && (
             <div className={styles['message-files']}>
               {files.map((file, i) => (
-                <img
-                  className={styles.image}
+                <LazyImage
                   key={i}
                   src={file.item!}
                   alt="Изображение"
+                  imageStyle={styles.image}
                 />
               ))}
             </div>
           )}
           {voice && (
             // eslint-disable-next-line jsx-a11y/media-has-caption
-            <audio controls>
+            <audio controls className={styles.voice}>
               <source src={voice} type="audio/webm" />
             </audio>
           )}

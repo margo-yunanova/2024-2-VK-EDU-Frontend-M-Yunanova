@@ -11,10 +11,10 @@ import { AuthRefreshCreateApiResponse } from './api';
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://vkedu-fullstack-div2.ru/',
   prepareHeaders: (headers) => {
-    headers.set(
-      'Authorization',
-      `Bearer ${localStorage.getItem('accessToken') ?? ''}`,
-    );
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
 
     return headers;
   },
