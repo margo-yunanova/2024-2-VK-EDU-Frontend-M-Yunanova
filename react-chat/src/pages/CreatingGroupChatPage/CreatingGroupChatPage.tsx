@@ -72,7 +72,7 @@ export const CreatingGroupChatPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newChat]);
 
-  const handleSelectContact = (member: UserRead, isChecked: boolean) =>
+  const handleSelectContact = (member: UserRead, isChecked: boolean) => {
     setSelectedMembers((members) => {
       if (isChecked) {
         return members.filter((m) => m.id !== member.id);
@@ -80,6 +80,8 @@ export const CreatingGroupChatPage = () => {
 
       return [...members, member];
     });
+    setSearchValue('');
+  };
 
   return (
     <>
