@@ -88,6 +88,20 @@ form.addEventListener('keypress', handleKeyPress);
 
 submitButton.addEventListener('click', handleSubmit);
 
+searchButton.addEventListener('click', (e) => {
+  createRipple(e, () => {});
+});
+
+menuButton.addEventListener('click', (e) => {
+  createRipple(e, () => {});
+});
+
+arrowBackButton.addEventListener('click', (e) => {
+  createRipple(e, () => {
+    window.location.href = './pages/chats.html';
+  });
+});
+
 input.addEventListener('input', (event) => {
   const text = event.target.value.trim();
 

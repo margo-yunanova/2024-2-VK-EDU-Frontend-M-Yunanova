@@ -5,7 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
-import { UserCreateWrite, useRegisterCreateMutation } from '@/store/api';
+import {
+  UserCreateWrite,
+  useRegisterCreateMutation,
+  useUserCurrentRetrieveQuery,
+} from '@/store/api';
 
 import styles from './RegisterPage.module.scss';
 
@@ -48,6 +52,13 @@ export const RegisterPage = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${ROUTES.CHATS}`, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
