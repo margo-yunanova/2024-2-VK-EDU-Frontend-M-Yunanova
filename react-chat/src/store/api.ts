@@ -241,13 +241,13 @@ export type ChatsCreateApiArg = {
   /** A flag. If set to `on`, then on attempt to create existing private chat it will return existing one instead of throwing exception. */
   fallback?: 'on' | 'off';
   body: {
-    /** Список участников чата */
+    /** A list of chat members */
     members?: string[];
-    /** Приватный ли чат */
+    /** Is chat private */
     is_private?: boolean;
-    /** Название чата (может быть null) */
+    /** Chat title (can be null) */
     title?: string | null;
-    /** Аватар чата (может быть null) */
+    /** Chat avatar (can be null) */
     avatar?: Blob | null;
   };
 };

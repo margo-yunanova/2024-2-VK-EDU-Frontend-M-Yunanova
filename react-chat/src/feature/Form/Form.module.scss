@@ -5,7 +5,7 @@
   padding: 10px;
   border: none;
   background-color: white;
-  border-top: 1px solid variables.$color-text-secondary;
+  border-top: 1px solid variables.$color-title-secondary;
 }
 
 .form-message {
@@ -48,7 +48,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   border-radius: 10px;
   overflow: hidden;
   color: variables.$color-title-main;
@@ -56,9 +55,15 @@
 }
 
 .icon {
+  width: 44px;
   color: #8c1af6;
   cursor: pointer;
   user-select: none;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .icon-send_disabled {

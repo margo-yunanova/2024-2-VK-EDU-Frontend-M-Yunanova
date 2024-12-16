@@ -2,6 +2,7 @@ import { Check, DoneAll } from '@mui/icons-material';
 import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { LazyImage } from '@/shared/ui/LazyImage/LazyImage';
 import { CurrentUserContext } from '@/shared/utils/context';
 import { formateDate, getInitials } from '@/shared/utils/utils';
 
@@ -42,7 +43,7 @@ export const ChatItem: FC<ChatItemProps> = ({
   return (
     <Link className={styles.item} to={String(id)}>
       {avatar ? (
-        <img src={avatar} className={styles.avatar} alt="Аватар" />
+        <LazyImage src={avatar} alt="Аватар" imageStyle={styles.avatar} />
       ) : (
         <div className={styles.avatar}>{getInitials(title)}</div>
       )}

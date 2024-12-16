@@ -1,0 +1,28 @@
+.wrap {
+  position: absolute;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  place-items: center;
+}
+
+.loader {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+  border-bottom-color: variables.$color-background-purple;
+  box-sizing: border-box;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
