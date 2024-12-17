@@ -9,6 +9,7 @@ import { Bounce, ToastContainer } from 'react-toastify';
 
 import { ChatPage } from '@/pages/ChatPage/ChatPage';
 import { ChatsPage } from '@/pages/ChatsPage/ChatsPage';
+import { CreatingGroupChatPage } from '@/pages/CreatingGroupChatPage/CreatingGroupChatPage';
 import { CreatingPrivateChatPage } from '@/pages/CreatingPrivateChatPage/CreatingPrivateChatPage';
 import { LoginPage } from '@/pages/LoginPage/LoginPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
@@ -44,7 +45,7 @@ const router = createHashRouter([
       },
       {
         path: ROUTES.CREATE_GROUP_CHAT,
-        element: <ChatPage />,
+        element: <CreatingGroupChatPage />,
       },
     ],
   },

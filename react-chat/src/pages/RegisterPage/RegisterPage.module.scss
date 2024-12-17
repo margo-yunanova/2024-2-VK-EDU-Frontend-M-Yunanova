@@ -5,6 +5,7 @@
   padding: 40px 7vw;
   background-color: white;
   place-items: center;
+  overflow: auto;
 }
 
 .wrap {
@@ -43,7 +44,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
 }
 
@@ -114,4 +115,15 @@
   align-self: flex-end;
   text-decoration: none;
   color: variables.$color-title-purple;
+}
+
+.error {
+  font-size: 12px;
+  color: red;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
