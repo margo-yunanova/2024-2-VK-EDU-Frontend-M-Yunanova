@@ -1,3 +1,6 @@
+const checkResponse = (res: Response) =>
+  res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+
 interface ITranslatedResponse {
   responseData: {
     translatedText: string;
@@ -12,9 +15,16 @@ export const translate: TTranslate = async (text, from, to) => {
   params.append('q', text);
   params.append('langpair', `${from}|${to}`);
 
-  const response: ITranslatedResponse = await (
-    await fetch(`https://api.mymemory.translated.net/get?${params.toString()}`)
-  ).json();
+  try {
+    const translatedResponse: ITranslatedResponse = await checkResponse(
+      await fetch(
+        `https://api.mymemory.translated.net/get?${params.toString()}`,
+      ),
+    );
 
-  return response.responseData.translatedText;
+    return translatedResponse.responseData.translatedText;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Translation failed');
+  }
 };
