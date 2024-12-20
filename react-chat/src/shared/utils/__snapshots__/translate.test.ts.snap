@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`translate > should call fetch with correct search params 1`] = `
+[MockFunction spy] {
+  "calls": [
+    [
+      "https://api.mymemory.translated.net/get?q=Hello+world&langpair=en%7Cru",
+    ],
+    [
+      "https://api.mymemory.translated.net/get?q=Hello+&langpair=en%7Cru",
+    ],
+  ],
+  "results": [
+    {
+      "type": "return",
+      "value": Promise {},
+    },
+    {
+      "type": "return",
+      "value": Promise {},
+    },
+  ],
+}
+`;
