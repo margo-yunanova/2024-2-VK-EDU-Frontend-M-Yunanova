@@ -1,5 +1,10 @@
 import { NavigateNext } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import {
+  KeyboardEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 
@@ -83,6 +88,18 @@ export const CreatingGroupChatPage = () => {
     setSearchValue('');
   };
 
+  const handleKeyDown: KeyboardEventHandler = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCreateChat();
+    }
+  };
+
+  const handleClick: MouseEventHandler = (e) => {
+    e.preventDefault();
+    handleCreateChat();
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -130,9 +147,10 @@ export const CreatingGroupChatPage = () => {
           <GroupChatCreationModal
             onChange={handleChange}
             title={formData?.title}
+            onKeyDown={handleKeyDown}
           />
         )}
-        <CreatingChatButton onClick={handleCreateChat}>
+        <CreatingChatButton onClick={handleClick}>
           <NavigateNext />
         </CreatingChatButton>
       </div>

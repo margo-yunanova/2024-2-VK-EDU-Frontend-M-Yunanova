@@ -4,6 +4,7 @@ import { IGroupChatCreationModal } from './GroupChatCreationModal.props';
 export const GroupChatCreationModal = ({
   onChange,
   title = '',
+  onKeyDown,
 }: IGroupChatCreationModal) => {
   return (
     <form className={styles.wrap}>
@@ -17,6 +18,7 @@ export const GroupChatCreationModal = ({
           id="title"
           onChange={onChange}
           value={title}
+          onKeyDown={onKeyDown}
         />
       </label>
     </form>
