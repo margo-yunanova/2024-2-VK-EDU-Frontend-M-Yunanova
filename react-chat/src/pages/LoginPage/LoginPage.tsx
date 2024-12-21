@@ -5,6 +5,7 @@ import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { Button } from '@/shared/ui/Button/Button';
+import { TextInputFormField } from '@/shared/ui/TextInputFormField/TextInputFormField';
 import {
   TokenObtainPairWrite,
   useAuthCreateMutation,
@@ -74,31 +75,26 @@ export const LoginPage = () => {
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <label htmlFor="username" className={styles.label}>
-            <span>Username</span>
-            <input
-              className={styles['form-input']}
-              type="text"
-              required
-              name="username"
-              id="username"
-              onChange={handleChange}
-              value={formData?.username ?? ''}
-            />
-          </label>
-          <label htmlFor="password" className={styles.label}>
-            <span>Password</span>
-            <input
-              className={styles['form-input']}
-              type="password"
-              required
-              name="password"
-              id="password"
-              onChange={handleChange}
-              value={formData?.password ?? ''}
-              autoComplete="current-password"
-            />
-          </label>
+          <TextInputFormField
+            label="Username"
+            type="text"
+            required
+            name="username"
+            id="username"
+            onChange={handleChange}
+            value={formData?.username ?? ''}
+          />
+
+          <TextInputFormField
+            type="password"
+            required
+            name="password"
+            id="password"
+            onChange={handleChange}
+            value={formData?.password ?? ''}
+            autoComplete="current-password"
+            label="Password"
+          />
 
           <Link to="#" className={styles.link}>
             Forgot password?
