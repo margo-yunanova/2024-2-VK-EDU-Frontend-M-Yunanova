@@ -6,6 +6,8 @@
   border: none;
   background-color: white;
   border-top: 1px solid variables.$color-title-secondary;
+  font-size: 16px;
+  line-height: 18px;
 }
 
 .form-message {
@@ -24,6 +26,7 @@
   border: none;
   background-color: inherit;
   overflow: hidden;
+  line-height: 18px;
   color: variables.$color-text-main;
   resize: none;
 
@@ -39,6 +42,7 @@
   height: min-content;
   visibility: hidden;
   overflow: hidden;
+  line-height: 18px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
@@ -47,7 +51,9 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  height: 44px;
+  margin-top: -10px;
+  margin-bottom: -10px;
   border-radius: 10px;
   overflow: hidden;
   color: variables.$color-title-main;
@@ -56,6 +62,7 @@
 
 .icon {
   width: 44px;
+  height: 100%;
   color: #8c1af6;
   cursor: pointer;
   user-select: none;
