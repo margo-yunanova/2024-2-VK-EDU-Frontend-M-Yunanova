@@ -1,4 +1,4 @@
-import { ArrowBack, Clear, Search } from '@mui/icons-material';
+import { ArrowBack, Search } from '@mui/icons-material';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -20,20 +20,20 @@ export const CreatingChatHeader: FC<ICreatingChatHeader> = ({
         <Ripple color={'#af5dfc'} duration={2000} />
       </Link>
 
-      <div className={styles.search}>
+      <search role="search" className={styles.search}>
         <Search />
+        <label htmlFor="search" aria-label="Search users"></label>
         <input
           className={styles.input}
-          type="text"
+          type="search"
           placeholder="Search"
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          id="search"
+          name="search"
+          aria-label="Search users"
         />
-        <button className={styles.icon} onClick={() => setValue('')}>
-          <Clear />
-          <Ripple color={'#af5dfc'} duration={2000} />
-        </button>
-      </div>
+      </search>
     </Header>
   );
 };
