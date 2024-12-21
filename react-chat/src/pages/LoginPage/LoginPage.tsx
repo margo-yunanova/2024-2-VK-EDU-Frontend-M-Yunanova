@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
+import { Button } from '@/shared/ui/Button/Button';
 import {
   TokenObtainPairWrite,
   useAuthCreateMutation,
@@ -14,7 +15,7 @@ import styles from './LoginPage.module.scss';
 
 export const LoginPage = () => {
   const { formData, handleChange } = useForm<TokenObtainPairWrite | null>(null);
-  const [loginUser, { isSuccess, data }] = useAuthCreateMutation();
+  const [loginUser, { isSuccess, data, isLoading }] = useAuthCreateMutation();
   const { data: user, refetch } = useUserCurrentRetrieveQuery();
   const navigate = useNavigate();
 
@@ -103,9 +104,9 @@ export const LoginPage = () => {
             Forgot password?
           </Link>
 
-          <button className={styles.button} type="submit">
-            Login
-          </button>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Login'}
+          </Button>
         </form>
       </div>
     </div>

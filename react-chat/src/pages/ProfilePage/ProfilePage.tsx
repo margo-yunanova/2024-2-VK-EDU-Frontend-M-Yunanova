@@ -4,6 +4,7 @@ import { FormEventHandler, useState } from 'react';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
+import { Button } from '@/shared/ui/Button/Button';
 import { PatchedUser, useUserPartialUpdateMutation } from '@/store/api';
 import { ProfilePageHeader } from '@/widgets/ProfilePageHeader/ProfilePageHeader';
 
@@ -104,7 +105,7 @@ export const ProfilePage = () => {
                 {!isFormChanged.last_name && formErrors?.last_name}&nbsp;
               </span>
             </div>
-          </div>{' '}
+          </div>
           <div className={styles['input-wrap']}>
             <input
               className={styles['form-input']}
@@ -141,9 +142,9 @@ export const ProfilePage = () => {
               {!isFormChanged.bio && formErrors?.bio}&nbsp;
             </span>
           </div>
-          <button className={styles.button} type="submit" disabled={isLoading}>
-            Save
-          </button>
+          <Button variant="secondary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Save'}
+          </Button>
         </form>
       </div>
     </>

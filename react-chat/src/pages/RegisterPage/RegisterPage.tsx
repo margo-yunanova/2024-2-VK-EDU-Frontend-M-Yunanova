@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
+import { Button } from '@/shared/ui/Button/Button';
 import { UserCreateWrite, useRegisterCreateMutation } from '@/store/api';
 
 import styles from './RegisterPage.module.scss';
@@ -26,7 +27,8 @@ const formFields: TField[] = [
 export const RegisterPage = () => {
   useWindowTitle('Register');
   const { formData, handleChange } = useForm<UserCreateWrite | null>(null);
-  const [registerUser, { isSuccess, error }] = useRegisterCreateMutation();
+  const [registerUser, { isSuccess, error, isLoading }] =
+    useRegisterCreateMutation();
   const navigate = useNavigate();
   const [isFormChanged, setFormChanged] = useState<
     Partial<Record<keyof UserCreateWrite, boolean>>
@@ -116,9 +118,9 @@ export const RegisterPage = () => {
               hidden
             />
           </label>
-          <button className={styles.button} type="submit">
-            Sign up
-          </button>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Sign up'}
+          </Button>
         </form>
       </div>
     </div>
