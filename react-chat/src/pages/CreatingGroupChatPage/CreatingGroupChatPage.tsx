@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 
 import { useForm } from '@/shared/hooks/useForm';
@@ -41,7 +42,7 @@ export const CreatingGroupChatPage = () => {
     search: debouncedSearchValue,
   });
 
-  const [createChat, { data: newChat }] = useChatsCreateMutation();
+  const [createChat, { data: newChat, error }] = useChatsCreateMutation();
 
   const membersWithIsChecked =
     data?.results.map((user) => ({
@@ -68,6 +69,16 @@ export const CreatingGroupChatPage = () => {
     });
     setModalActive(false);
   };
+
+  useEffect(() => {
+    if (error) {
+      Object.entries(
+        (error as { data: { [key: string]: string[] } }).data,
+      ).forEach(([key, value]) => {
+        toast.error(`${key}: ${value.join('\n')}`);
+      });
+    }
+  }, [error]);
 
   useEffect(() => {
     if (newChat) {

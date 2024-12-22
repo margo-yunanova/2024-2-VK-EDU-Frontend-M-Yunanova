@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Header } from '@/entities/Header/Header';
-import { Ripple } from '@/feature/Riiple/Ripple';
+import { Ripple } from '@/feature/Ripple/Ripple';
 import { ROUTES } from '@/shared/routes/ROUTES';
 
 import styles from './CreatingChatHeader.module.scss';
