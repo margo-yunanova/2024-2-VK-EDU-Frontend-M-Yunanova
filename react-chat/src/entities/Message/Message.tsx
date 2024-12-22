@@ -1,4 +1,5 @@
 import { Check, DoneAll } from '@mui/icons-material';
+import cn from 'classnames';
 import { forwardRef } from 'react';
 
 import { MessageStatus } from '@/pages/ChatPage/mock';
@@ -6,7 +7,7 @@ import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { LazyImage } from '@/shared/ui/LazyImage/LazyImage';
 import { useChatRetrieveQuery } from '@/store/api';
 
-import { formateDate, getInitials } from '../../shared/utils/utils';
+import { formateDate, getCoords, getInitials } from '../../shared/utils/utils';
 import styles from './Message.module.scss';
 import { IMessageProps } from './Message.props';
 
@@ -35,6 +36,19 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
     }
     const IconStatus = IconsStatus[status];
 
+    const coords = getCoords(text!);
+
+    const searchParams = new URLSearchParams();
+
+    if (coords) {
+      searchParams.set(
+        'bbox',
+        `${coords?.longitude - 0.01},${coords.latitude - 0.01},${coords.longitude + 0.01},${coords.latitude + 0.01}`,
+      );
+      searchParams.set('layer', 'mapnik');
+      searchParams.set('marker', `${coords.latitude},${coords.longitude}`);
+    }
+
     return (
       <li className={styles.wrap} data-type={type}>
         {!chat?.is_private &&
@@ -50,7 +64,25 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
             </div>
           ))}
         <div className={styles.message} ref={ref}>
-          <p className={styles['message-text']}>{text}</p>
+          {coords && (
+            <iframe
+              className={styles.map}
+              title="map"
+              src={`https://master.apis.dev.openstreetmap.org/export/embed.html?${searchParams.toString()}`}
+            ></iframe>
+          )}
+          {coords ? (
+            <a
+              href={text!}
+              className={cn(styles.link, styles['message-text'])}
+              target="_blank"
+            >
+              Посмотреть более крупную карту
+            </a>
+          ) : (
+            <p className={styles['message-text']}>{text}</p>
+          )}
+
           {files.length > 0 && (
             <div className={styles['message-files']}>
               {files.map((file, i) => (
@@ -69,6 +101,7 @@ export const Message = forwardRef<HTMLDivElement, IMessageProps>(
               <source src={voice} type="audio/webm" />
             </audio>
           )}
+
           <div className={styles['message-info']}>
             <span className={styles['message-time']}>
               {formateDate(new Date(created_at), 'ru', timeFormatOptions)}
