@@ -1,4 +1,4 @@
-import { Card as MuiCard } from '@mui/material';
+import { Card as MuiCard, Typography } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import styles from './Card.module.css';
@@ -84,14 +84,18 @@ export const Card: FC<CardProps> = ({
       </CardActions>
       <CardContent>
         {side === 'left' && (
-          <textarea
-            className={styles.textarea}
-            value={textToTranslate}
-            onChange={onChangeTextToTranslate}
-          ></textarea>
+          <Typography variant="body1">
+            <textarea
+              className={styles.textarea}
+              value={textToTranslate}
+              onChange={onChangeTextToTranslate}
+            ></textarea>
+          </Typography>
         )}
         {side === 'right' && (
-          <p>{translatedText ? translatedText : 'Translate'}</p>
+          <Typography variant="body1">
+            {translatedText ? translatedText : 'Translate'}
+          </Typography>
         )}
       </CardContent>
     </MuiCard>
