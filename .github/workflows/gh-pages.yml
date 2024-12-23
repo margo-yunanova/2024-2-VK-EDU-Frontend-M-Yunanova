@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      # Сборка и деплой первого сайта
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -20,3 +22,21 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./react-chat/dist
+          destination_dir: react-chat
+
+        # Сборка и деплой второго сайта
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install npm deps (exam - translate widget)
+        working-directory: ./exam
+        run: npm i
+      - name: Build app (exam - translate widget)
+        working-directory: ./exam
+        run: npm run build
+      - name: exam - translate widget
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./exam/dist
+          destination_dir: exam
