@@ -2,10 +2,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
-import { Fragment, useState } from 'react';
-import { Box } from '@mui/material';
+import { Fragment, useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
 import languages from '../../shared/languages';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateHistory } from '../../shared/historySlice';
+import { useAppDispatch, useAppSelector } from '../../shared/store';
 
 interface HistoryItem {
   from: keyof typeof languages;
@@ -18,6 +21,18 @@ export const HistoryPage = () => {
   const [history, setHistory] = useState<HistoryItem[]>(
     JSON.parse(localStorage.getItem('history') ?? '[]'),
   );
+
+  const isHistoryEmpty = useAppSelector(
+    (state) => state.history.isHistoryEmpty,
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (history.length > 0) {
+      dispatch(updateHistory());
+    }
+  });
 
   const getFullLanguagesName = (
     from: keyof typeof languages,
@@ -41,6 +56,11 @@ export const HistoryPage = () => {
 
   return (
     <Box width={'100%'} height={'100%'} overflow={'auto'}>
+      {isHistoryEmpty && (
+        <Box display="flex" width="100%">
+          <Typography variant="h6">History is empty</Typography>
+        </Box>
+      )}
       <List>
         {history.map(({ from, to, textToTranslate, translatedText }, i) => (
           <Fragment key={i}>
