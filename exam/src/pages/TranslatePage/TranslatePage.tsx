@@ -40,7 +40,7 @@ export const TranslatePage = () => {
   }, [debouncedTextToTranslate]);
 
   const handleLanguageChange =
-    (side: 'left' | 'right') => (event: SyntheticEvent, lang: string) => {
+    (side: 'left' | 'right') => (_event: SyntheticEvent, lang: string) => {
       setLanguages({
         ...languages,
         [side === 'left' ? 'from' : 'to']: lang,
