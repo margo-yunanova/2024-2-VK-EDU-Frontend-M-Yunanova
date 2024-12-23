@@ -3,7 +3,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 type TranslateResponse = {
   responseData: {
     translatedText: string;
+    detectedLanguage: string;
   };
+  matches: [
+    {
+      id: number;
+      translation: string;
+      source: string;
+      target: string;
+    },
+  ];
 };
 
 type TranslateRequest = {

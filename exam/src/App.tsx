@@ -10,6 +10,7 @@ function App() {
       flexDirection="column"
       sx={{ flexGrow: 1, maxWidth: 1200 }}
       gap="10px"
+      height="100%"
     >
       <Header />
       <Outlet />

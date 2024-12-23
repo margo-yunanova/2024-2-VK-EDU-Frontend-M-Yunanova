@@ -25,19 +25,24 @@ export const TranslatePage = () => {
   );
 
   useEffect(() => {
+    if (!data?.responseData?.translatedText) return;
     const history = localStorage.getItem('history');
+
+    const from = data.responseData.detectedLanguage ?? data.matches[0].source;
+
     localStorage.setItem(
       'history',
       JSON.stringify([
-        ...JSON.parse(history || '[]'),
         {
-          text: debouncedTextToTranslate,
-          from: languages.from,
-          to: languages.to,
+          textToTranslate: debouncedTextToTranslate,
+          translatedText: data.responseData?.translatedText,
+          from: from,
+          to: data.matches[0].target,
         },
+        ...JSON.parse(history || '[]'),
       ]),
     );
-  }, [debouncedTextToTranslate]);
+  }, [data]);
 
   const handleLanguageChange =
     (side: 'left' | 'right') => (_event: SyntheticEvent, lang: string) => {
@@ -46,8 +51,6 @@ export const TranslatePage = () => {
         [side === 'left' ? 'from' : 'to']: lang,
       });
     };
-
-  console.log(languages);
 
   const handleChangeTextToTranslate = (
     event: ChangeEvent<HTMLTextAreaElement>,
