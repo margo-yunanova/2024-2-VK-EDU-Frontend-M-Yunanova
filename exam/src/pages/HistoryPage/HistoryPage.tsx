@@ -6,7 +6,6 @@ import { Fragment, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import languages from '../../shared/languages';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useDispatch, useSelector } from 'react-redux';
 import { updateHistory } from '../../shared/historySlice';
 import { useAppDispatch, useAppSelector } from '../../shared/store';
 
@@ -18,7 +17,7 @@ interface HistoryItem {
 }
 
 export const HistoryPage = () => {
-  const [history, setHistory] = useState<HistoryItem[]>(
+  const [history] = useState<HistoryItem[]>(
     JSON.parse(localStorage.getItem('history') ?? '[]'),
   );
 
