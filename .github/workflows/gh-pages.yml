@@ -10,7 +10,7 @@ jobs:
       # Сборка и деплой первого сайта
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - name: Install npm deps
         working-directory: ./react-chat
         run: npm i
@@ -27,7 +27,7 @@ jobs:
         # Сборка и деплой второго сайта
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - name: Install npm deps (exam - translate widget)
         working-directory: ./exam
         run: npm i
