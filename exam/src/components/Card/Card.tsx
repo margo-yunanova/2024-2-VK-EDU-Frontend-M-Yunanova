@@ -2,12 +2,11 @@ import { Card as MuiCard, Typography } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import styles from './Card.module.css';
-import { FC, SyntheticEvent, useState, ChangeEvent } from 'react';
+import { FC, SyntheticEvent, ChangeEvent } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import languages from '../../shared/languages';
 
 interface CardProps {
   side: 'left' | 'right';
@@ -35,11 +34,13 @@ export const Card: FC<CardProps> = ({
   onChangeLang,
   lang,
 }) => {
-  const [age, setAge] = useState('');
-
-  const handleSelect = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
+  const filteredLanguages = Object.entries(languages).filter(
+    ([key]) =>
+      key !== 'Unknown' &&
+      key !== 'Autodetect' &&
+      key !== 'en-US' &&
+      key !== 'ru-RU',
+  );
 
   return (
     <MuiCard
@@ -54,31 +55,21 @@ export const Card: FC<CardProps> = ({
             value={lang}
             onChange={onChangeLang(side)}
             aria-label="basic tabs example"
+            variant="scrollable"
+            scrollButtons
           >
             {side === 'left' && (
               <Tab
-                label="Default language"
+                label="Detect language"
                 value="Autodetect"
                 {...a11yProps('Autodetect')}
               />
             )}
-            <Tab label="Русский" value="ru" {...a11yProps('ru')} />
-            <Tab label="Английский" value="en" {...a11yProps('en')} />
-
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={age}
-              label="Age"
-              onChange={handleSelect}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+            <Tab label={'Русский'} value="ru-RU" {...a11yProps('ru-RU')} />
+            <Tab label={'Английский'} value="en-US" {...a11yProps('en-US')} />
+            {filteredLanguages.map(([key, value]) => (
+              <Tab label={value} value={key} {...a11yProps(key)} />
+            ))}
           </Tabs>
         </Box>
       </CardActions>
