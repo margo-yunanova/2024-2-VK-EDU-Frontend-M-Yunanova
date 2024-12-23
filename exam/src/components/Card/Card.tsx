@@ -67,8 +67,8 @@ export const Card: FC<CardProps> = ({
             )}
             <Tab label={'Русский'} value="ru-RU" {...a11yProps('ru-RU')} />
             <Tab label={'Английский'} value="en-US" {...a11yProps('en-US')} />
-            {filteredLanguages.map(([key, value]) => (
-              <Tab label={value} value={key} {...a11yProps(key)} />
+            {filteredLanguages.map(([key, value], i) => (
+              <Tab label={value} value={key} {...a11yProps(key)} key={i} />
             ))}
           </Tabs>
         </Box>

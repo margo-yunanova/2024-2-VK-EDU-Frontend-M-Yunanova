@@ -10,7 +10,7 @@ export const TranslatePage = () => {
   const [debouncedTextToTranslate] = useDebounce(textToTranslate, 500);
   const [languages, setLanguages] = useState({
     from: 'Autodetect',
-    to: 'en',
+    to: 'en-US',
   });
 
   const { data } = useTranslateQuery(
