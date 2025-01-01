@@ -1,10 +1,9 @@
 const checkResponse = (res: Response) =>
   res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 
-interface ITranslatedResponse {
+export interface ITranslatedResponse {
   responseData: {
     translatedText: string;
-    match: number;
   };
 }
 

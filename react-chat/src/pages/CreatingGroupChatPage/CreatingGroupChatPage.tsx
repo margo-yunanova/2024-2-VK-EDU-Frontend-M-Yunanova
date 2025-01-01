@@ -1,6 +1,12 @@
 import { NavigateNext } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import {
+  KeyboardEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 
 import { useForm } from '@/shared/hooks/useForm';
@@ -36,7 +42,7 @@ export const CreatingGroupChatPage = () => {
     search: debouncedSearchValue,
   });
 
-  const [createChat, { data: newChat }] = useChatsCreateMutation();
+  const [createChat, { data: newChat, error }] = useChatsCreateMutation();
 
   const membersWithIsChecked =
     data?.results.map((user) => ({
@@ -65,6 +71,16 @@ export const CreatingGroupChatPage = () => {
   };
 
   useEffect(() => {
+    if (error) {
+      Object.entries(
+        (error as { data: { [key: string]: string[] } }).data,
+      ).forEach(([key, value]) => {
+        toast.error(`${key}: ${value.join('\n')}`);
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
     if (newChat) {
       setSearchValue('');
       navigate(`/${ROUTES.CHAT(newChat.id)}`, { replace: true });
@@ -81,6 +97,18 @@ export const CreatingGroupChatPage = () => {
       return [...members, member];
     });
     setSearchValue('');
+  };
+
+  const handleKeyDown: KeyboardEventHandler = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCreateChat();
+    }
+  };
+
+  const handleClick: MouseEventHandler = (e) => {
+    e.preventDefault();
+    handleCreateChat();
   };
 
   return (
@@ -130,9 +158,10 @@ export const CreatingGroupChatPage = () => {
           <GroupChatCreationModal
             onChange={handleChange}
             title={formData?.title}
+            onKeyDown={handleKeyDown}
           />
         )}
-        <CreatingChatButton onClick={handleCreateChat}>
+        <CreatingChatButton onClick={handleClick}>
           <NavigateNext />
         </CreatingChatButton>
       </div>

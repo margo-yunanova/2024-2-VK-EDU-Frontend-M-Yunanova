@@ -48,45 +48,8 @@
   width: 100%;
 }
 
-.label {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 19px;
-  color: variables.$color-text-main;
-
-  span {
-    padding-left: 20px;
-  }
-}
-
-.form-input {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background-color: variables.$color-background-light-purple;
-  color: variables.$color-text-main;
-  resize: none;
-}
-.form-input:focus-visible {
-  outline: solid variables.$color-background-purple 1px;
-}
-
 .file {
   width: 100%;
-}
-
-.button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background-color: variables.$color-background-purple;
-  color: variables.$color-title-main;
-  cursor: pointer;
 }
 
 .or-wrapper {

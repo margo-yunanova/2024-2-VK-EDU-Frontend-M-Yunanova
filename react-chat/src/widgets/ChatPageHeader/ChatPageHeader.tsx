@@ -2,7 +2,7 @@ import { ArrowBack, MoreVert, Search } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
 
 import { Header } from '@/entities/Header/Header';
-import { Ripple } from '@/feature/Riiple/Ripple';
+import { Ripple } from '@/feature/Ripple/Ripple';
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { formateDate, getInitials } from '@/shared/utils/utils';

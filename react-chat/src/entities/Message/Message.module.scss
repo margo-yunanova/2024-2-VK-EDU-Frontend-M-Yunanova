@@ -96,3 +96,20 @@
   width: 140px;
   border-radius: inherit;
 }
+
+.link {
+  padding-top: 5px;
+  text-decoration: none;
+  color: #221294;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.map {
+  border-width: 0;
+  border-style: none;
+  border-color: transparent;
+  border-radius: 10px;
+}

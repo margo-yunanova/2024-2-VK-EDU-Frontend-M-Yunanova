@@ -175,7 +175,7 @@ export const Form = () => {
             rows={1}
             onChange={handleChange}
             onKeyDown={handleKeyPress}
-          ></textarea>
+          />
           <div ref={mirrorInput} className={styles['form-input-mirror-text']} />
         </div>
 

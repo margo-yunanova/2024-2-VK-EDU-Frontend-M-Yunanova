@@ -2,7 +2,7 @@ import { ArrowBack, Logout } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Header } from '@/entities/Header/Header';
-import { Ripple } from '@/feature/Riiple/Ripple';
+import { Ripple } from '@/feature/Ripple/Ripple';
 import { useAppDispatch } from '@/shared/hooks/stateHooks';
 import { ROUTES } from '@/shared/routes/ROUTES';
 import { enhancedApi } from '@/store/enhancedApi';

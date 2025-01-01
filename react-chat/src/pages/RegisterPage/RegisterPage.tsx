@@ -1,10 +1,12 @@
 import { AddAPhoto } from '@mui/icons-material';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
 import { ROUTES } from '@/shared/routes/ROUTES';
+import { Button } from '@/shared/ui/Button/Button';
+import { TextInputFormField } from '@/shared/ui/TextInputFormField/TextInputFormField';
 import { UserCreateWrite, useRegisterCreateMutation } from '@/store/api';
 
 import styles from './RegisterPage.module.scss';
@@ -25,8 +27,10 @@ const formFields: TField[] = [
 
 export const RegisterPage = () => {
   useWindowTitle('Register');
-  const { formData, handleChange } = useForm<UserCreateWrite | null>(null);
-  const [registerUser, { isSuccess, error }] = useRegisterCreateMutation();
+  const { formData, handleChange: handleChangeFormField } =
+    useForm<UserCreateWrite | null>(null);
+  const [registerUser, { isSuccess, error, isLoading }] =
+    useRegisterCreateMutation();
   const navigate = useNavigate();
   const [isFormChanged, setFormChanged] = useState<
     Partial<Record<keyof UserCreateWrite, boolean>>
@@ -56,6 +60,13 @@ export const RegisterPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
+  const handleChange = (name: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setFormChanged({
+      ...isFormChanged,
+      [name]: true,
+    });
+    handleChangeFormField(e);
+  };
   return (
     <div className={styles.page}>
       <div className={styles.wrap}>
@@ -79,25 +90,17 @@ export const RegisterPage = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           {formFields.map(({ name, label, type }) => (
             <div className={styles.field} key={name}>
-              <label htmlFor={name} className={styles.label}>
-                <span>{label}</span>
-                <input
-                  className={styles['form-input']}
-                  type={type}
-                  required={name !== 'avatar' && name !== 'bio'}
-                  name={name}
-                  id={name}
-                  onChange={(e) => {
-                    setFormChanged({
-                      ...isFormChanged,
-                      [name]: true,
-                    });
-                    handleChange(e);
-                  }}
-                  value={formData?.[name] ?? ''}
-                  autoComplete={type === 'password' ? 'new-password' : 'on'}
-                />
-              </label>
+              <TextInputFormField
+                label={label}
+                type={type}
+                required={name !== 'avatar' && name !== 'bio'}
+                name={name}
+                id={name}
+                onChange={handleChange(name)}
+                value={formData?.[name] ?? ''}
+                autoComplete={type === 'password' ? 'new-password' : 'on'}
+              />
+
               <span className={styles.error}>
                 {!isFormChanged[name] && formErrors?.[name]}&nbsp;
               </span>
@@ -112,13 +115,13 @@ export const RegisterPage = () => {
               type="file"
               name="avatar"
               id="avatar"
-              onChange={handleChange}
+              onChange={handleChangeFormField}
               hidden
             />
           </label>
-          <button className={styles.button} type="submit">
-            Sign up
-          </button>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Sign up'}
+          </Button>
         </form>
       </div>
     </div>

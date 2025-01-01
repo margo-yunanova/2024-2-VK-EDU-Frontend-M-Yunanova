@@ -1,9 +1,11 @@
 import { AddAPhoto } from '@mui/icons-material';
-import { FormEventHandler, useState } from 'react';
+import { ChangeEvent, FormEventHandler, useState } from 'react';
 
 import { useCurrentUser } from '@/shared/hooks/useCurrentUser';
 import { useForm } from '@/shared/hooks/useForm';
 import { useWindowTitle } from '@/shared/hooks/useWindowTitle';
+import { Button } from '@/shared/ui/Button/Button';
+import { TextInputFormField } from '@/shared/ui/TextInputFormField/TextInputFormField';
 import { PatchedUser, useUserPartialUpdateMutation } from '@/store/api';
 import { ProfilePageHeader } from '@/widgets/ProfilePageHeader/ProfilePageHeader';
 
@@ -11,7 +13,8 @@ import styles from './ProfilePage.module.scss';
 
 export const ProfilePage = () => {
   const currentUser = useCurrentUser();
-  const { formData, handleChange } = useForm<PatchedUser | null>(null);
+  const { formData, handleChange: handleChangeFormField } =
+    useForm<PatchedUser | null>(null);
   const [onSubmit, { isLoading, error }] = useUserPartialUpdateMutation();
   const [isFormChanged, setFormChanged] = useState<
     Partial<Record<keyof PatchedUser, boolean>>
@@ -32,6 +35,13 @@ export const ProfilePage = () => {
     (error && 'data' in error && (error.data as { [key: string]: string })) ||
     {};
 
+  const handleChange = (name: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setFormChanged({
+      ...isFormChanged,
+      [name]: true,
+    });
+    handleChangeFormField(e);
+  };
   return (
     <>
       <ProfilePageHeader />
@@ -49,13 +59,7 @@ export const ProfilePage = () => {
               id="avatar"
               type="file"
               hidden
-              onChange={(e) => {
-                setFormChanged({
-                  ...isFormChanged,
-                  avatar: true,
-                });
-                handleChange(e);
-              }}
+              onChange={handleChange('avatar')}
               accept="image/*"
             />
           </label>
@@ -67,8 +71,7 @@ export const ProfilePage = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.fullName}>
             <div className={styles['input-wrap']}>
-              <input
-                className={styles['form-input']}
+              <TextInputFormField
                 type="text"
                 placeholder="First name"
                 required
@@ -76,18 +79,15 @@ export const ProfilePage = () => {
                 name="first_name"
                 id="first_name"
                 defaultValue={currentUser.first_name}
-                onChange={(e) => {
-                  setFormChanged({ ...isFormChanged, first_name: true });
-                  handleChange(e);
-                }}
+                onChange={handleChange('first_name')}
               />
+
               <span className={styles.error}>
                 {!isFormChanged.first_name && formErrors?.first_name}&nbsp;
               </span>
             </div>
             <div className={styles['input-wrap']}>
-              <input
-                className={styles['form-input']}
+              <TextInputFormField
                 type="text"
                 placeholder="Last name"
                 required
@@ -95,19 +95,16 @@ export const ProfilePage = () => {
                 name="last_name"
                 id="last_name"
                 defaultValue={currentUser.last_name}
-                onChange={(e) => {
-                  setFormChanged({ ...isFormChanged, last_name: true });
-                  handleChange(e);
-                }}
+                onChange={handleChange('last_name')}
               />
+
               <span className={styles.error}>
                 {!isFormChanged.last_name && formErrors?.last_name}&nbsp;
               </span>
             </div>
-          </div>{' '}
+          </div>
           <div className={styles['input-wrap']}>
-            <input
-              className={styles['form-input']}
+            <TextInputFormField
               type="text"
               placeholder="Username"
               required
@@ -115,35 +112,28 @@ export const ProfilePage = () => {
               name="username"
               id="username"
               defaultValue={currentUser.username}
-              onChange={(e) => {
-                setFormChanged({ ...isFormChanged, username: true });
-                handleChange(e);
-              }}
+              onChange={handleChange('username')}
             />
             <span className={styles.error}>
               {!isFormChanged.username && formErrors?.username}&nbsp;
             </span>
           </div>
           <div className={styles['input-wrap']}>
-            <input
-              className={styles['form-input']}
+            <TextInputFormField
               type="text"
               placeholder="Bio"
               name="bio"
               id="bio"
               defaultValue={currentUser.bio ?? ''}
-              onChange={(e) => {
-                setFormChanged({ ...isFormChanged, bio: true });
-                handleChange(e);
-              }}
+              onChange={handleChange('bio')}
             />
             <span className={styles.error}>
               {!isFormChanged.bio && formErrors?.bio}&nbsp;
             </span>
           </div>
-          <button className={styles.button} type="submit" disabled={isLoading}>
-            Save
-          </button>
+          <Button variant="secondary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Save'}
+          </Button>
         </form>
       </div>
     </>

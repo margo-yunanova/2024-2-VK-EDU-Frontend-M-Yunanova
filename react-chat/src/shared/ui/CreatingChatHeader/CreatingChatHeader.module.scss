@@ -37,6 +37,10 @@ button.icon {
   border-radius: 10px;
 }
 
+input[type='search']::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
 .input {
   width: 100%;
   border: none;

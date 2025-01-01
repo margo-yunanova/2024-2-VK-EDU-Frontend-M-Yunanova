@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { Header } from '@/entities/Header/Header';
 import { BurgerButton } from '@/feature/burgerButton/BurgerButton';
-import { Ripple } from '@/feature/Riiple/Ripple';
+import { Ripple } from '@/feature/Ripple/Ripple';
 
 import styles from './ChatsPageHeader.module.scss';
 import { IChatPageHeader } from './ChatsPageHeader.props';

@@ -1,4 +1,7 @@
+import { ChangeEvent, KeyboardEvent } from 'react';
+
 export interface IGroupChatCreationModal {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   title?: string;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }

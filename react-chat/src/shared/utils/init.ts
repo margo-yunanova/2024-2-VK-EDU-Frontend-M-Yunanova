@@ -1,11 +1,13 @@
-import {
-  Centrifuge,
-  ConnectionTokenContext,
-  PublicationContext,
-} from 'centrifuge';
+import { Centrifuge, PublicationContext } from 'centrifuge';
 
 import { MessageRetrieveApiResponse } from '@/store/api';
 import { enhancedApi } from '@/store/enhancedApi';
+import {
+  dispatch,
+  getActiveChatId,
+  getTokenForConnection,
+  getTokenForSubscription,
+} from '@/store/store';
 import { TAGS_CONFIG } from '@/store/tagsConfig';
 
 interface IPublicationCreateMessage extends PublicationContext {
@@ -15,27 +17,22 @@ interface IPublicationCreateMessage extends PublicationContext {
   };
 }
 
-type GetTokenFunction = (ctx: ConnectionTokenContext) => Promise<string>;
-
-export const connect = (
-  getTokenForConnection: GetTokenFunction,
-  getTokenForSubscription: GetTokenFunction,
-  currentUserId: string,
-  activeChatId?: string,
-  dispatch?: any,
-) => {
+export const connect = (currentUserId: string) => {
+  console.log('test', { currentUserId });
   const centrifuge = new Centrifuge(
     'wss://vkedu-fullstack-div2.ru/connection/websocket/',
     {
-      getToken: getTokenForConnection,
+      getToken: async () => (await getTokenForConnection()).data!.token,
     },
   );
 
-  const subscription = centrifuge.newSubscription(currentUserId, {
-    getToken: getTokenForSubscription,
+  const subscription = centrifuge.newSubscription(currentUserId!, {
+    getToken: async () => (await getTokenForSubscription()).data!.token,
   });
 
   subscription.on('publication', function (ctx: IPublicationCreateMessage) {
+    const activeChatId = getActiveChatId();
+
     dispatch(
       enhancedApi.util.invalidateTags([
         { type: TAGS_CONFIG.MESSAGES, id: ctx.data.message.chat },

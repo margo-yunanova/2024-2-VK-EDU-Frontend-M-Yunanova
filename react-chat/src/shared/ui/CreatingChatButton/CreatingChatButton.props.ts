@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-export interface ICreatingChatButton {
-  onClick: () => void;
+export interface ICreatingChatButton
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }

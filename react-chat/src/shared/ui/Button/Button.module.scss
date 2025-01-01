@@ -1,0 +1,35 @@
+.button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary {
+  border: 2px solid variables.$color-background-purple;
+  background-color: variables.$color-title-main;
+  color: variables.$color-background-purple;
+  transition: all 0.3s ease;
+}
+
+.secondary {
+  border: 2px solid variables.$color-background-purple;
+  background-color: transparent;
+  color: variables.$color-background-purple;
+  transition: all 0.3s ease;
+}
+
+:where(.primary, .secondary):hover {
+  border: 2px solid variables.$color-background-purple;
+  background-color: variables.$color-background-purple;
+  color: variables.$color-title-main;
+}
+
+:where(.primary, .secondary):disabled {
+  border: 2px solid variables.$color-background-purple;
+  background-color: variables.$color-background-purple;
+  opacity: 0.5;
+  color: variables.$color-title-main;
+}
